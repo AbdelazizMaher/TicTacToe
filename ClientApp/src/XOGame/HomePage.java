@@ -224,7 +224,11 @@ public class HomePage extends AnchorPane {
         playonlineButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         playonlineButton.setTextFill(javafx.scene.paint.Color.WHITE);
         playonlineButton.setFont(new Font("Arial Bold", 14.0));
-
+        playonlineButton.setOnMouseClicked(e -> {
+            PlayOnlinePage root = new PlayOnlinePage(stage);
+            Scene scene2 = new Scene(root);
+            stage.setScene(scene2); 
+        });
         imageView4.setFitHeight(100.0);
         imageView4.setFitWidth(185.0);
         imageView4.setPickOnBounds(true);
