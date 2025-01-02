@@ -20,7 +20,7 @@ public class ClientApp extends Application {
     Stage primaryStage;
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = new HomePage();
+        Parent root = new HomePage(stage);
         
         Scene scene = new Scene(root);
         

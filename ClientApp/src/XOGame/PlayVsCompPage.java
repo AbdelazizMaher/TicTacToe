@@ -2,6 +2,7 @@ package XOGame;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -9,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 public class PlayVsCompPage extends AnchorPane {
     private int score;
@@ -16,13 +18,17 @@ public class PlayVsCompPage extends AnchorPane {
     private String playerX = "           Player X";
     private String playerO = "Player O";
 
-    public PlayVsCompPage() {
+    public PlayVsCompPage(Stage stage) {
         score = 0;
 
         Button backButton = new Button("<-");
         backButton.setStyle("-fx-background-color: #e61409; -fx-font-size: 20px; -fx-background-radius: 50%;");
         backButton.setTextFill(Color.WHITE);
-
+        backButton.setOnAction(e -> {
+            HomePage root = new HomePage(stage);
+            Scene scene2 = new Scene(root);
+            stage.setScene(scene2); 
+        });
         Button recordButton = new Button("Record");
         recordButton.setStyle("-fx-background-color: #e61409;");
         recordButton.setTextFill(Color.WHITE);
@@ -85,7 +91,7 @@ public class PlayVsCompPage extends AnchorPane {
             }
         }
 
-        Image image = new Image("../media/xo.jpg");
+        Image image = new Image("/media/xo.jpg");
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(780);
         imageView.setFitHeight(580);
