@@ -203,7 +203,12 @@ public class HomePage extends AnchorPane {
         playofflineButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         playofflineButton.setTextFill(javafx.scene.paint.Color.WHITE);
         playofflineButton.setFont(new Font("Arial Bold", 14.0));
-
+        playofflineButton.setOnMouseClicked(e -> {
+            PlayOfflinePage root = new PlayOfflinePage(stage);
+            Scene scene2 = new Scene(root);
+            stage.setScene(scene2); 
+        });
+        
         imageView3.setFitHeight(100.0);
         imageView3.setFitWidth(215.0);
         imageView3.setPickOnBounds(true);
