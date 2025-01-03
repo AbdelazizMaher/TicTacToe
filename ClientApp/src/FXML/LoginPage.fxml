@@ -3,17 +3,22 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="780.0" styleClass="bodybg" stylesheets="@../Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="780.0" styleClass="bodybg" stylesheets="@../styles/Stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+       <ImageView fitHeight="580.0" fitWidth="780.0" preserveRatio="false">
+            <Image url="@../media/xo.jpg" />
+        </ImageView>
       <AnchorPane layoutX="239.0" layoutY="191.0" prefHeight="375.0" prefWidth="306.0" style="-fx-background-color: #131218;">
          <children>
-            <TextField layoutX="43.0" layoutY="97.0" prefHeight="40.0" prefWidth="220.0" styleClass="text-field" />
-            <TextField focusTraversable="false" layoutX="43.0" layoutY="161.0" prefHeight="40.0" prefWidth="220.0" />
+            <TextField fx:id="usernameTextField" layoutX="43.0" layoutY="97.0" prefHeight="40.0" prefWidth="220.0" styleClass="text-field" />
+            <TextField fx:id="passwordTextField" focusTraversable="false" layoutX="43.0" layoutY="161.0" prefHeight="40.0" prefWidth="220.0" />
             <ToggleButton layoutX="109.0" layoutY="243.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #e61409;" text="Login" textFill="WHITE">
                <font>
                   <Font name="Arial Bold" size="16.0" />
@@ -36,6 +41,16 @@
                   <Font name="Javanese Text" size="18.0" />
                </font>
             </Label>
+            <ImageView fitHeight="40.0" fitWidth="43.0" layoutX="9.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../media/xo.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="51.0" fitWidth="75.0" layoutX="232.0" layoutY="320.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../media/xomini.jpg" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

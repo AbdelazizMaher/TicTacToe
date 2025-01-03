@@ -1,8 +1,10 @@
 package XOGame;
 
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
@@ -10,29 +12,35 @@ import javafx.scene.text.Text;
 
 public class SignupPage extends AnchorPane {
 
+    protected final ImageView imageView;
     protected final AnchorPane anchorPane;
     protected final TextField usernameTextField;
     protected final TextField passwordTextField;
     protected final TextField confirmPasswordTextField;
-    protected final Button registerButton;
+    protected final ToggleButton toggleButton;
     protected final Text text;
-    protected final Label loginLabel;
+    protected final Label label;
     protected final Line line;
     protected final Line line0;
-    protected final Label gameNameLabel;
+    protected final Label label0;
+    protected final ImageView imageView0;
+    protected final ImageView imageView1;
 
     public SignupPage() {
 
+        imageView = new ImageView();
         anchorPane = new AnchorPane();
         usernameTextField = new TextField();
         passwordTextField = new TextField();
         confirmPasswordTextField = new TextField();
-        registerButton = new Button();
+        toggleButton = new ToggleButton();
         text = new Text();
-        loginLabel = new Label();
+        label = new Label();
         line = new Line();
         line0 = new Line();
-        gameNameLabel = new Label();
+        label0 = new Label();
+        imageView0 = new ImageView();
+        imageView1 = new ImageView();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -42,6 +50,10 @@ public class SignupPage extends AnchorPane {
         setPrefWidth(780.0);
         getStyleClass().add("bodybg");
         getStylesheets().add("/styles/Stylesheet.css");
+
+        imageView.setFitHeight(580.0);
+        imageView.setFitWidth(780.0);
+        imageView.setPreserveRatio(false);
 
         anchorPane.setLayoutX(239.0);
         anchorPane.setLayoutY(191.0);
@@ -72,15 +84,15 @@ public class SignupPage extends AnchorPane {
         confirmPasswordTextField.setPromptText("confirm Password");
         confirmPasswordTextField.setStyle("-fx-background-radius: 20; -fx-border-radius: 20;");
 
-        registerButton.setLayoutX(109.0);
-        registerButton.setLayoutY(250.0);
-        registerButton.setMnemonicParsing(false);
-        registerButton.setPrefHeight(30.0);
-        registerButton.setPrefWidth(90.0);
-        registerButton.setStyle("-fx-background-color: #e61409;");
-        registerButton.setText("Register");
-        registerButton.setTextFill(javafx.scene.paint.Color.WHITE);
-        registerButton.setFont(new Font("Arial Bold", 16.0));
+        toggleButton.setLayoutX(109.0);
+        toggleButton.setLayoutY(250.0);
+        toggleButton.setMnemonicParsing(false);
+        toggleButton.setPrefHeight(30.0);
+        toggleButton.setPrefWidth(90.0);
+        toggleButton.setStyle("-fx-background-color: #e61409;");
+        toggleButton.setText("Register");
+        toggleButton.setTextFill(javafx.scene.paint.Color.WHITE);
+        toggleButton.setFont(new Font("Arial Bold", 16.0));
 
         text.setFill(javafx.scene.paint.Color.WHITE);
         text.setLayoutX(45.0);
@@ -91,13 +103,13 @@ public class SignupPage extends AnchorPane {
         text.setWrappingWidth(215.6708984375);
         text.setFont(new Font("System Bold", 14.0));
 
-        loginLabel.setLayoutX(219.0);
-        loginLabel.setLayoutY(282.0);
-        loginLabel.setPrefHeight(42.0);
-        loginLabel.setPrefWidth(64.0);
-        loginLabel.setText("login");
-        loginLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-        loginLabel.setFont(new Font("System Bold Italic", 14.0));
+        label.setLayoutX(219.0);
+        label.setLayoutY(282.0);
+        label.setPrefHeight(42.0);
+        label.setPrefWidth(64.0);
+        label.setText("login");
+        label.setTextFill(javafx.scene.paint.Color.WHITE);
+        label.setFont(new Font("System Bold Italic", 14.0));
 
         line.setEndX(150.0);
         line.setLayoutX(153.0);
@@ -111,23 +123,41 @@ public class SignupPage extends AnchorPane {
         line0.setStartX(-153.0);
         line0.setStroke(javafx.scene.paint.Color.WHITE);
 
-        gameNameLabel.setLayoutX(109.0);
-        gameNameLabel.setLayoutY(24.0);
-        gameNameLabel.setPrefHeight(1.0);
-        gameNameLabel.setPrefWidth(90.0);
-        gameNameLabel.setText("TicTacToe");
-        gameNameLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-        gameNameLabel.setFont(new Font("Javanese Text", 18.0));
+        label0.setLayoutX(109.0);
+        label0.setLayoutY(24.0);
+        label0.setPrefHeight(1.0);
+        label0.setPrefWidth(90.0);
+        label0.setText("TicTacToe");
+        label0.setTextFill(javafx.scene.paint.Color.WHITE);
+        label0.setFont(new Font("Javanese Text", 18.0));
 
+        imageView0.setFitHeight(40.0);
+        imageView0.setFitWidth(50.0);
+        imageView0.setLayoutX(10.0);
+        imageView0.setLayoutY(12.0);
+        imageView0.setPickOnBounds(true);
+        imageView0.setPreserveRatio(true);
+        imageView0.setImage(new Image(getClass().getResource("/media/xo.jpg").toExternalForm()));
+
+        imageView1.setFitHeight(60.0);
+        imageView1.setFitWidth(80.0);
+        imageView1.setLayoutX(226.0);
+        imageView1.setLayoutY(315.0);
+        imageView1.setPickOnBounds(true);
+        imageView1.setImage(new Image(getClass().getResource("/media/xomini.jpg").toExternalForm()));
+
+        getChildren().add(imageView);
         anchorPane.getChildren().add(usernameTextField);
         anchorPane.getChildren().add(passwordTextField);
         anchorPane.getChildren().add(confirmPasswordTextField);
-        anchorPane.getChildren().add(registerButton);
+        anchorPane.getChildren().add(toggleButton);
         anchorPane.getChildren().add(text);
-        anchorPane.getChildren().add(loginLabel);
+        anchorPane.getChildren().add(label);
         anchorPane.getChildren().add(line);
         anchorPane.getChildren().add(line0);
-        anchorPane.getChildren().add(gameNameLabel);
+        anchorPane.getChildren().add(label0);
+        anchorPane.getChildren().add(imageView0);
+        anchorPane.getChildren().add(imageView1);
         getChildren().add(anchorPane);
 
     }

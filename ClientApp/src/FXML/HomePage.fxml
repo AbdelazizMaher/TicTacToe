@@ -11,6 +11,9 @@
 
 <AnchorPane id="AnchorPane" prefHeight="580.0" prefWidth="780.0" styleClass="bodybg" stylesheets="@../styles/Stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.FXMLDocumentController">
    <children>
+       <ImageView fitHeight="580.0" fitWidth="780.0" preserveRatio="false">
+            <Image url="@../media/xo.jpg" />
+        </ImageView>
       <AnchorPane prefHeight="580.0" prefWidth="80.0" styleClass="sidebar" stylesheets="@../styles/Stylesheet.css">
          <children>
             <ImageView fitHeight="50.0" fitWidth="55.0" layoutX="15.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
@@ -29,32 +32,32 @@
             <Line endX="-39.09999084472656" endY="-7.62939453125E-6" layoutX="116.0" layoutY="520.0" startX="-114.99999237060547" startY="-7.62939453125E-6" stroke="WHITE" />
          </children>
       </AnchorPane>
-      <Label fx:id="tictactoeLabel" layoutX="91.0" layoutY="3.0" text="TicTacToe" textFill="#131218">
+      <Label fx:id="tictactoeLabel" layoutX="91.0" text="TicTacToe" textFill="#131218">
          <font>
             <Font name="Javanese Text" size="18.0" />
          </font>
       </Label>
-      <ImageView fitHeight="75.0" fitWidth="50.0" layoutX="729.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="75.0" fitWidth="50.0" layoutX="729.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../media/avatar.png" />
          </image>
       </ImageView>
-      <Label fx:id="welcometoourtictactoeLabel" layoutX="91.0" layoutY="43.0" text="WELCOME TO OUR TICTACTOE GAME ..!" textFill="#131218">
+      <Label fx:id="welcometoourtictactoeLabel" layoutX="91.0" layoutY="41.0" text="WELCOME TO OUR TICTACTOE GAME ..!" textFill="#131218">
          <font>
             <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
-      <Button fx:id="historyButton" layoutX="556.0" layoutY="18.0" mnemonicParsing="false" style="-fx-background-color: #e61409;" text="History" textFill="WHITE">
+      <Button fx:id="historyButton" layoutX="600.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: #e61409;" text="History" textFill="WHITE">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="signupButton" layoutX="617.0" layoutY="18.0" mnemonicParsing="false" style="-fx-background-color: #e61409;" text="Sign Up" textFill="WHITE">
+      <Button fx:id="signupButton" layoutX="647.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: #e61409;" text="Sign Up" textFill="WHITE">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="loginButton" layoutX="684.0" layoutY="18.0" mnemonicParsing="false" style="-fx-background-color: #e61409;" text="Login" textFill="WHITE">
+      <Button fx:id="loginButton" layoutX="700.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: #e61409;" text="Login" textFill="WHITE">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
