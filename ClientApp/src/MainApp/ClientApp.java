@@ -5,7 +5,10 @@
  */
 package MainApp;
 
+import XOGame.HistoryPage;
 import XOGame.HomePage;
+import XOGame.LoginPage;
+import XOGame.SignupPage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
