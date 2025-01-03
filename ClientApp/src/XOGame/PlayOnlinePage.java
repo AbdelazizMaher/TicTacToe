@@ -23,14 +23,20 @@ public class PlayOnlinePage extends AnchorPane {
         score = 0;
         score2 = 0;
 
-        Button backButton = new Button("<-");
+        Button backButton = new Button();
         backButton.setStyle("-fx-background-color: #e61409; -fx-font-size: 20px; -fx-background-radius: 50%;");
         backButton.setTextFill(Color.WHITE);
+        
+        ImageView backarrow = new ImageView(new Image("/media/backarrow.png"));
+        backarrow.setFitHeight(40);
+        backarrow.setFitWidth(40);
+        backButton.setGraphic(backarrow);
         backButton.setOnAction(e -> {
             HomePage root = new HomePage(stage);
             Scene scene2 = new Scene(root);
             stage.setScene(scene2); 
         });
+        
         Button recordButton = new Button("Record");
         recordButton.setStyle("-fx-background-color: #e61409;");
         recordButton.setTextFill(Color.WHITE);
@@ -59,7 +65,8 @@ public class PlayOnlinePage extends AnchorPane {
         HBox rightSection = new HBox(10,recordButton);
         rightSection.setAlignment(Pos.CENTER);
         topSection.setRight(rightSection);
-
+        topSection.setStyle("-fx-background-color: black;");
+        
         VBox bottomVBox = new VBox(5, playerOLabel);
         bottomVBox.setAlignment(Pos.CENTER);
 

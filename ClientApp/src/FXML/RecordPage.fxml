@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -23,26 +24,39 @@
             <!-- Top Section -->
             <top>
                 <BorderPane>
-                    <left>
-                        <Button fx:id="backButton" prefHeight="52.0" prefWidth="57.0" style="-fx-background-color: #e61409; -fx-font-size: 20px; -fx-background-radius: 50%; -fx-text-fill: white;" text="&lt;-" />
-                    </left>
-                    <center>
-                        <VBox alignment="CENTER" spacing="5.0">
-                            <HBox alignment="CENTER" spacing="10.0">
-                                <Label text="Player X - X" textFill="red">
-                           <font>
-                              <Font size="24.0" />
-                           </font></Label>
-                                <Label text="Player O - O" textFill="black">
-                           <font>
-                              <Font size="24.0" />
-                           </font></Label>
-                            </HBox>
-                        </VBox>
-                    </center>
+               <top>
+                  <HBox prefHeight="32.0" prefWidth="780.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+                     <children>
+                            <Button fx:id="backButton" prefHeight="64.0" prefWidth="19.0" style="-fx-background-color: #e61409; -fx-font-size: 20px; -fx-background-radius: 50%; -fx-text-fill: white;" text="">
+                                <graphic>
+                                    <ImageView fitHeight="33.0" fitWidth="40.0" layoutX="5.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true">
+                                        <Image url="@../media/backarrow.png" />
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                              <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="48.0" prefWidth="589.0" spacing="5.0">
+                                  <HBox alignment="CENTER" prefHeight="35.0" prefWidth="461.0" spacing="10.0">
+                                      <Label prefHeight="35.0" prefWidth="136.0" text="Player X - X" textFill="WHITE">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                                      <Label prefHeight="35.0" prefWidth="136.0" text="Player O - O" textFill="#f2efef">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                                  </HBox>
+                              </VBox>
+                     </children>
+                     <BorderPane.margin>
+                        <Insets bottom="40.0" />
+                     </BorderPane.margin>
+                  </HBox>
+               </top>
                 </BorderPane>
             </top>
-
+            
             <!-- Center Section: GridPane -->
             <center>
                 

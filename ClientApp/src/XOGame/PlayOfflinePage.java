@@ -23,9 +23,14 @@ public class PlayOfflinePage extends AnchorPane {
         score = 0;
         score2 = 0;
 
-        Button backButton = new Button("<-");
+        Button backButton = new Button();
         backButton.setStyle("-fx-background-color: #e61409; -fx-font-size: 20px; -fx-background-radius: 50%;");
         backButton.setTextFill(Color.WHITE);
+        
+        ImageView backarrow = new ImageView(new Image("/media/backarrow.png"));
+        backarrow.setFitHeight(40);
+        backarrow.setFitWidth(40);
+        backButton.setGraphic(backarrow);
         backButton.setOnAction(e -> {
             HomePage root = new HomePage(stage);
             Scene scene2 = new Scene(root);
@@ -55,6 +60,7 @@ public class PlayOfflinePage extends AnchorPane {
         topSection.setPadding(new Insets(10));
         topSection.setLeft(backButton);
         topSection.setCenter(topVBox);
+        topSection.setStyle("-fx-background-color: black;");
 
         HBox rightSection = new HBox(10,recordButton);
         rightSection.setAlignment(Pos.CENTER);

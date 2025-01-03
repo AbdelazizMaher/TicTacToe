@@ -18,9 +18,15 @@ public class RecordPage extends AnchorPane {
     private String playerO = "Player O";
 
     public RecordPage(Stage stage) {
-        Button backButton = new Button("<-");
+        Button backButton = new Button();
         backButton.setStyle("-fx-background-color: #e61409; -fx-font-size: 20px; -fx-background-radius: 50%;");
         backButton.setTextFill(Color.WHITE);
+        
+        ImageView backarrow = new ImageView(new Image("/media/backarrow.png"));
+        backarrow.setFitHeight(40);
+        backarrow.setFitWidth(40);
+        backButton.setGraphic(backarrow);
+
         
         Button stopButton = new Button("Stop");
         stopButton.setStyle("-fx-background-color: #e61409;");

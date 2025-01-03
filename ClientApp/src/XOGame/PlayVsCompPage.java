@@ -15,30 +15,32 @@ import javafx.stage.Stage;
 public class PlayVsCompPage extends AnchorPane {
     private int score;
     private Button[][] buttons = new Button[3][3];
-    private String playerX = "           Player X";
-    private String playerO = "Player O";
+    private String playerX = "Player X";
+    private String playerO = "Computer";
 
     public PlayVsCompPage(Stage stage) {
         score = 0;
 
-        Button backButton = new Button("<-");
+        Button backButton = new Button();
         backButton.setStyle("-fx-background-color: #e61409; -fx-font-size: 20px; -fx-background-radius: 50%;");
         backButton.setTextFill(Color.WHITE);
+        
+        ImageView backarrow = new ImageView(new Image("/media/backarrow.png"));
+        backarrow.setFitHeight(40);
+        backarrow.setFitWidth(40);
+        backButton.setGraphic(backarrow);
         backButton.setOnAction(e -> {
             HomePage root = new HomePage(stage);
             Scene scene2 = new Scene(root);
             stage.setScene(scene2); 
         });
+        
         Button recordButton = new Button("Record");
         recordButton.setStyle("-fx-background-color: #e61409;");
         recordButton.setTextFill(Color.WHITE);
         recordButton.setFont(new Font("Arial", 18.0));
 
-        Label scoreLabel = new Label("Score: " + score);
-        scoreLabel.setFont(new Font(18));
-        scoreLabel.setTextFill(Color.RED);
-
-        Label playerXLabel = new Label(playerX + " - X");
+        Label playerXLabel = new Label(playerX + " - X"+"       "+"Score: " + score);
         playerXLabel.setFont(new Font(25));
         playerXLabel.setTextFill(Color.RED);
 
@@ -58,7 +60,7 @@ public class PlayVsCompPage extends AnchorPane {
         topSection.setLeft(backButton);
         topSection.setCenter(topVBox);
 
-        HBox rightSection = new HBox(10, scoreLabel, recordButton);
+        HBox rightSection = new HBox(10, recordButton);
         rightSection.setAlignment(Pos.CENTER);
         topSection.setRight(rightSection);
 
