@@ -63,6 +63,7 @@ public class PlayVsCompPage extends AnchorPane {
         HBox rightSection = new HBox(10, recordButton);
         rightSection.setAlignment(Pos.CENTER);
         topSection.setRight(rightSection);
+        topSection.setStyle("-fx-background-color: black;");
 
         VBox bottomVBox = new VBox(5, playerOLabel);
         bottomVBox.setAlignment(Pos.CENTER);
