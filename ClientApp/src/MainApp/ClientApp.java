@@ -5,7 +5,7 @@
  */
 package MainApp;
 
-import XOGame.HomePage;
+import XOGame.FXMLDocumentBase;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,7 +20,7 @@ public class ClientApp extends Application {
     Stage primaryStage;
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = new HomePage();
+        Parent root = new FXMLDocumentBase();
         
         Scene scene = new Scene(root);
         
