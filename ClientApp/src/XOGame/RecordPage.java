@@ -58,6 +58,7 @@ public class RecordPage extends AnchorPane {
         topSection.setPadding(new Insets(10));
         topSection.setLeft(backButton);
         topSection.setCenter(topVBox);
+        topSection.setStyle("-fx-background-color: black;");
 
         HBox bottomHBox = new HBox(10,stopButton,rewatchButton);
         bottomHBox.setAlignment(Pos.CENTER);
