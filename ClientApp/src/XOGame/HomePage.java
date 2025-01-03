@@ -1,5 +1,6 @@
 package XOGame;
 
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -8,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 public class HomePage extends AnchorPane {
 
@@ -38,7 +40,7 @@ public class HomePage extends AnchorPane {
     protected final Label label1;
     protected final DropShadow dropShadow1;
 
-    public HomePage() {
+    public HomePage(Stage stage) {
 
         anchorPane = new AnchorPane();
         imageView = new ImageView();
@@ -185,7 +187,13 @@ public class HomePage extends AnchorPane {
         imageView2.setPickOnBounds(true);
         imageView2.setImage(new Image(getClass().getResource("/media/playvscomputer.jpg").toExternalForm()));
         playvscomputerButton.setGraphic(imageView2);
-
+        playvscomputerButton.setOnMouseClicked(e -> {
+            PlayVsCompPage root = new PlayVsCompPage(stage);
+            Scene scene2 = new Scene(root);
+            stage.setScene(scene2); 
+        });
+        
+        
         playofflineButton.setLayoutX(265.0);
         playofflineButton.setLayoutY(338.0);
         playofflineButton.setMnemonicParsing(false);
@@ -195,7 +203,12 @@ public class HomePage extends AnchorPane {
         playofflineButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         playofflineButton.setTextFill(javafx.scene.paint.Color.WHITE);
         playofflineButton.setFont(new Font("Arial Bold", 14.0));
-
+        playofflineButton.setOnMouseClicked(e -> {
+            PlayOfflinePage root = new PlayOfflinePage(stage);
+            Scene scene2 = new Scene(root);
+            stage.setScene(scene2); 
+        });
+        
         imageView3.setFitHeight(100.0);
         imageView3.setFitWidth(215.0);
         imageView3.setPickOnBounds(true);
@@ -211,7 +224,11 @@ public class HomePage extends AnchorPane {
         playonlineButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         playonlineButton.setTextFill(javafx.scene.paint.Color.WHITE);
         playonlineButton.setFont(new Font("Arial Bold", 14.0));
-
+        playonlineButton.setOnMouseClicked(e -> {
+            PlayOnlinePage root = new PlayOnlinePage(stage);
+            Scene scene2 = new Scene(root);
+            stage.setScene(scene2); 
+        });
         imageView4.setFitHeight(100.0);
         imageView4.setFitWidth(185.0);
         imageView4.setPickOnBounds(true);
@@ -230,6 +247,7 @@ public class HomePage extends AnchorPane {
         label.setText("PLAY VS COMPUTER");
         label.setTextFill(javafx.scene.paint.Color.WHITE);
         label.setFont(new Font("Arial Bold", 13.0));
+        
 
         label.setEffect(dropShadow);
 
