@@ -15,8 +15,8 @@ import javafx.stage.Stage;
 public class PlayVsCompPage extends AnchorPane {
     private int score;
     private Button[][] buttons = new Button[3][3];
-    private String playerX = "           Player X";
-    private String playerO = "Player O";
+    private String playerX = "Player X";
+    private String playerO = "Computer";
 
     public PlayVsCompPage(Stage stage) {
         score = 0;
@@ -34,11 +34,7 @@ public class PlayVsCompPage extends AnchorPane {
         recordButton.setTextFill(Color.WHITE);
         recordButton.setFont(new Font("Arial", 18.0));
 
-        Label scoreLabel = new Label("Score: " + score);
-        scoreLabel.setFont(new Font(18));
-        scoreLabel.setTextFill(Color.RED);
-
-        Label playerXLabel = new Label(playerX + " - X");
+        Label playerXLabel = new Label(playerX + " - X"+"       "+"Score: " + score);
         playerXLabel.setFont(new Font(25));
         playerXLabel.setTextFill(Color.RED);
 
@@ -58,7 +54,7 @@ public class PlayVsCompPage extends AnchorPane {
         topSection.setLeft(backButton);
         topSection.setCenter(topVBox);
 
-        HBox rightSection = new HBox(10, scoreLabel, recordButton);
+        HBox rightSection = new HBox(10, recordButton);
         rightSection.setAlignment(Pos.CENTER);
         topSection.setRight(rightSection);
 
