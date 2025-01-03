@@ -1,5 +1,6 @@
 package XOGame;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -48,6 +49,16 @@ public class LoginPage extends AnchorPane {
         setPrefWidth(780.0);
         getStyleClass().add("bodybg");
         getStylesheets().add("/styles/Stylesheet.css");
+        
+        
+        Button backButton = new Button();
+        backButton.setPrefSize(60, 41);
+        Image backImage = new Image(getClass().getResourceAsStream("/media/back2.png"));
+        ImageView backImageView = new ImageView(backImage);
+        backImageView.setFitHeight(40);
+        backImageView.setFitWidth(40);
+        backButton.setGraphic(backImageView);
+      //  backButton.setStyle("-fx-background-color: transparent;");
 
         imageView.setFitHeight(580.0);
         imageView.setFitWidth(780.0);
@@ -137,7 +148,9 @@ public class LoginPage extends AnchorPane {
         imageView1.setPickOnBounds(true);
         imageView1.setImage(new Image(getClass().getResource("/media/xomini.jpg").toExternalForm()));
 
-        getChildren().add(imageView);
+        getChildren().addAll(imageView,backButton);
+        //getChildren().add(backButton);
+
         anchorPane.getChildren().add(usernameTextField);
         anchorPane.getChildren().add(passwordTextField);
         anchorPane.getChildren().add(loginButton);
@@ -148,6 +161,7 @@ public class LoginPage extends AnchorPane {
         anchorPane.getChildren().add(label0);
         anchorPane.getChildren().add(imageView0);
         anchorPane.getChildren().add(imageView1);
+       // anchorPane.getChildren().add(backButton);
         getChildren().add(anchorPane);
 
     }
