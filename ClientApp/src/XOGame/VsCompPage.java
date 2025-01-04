@@ -13,9 +13,11 @@ import javafx.stage.Stage;
 public abstract class VsCompPage extends AnchorPane {
     private int score;
     private Button[][] buttons = new Button[3][3];
-    private String playerX = "Player X";
+    private String playerX = "Player";
     private String playerO = "Computer";
     protected Button backButton;
+    protected Button replayButton;
+    protected Button recordButton;
     public VsCompPage() {
         score = 0;
 
@@ -51,8 +53,6 @@ public abstract class VsCompPage extends AnchorPane {
         backImageView.setFitWidth(40);
         backButton.setGraphic(backImageView);
         backButton.setStyle("-fx-background-color: transparent;");
-
-        HBox.setMargin(backButton, new Insets(0, 0, 0, 0));
         
         VBox playerOneVBox = new VBox();
         playerOneVBox.setAlignment(javafx.geometry.Pos.CENTER);
@@ -69,15 +69,34 @@ public abstract class VsCompPage extends AnchorPane {
 
         playerOneVBox.getChildren().add(playerOneLabel);
 
-        Button recordButton = new Button("Record");
+        replayButton = new Button();
+        replayButton.setMaxWidth(Double.MAX_VALUE);
+        replayButton.setStyle("-fx-font-size: 20px;");
+        replayButton.setStyle("-fx-background-color: transparent;");
+        replayButton.setTextFill(javafx.scene.paint.Color.BLACK);
+        Image replayImage = new Image(getClass().getResourceAsStream("/media/restart.png"));
+        ImageView replayImageView = new ImageView(replayImage);
+        replayImageView.setFitHeight(40);
+        replayImageView.setFitWidth(40);
+        replayButton.setGraphic(replayImageView);
+        
+        recordButton = new Button();
         recordButton.setMaxWidth(Double.MAX_VALUE);
-        recordButton.setPrefHeight(46);
-        recordButton.setPrefWidth(100);
-        recordButton.setStyle("-fx-background-color: #e61409; -fx-font-size: 20px;");
+        recordButton.setStyle(" -fx-font-size: 20px;");
+        recordButton.setStyle("-fx-background-color: transparent;");
         recordButton.setTextFill(javafx.scene.paint.Color.BLACK);
-        HBox.setMargin(recordButton, new Insets(0, 0, 0, 20));
+        Image recImage = new Image(getClass().getResourceAsStream("/media/record.png"));
+        ImageView recImageView = new ImageView(recImage);
+        recImageView.setFitHeight(40);
+        recImageView.setFitWidth(40);
+        recordButton.setGraphic(recImageView);
+        
+        HBox hBox = new HBox(10);  
+        hBox.setAlignment(Pos.CENTER); 
+        
+        hBox.getChildren().addAll(replayButton,recordButton);
 
-        topHBox.getChildren().addAll(backButton, playerOneVBox, recordButton);
+        topHBox.getChildren().addAll(backButton, playerOneVBox, hBox);
         topSection.setTop(topHBox);
 
         // Center Section
@@ -132,7 +151,7 @@ public abstract class VsCompPage extends AnchorPane {
         Label playerOLabel = new Label(playerO+" - O");
         playerOLabel.setFont(new Font(24));
         playerOLabel.setPrefHeight(33);
-        playerOLabel.setPrefWidth(145);
+        playerOLabel.setPrefWidth(150);
 
 
         bottomHBox.getChildren().addAll(playerOLabel);

@@ -75,19 +75,29 @@ public abstract class RecordPage extends AnchorPane {
         bottomHBox.setAlignment(javafx.geometry.Pos.CENTER);
         bottomHBox.setSpacing(10);
         
-        Button stopButton = new Button("Stop");
+        Button stopButton = new Button();
         stopButton.setMaxWidth(Double.MAX_VALUE);
         stopButton.setMinWidth(Double.MIN_VALUE);
         stopButton.setPrefHeight(38);
         stopButton.setPrefWidth(100);
-        stopButton.setStyle("-fx-background-color: #e61409; -fx-font-size: 20px; -fx-text-fill: white;");
+        stopButton.setStyle("-fx-background-color: transparent;");
+        Image stopImage = new Image(getClass().getResourceAsStream("/media/stop.png"));
+        ImageView stopImageView = new ImageView(stopImage);
+        stopImageView.setFitHeight(40);
+        stopImageView.setFitWidth(40);
+        stopButton.setGraphic(stopImageView);
         
-        Button rewatchButton = new Button("Rewatch");
+        Button rewatchButton = new Button();
         rewatchButton.setMaxWidth(Double.MAX_VALUE);
         rewatchButton.setMinWidth(Double.MIN_VALUE);
         rewatchButton.setPrefHeight(38);
         rewatchButton.setPrefWidth(110);
-        rewatchButton.setStyle("-fx-background-color: #e61409; -fx-font-size: 20px; -fx-text-fill: white;");
+        rewatchButton.setStyle("-fx-background-color: transparent;");
+        Image rewatchImage = new Image(getClass().getResourceAsStream("/media/restart.png"));
+        ImageView rewatchImageView = new ImageView(rewatchImage);
+        rewatchImageView.setFitHeight(40);
+        rewatchImageView.setFitWidth(40);
+        rewatchButton.setGraphic(rewatchImageView);
         HBox.setMargin(rewatchButton, new Insets(0, 0, 0, 30));
 
         bottomHBox.getChildren().addAll(stopButton, rewatchButton);
