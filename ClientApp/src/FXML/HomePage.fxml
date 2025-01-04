@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="580.0" prefWidth="780.0" styleClass="bodybg" stylesheets="@../styles/Stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="580.0" prefWidth="780.0" styleClass="bodybg" stylesheets="@../styles/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.FXMLDocumentController">
    <children>
        <ImageView fitHeight="580.0" fitWidth="780.0" preserveRatio="false">
             <Image url="@../media/xo.jpg" />
@@ -47,17 +47,17 @@
             <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
-      <Button fx:id="historyButton" layoutX="600.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: #e61409;" text="History" textFill="WHITE">
+      <Button fx:id="historyButton" layoutX="577.0" layoutY="15.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color: #e61409;" text="History" textFill="WHITE">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="signupButton" layoutX="647.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: #e61409;" text="Sign Up" textFill="WHITE">
+      <Button fx:id="signupButton" layoutX="633.0" layoutY="15.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color: #e61409;" text="Sign Up" textFill="WHITE">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="loginButton" layoutX="700.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: #e61409;" text="Login" textFill="WHITE">
+      <Button fx:id="loginButton" layoutX="691.0" layoutY="15.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color: #e61409;" text="Login" textFill="WHITE" AnchorPane.leftAnchor="691.0">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
