@@ -1,5 +1,6 @@
 package XOGame;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -10,7 +11,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class LoginPage extends AnchorPane {
+public abstract class LoginPage extends AnchorPane {
 
     protected final ImageView imageView;
     protected final AnchorPane anchorPane;
@@ -24,6 +25,7 @@ public class LoginPage extends AnchorPane {
     protected final Label label0;
     protected final ImageView imageView0;
     protected final ImageView imageView1;
+    protected final Button backButton;
 
     public LoginPage() {
 
@@ -39,6 +41,7 @@ public class LoginPage extends AnchorPane {
         label0 = new Label();
         imageView0 = new ImageView();
         imageView1 = new ImageView();
+        backButton = new Button();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -48,6 +51,15 @@ public class LoginPage extends AnchorPane {
         setPrefWidth(780.0);
         getStyleClass().add("bodybg");
         getStylesheets().add("/styles/Stylesheet.css");
+        
+        
+       
+        backButton.setPrefSize(60, 41);
+        Image backImage = new Image(getClass().getResourceAsStream("/media/back2.png"));
+        ImageView backImageView = new ImageView(backImage);
+        backImageView.setFitHeight(40);
+        backImageView.setFitWidth(40);
+        backButton.setGraphic(backImageView);
 
         imageView.setFitHeight(580.0);
         imageView.setFitWidth(780.0);
@@ -137,7 +149,7 @@ public class LoginPage extends AnchorPane {
         imageView1.setPickOnBounds(true);
         imageView1.setImage(new Image(getClass().getResource("/media/xomini.jpg").toExternalForm()));
 
-        getChildren().add(imageView);
+        getChildren().addAll(imageView,backButton);
         anchorPane.getChildren().add(usernameTextField);
         anchorPane.getChildren().add(passwordTextField);
         anchorPane.getChildren().add(loginButton);

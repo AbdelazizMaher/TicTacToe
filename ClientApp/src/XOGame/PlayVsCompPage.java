@@ -29,11 +29,6 @@ public class PlayVsCompPage extends AnchorPane {
         backarrow.setFitHeight(40);
         backarrow.setFitWidth(40);
         backButton.setGraphic(backarrow);
-        backButton.setOnAction(e -> {
-            HomePage root = new HomePage(stage);
-            Scene scene2 = new Scene(root);
-            stage.setScene(scene2); 
-        });
         
         Button recordButton = new Button("Record");
         recordButton.setStyle("-fx-background-color: #e61409;");
