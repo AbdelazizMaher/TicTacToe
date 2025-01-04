@@ -18,6 +18,18 @@ import javafx.stage.Stage;
  */
 public class HomePageController extends HomePage{
     public HomePageController(Stage stage){
+        
+        
+        signupButton.setOnAction(e ->{
+         Scene scene = new Scene(new SignupPageController(stage));
+          stage.setScene(scene);
+        });
+        
+        loginButton.setOnAction(e ->{
+         Scene scene = new Scene(new LoginPageController(stage));
+          stage.setScene(scene);
+        });
+        
         playvscomputerButton.setOnMouseClicked(e -> {
             VsCompPage root = new VsCompPageController(stage);
             Scene scene2 = new Scene(root);
