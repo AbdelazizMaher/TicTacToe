@@ -10,10 +10,11 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class RecordPage extends AnchorPane {
+public abstract class RecordPage extends AnchorPane {
     private Button[][] buttons = new Button[3][3];
     private String playerX = "Player X";
     private String playerO = "Player O";
+    protected final Button backButton;
 
     public RecordPage(Stage stage) {
         // Create the AnchorPane
@@ -41,7 +42,7 @@ public class RecordPage extends AnchorPane {
         topHBox.setPrefWidth(780);
         topHBox.setStyle("-fx-background-color: black;");
         
-        Button backButton = new Button();
+        backButton = new Button();
         backButton.setPrefSize(60, 41);
         Image backImage = new Image(getClass().getResourceAsStream("/media/back2.png"));
         ImageView backImageView = new ImageView(backImage);

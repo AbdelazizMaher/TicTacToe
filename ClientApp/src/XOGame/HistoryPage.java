@@ -10,11 +10,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public class HistoryPage extends AnchorPane {
+public abstract class HistoryPage extends AnchorPane {
 
     protected final VBox vBox;
     protected final AnchorPane anchorPane;
-    protected final Button historyButton;
+    protected final Button backButton;
     protected final Label label;
     protected final ScrollPane scrollPane;
     protected final ListView listView;
@@ -24,7 +24,7 @@ public class HistoryPage extends AnchorPane {
 
         vBox = new VBox();
         anchorPane = new AnchorPane();
-        historyButton = new Button();
+        backButton = new Button();
         label = new Label();
         scrollPane = new ScrollPane();
         listView = new ListView();
@@ -42,14 +42,14 @@ public class HistoryPage extends AnchorPane {
         anchorPane.getStyleClass().add("sidebar");
         anchorPane.getStylesheets().add("/styles/Stylesheet.css");
 
-        historyButton.setLayoutX(8.0);
-        historyButton.setLayoutY(1.0);
-        historyButton.setMnemonicParsing(false);
-        historyButton.setPrefHeight(41.0);
-        historyButton.setPrefWidth(35.0);
-        historyButton.getStylesheets().add("/styles/Stylesheet.css");
-        historyButton.setTextFill(javafx.scene.paint.Color.WHITE);
-        historyButton.setFont(new Font("Arial", 12.0));
+        backButton.setLayoutX(8.0);
+        backButton.setLayoutY(1.0);
+        backButton.setMnemonicParsing(false);
+        backButton.setPrefHeight(41.0);
+        backButton.setPrefWidth(35.0);
+        backButton.getStylesheets().add("/styles/Stylesheet.css");
+        backButton.setTextFill(javafx.scene.paint.Color.WHITE);
+        backButton.setFont(new Font("Arial", 12.0));
 
         label.setLayoutX(329.0);
         label.setLayoutY(11.0);
@@ -64,6 +64,7 @@ public class HistoryPage extends AnchorPane {
         listView.setPrefWidth(780.0);
         listView.getItems().addAll("Item 1", "Item 2", "Item 3", "Item 4");
         scrollPane.setContent(listView);
+        
 
         imageView.setFitHeight(404.0);
         imageView.setFitWidth(395.0);
@@ -72,7 +73,7 @@ public class HistoryPage extends AnchorPane {
         imageView.setPickOnBounds(true);
         imageView.setImage(new Image(getClass().getResource("/media/squidgame.jpg").toExternalForm()));
 
-        anchorPane.getChildren().add(historyButton);
+        anchorPane.getChildren().add(backButton);
         anchorPane.getChildren().add(label);
         vBox.getChildren().add(anchorPane);
         vBox.getChildren().add(scrollPane);
