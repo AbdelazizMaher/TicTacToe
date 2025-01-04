@@ -11,7 +11,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class HomePage extends AnchorPane {
+public abstract class HomePage extends AnchorPane {
 
     protected final AnchorPane anchorPane;
     protected final ImageView imageView;
@@ -40,7 +40,7 @@ public class HomePage extends AnchorPane {
     protected final Label label1;
     protected final DropShadow dropShadow1;
 
-    public HomePage(Stage stage) {
+    public HomePage() {
 
         anchorPane = new AnchorPane();
         imageView = new ImageView();
@@ -148,25 +148,32 @@ public class HomePage extends AnchorPane {
         welcometoourtictactoeLabel.setTextFill(javafx.scene.paint.Color.valueOf("#131218"));
         welcometoourtictactoeLabel.setFont(new Font("Arial Bold", 16.0));
 
-        historyButton.setLayoutX(556.0);
-        historyButton.setLayoutY(18.0);
+        historyButton.setLayoutX(577.0);
+        historyButton.setLayoutY(15.0);
         historyButton.setMnemonicParsing(false);
+        historyButton.setPrefHeight(29.0);
+        historyButton.setPrefWidth(50.0);
         historyButton.setStyle("-fx-background-color: #e61409;");
         historyButton.setText("History");
         historyButton.setTextFill(javafx.scene.paint.Color.WHITE);
         historyButton.setFont(new Font("Arial", 12.0));
 
-        signupButton.setLayoutX(617.0);
-        signupButton.setLayoutY(18.0);
+        signupButton.setLayoutX(633.0);
+        signupButton.setLayoutY(15.0);
         signupButton.setMnemonicParsing(false);
+        signupButton.setPrefHeight(29.0);
+        signupButton.setPrefWidth(50.0);
         signupButton.setStyle("-fx-background-color: #e61409;");
         signupButton.setText("Sign Up");
         signupButton.setTextFill(javafx.scene.paint.Color.WHITE);
         signupButton.setFont(new Font("Arial", 12.0));
 
-        loginButton.setLayoutX(684.0);
-        loginButton.setLayoutY(18.0);
+        AnchorPane.setLeftAnchor(loginButton, 691.0);
+        loginButton.setLayoutX(691.0);
+        loginButton.setLayoutY(15.0);
         loginButton.setMnemonicParsing(false);
+        loginButton.setPrefHeight(29.0);
+        loginButton.setPrefWidth(50.0);
         loginButton.setStyle("-fx-background-color: #e61409;");
         loginButton.setText("Login");
         loginButton.setTextFill(javafx.scene.paint.Color.WHITE);
@@ -187,11 +194,7 @@ public class HomePage extends AnchorPane {
         imageView2.setPickOnBounds(true);
         imageView2.setImage(new Image(getClass().getResource("/media/playvscomputer.jpg").toExternalForm()));
         playvscomputerButton.setGraphic(imageView2);
-        playvscomputerButton.setOnMouseClicked(e -> {
-            PlayVsCompPage root = new PlayVsCompPage(stage);
-            Scene scene2 = new Scene(root);
-            stage.setScene(scene2); 
-        });
+        
         
         
         playofflineButton.setLayoutX(265.0);
@@ -203,11 +206,7 @@ public class HomePage extends AnchorPane {
         playofflineButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         playofflineButton.setTextFill(javafx.scene.paint.Color.WHITE);
         playofflineButton.setFont(new Font("Arial Bold", 14.0));
-        playofflineButton.setOnMouseClicked(e -> {
-            PlayOfflinePage root = new PlayOfflinePage(stage);
-            Scene scene2 = new Scene(root);
-            stage.setScene(scene2); 
-        });
+        
         
         imageView3.setFitHeight(100.0);
         imageView3.setFitWidth(215.0);
@@ -224,11 +223,7 @@ public class HomePage extends AnchorPane {
         playonlineButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         playonlineButton.setTextFill(javafx.scene.paint.Color.WHITE);
         playonlineButton.setFont(new Font("Arial Bold", 14.0));
-        playonlineButton.setOnMouseClicked(e -> {
-            PlayOnlinePage root = new PlayOnlinePage(stage);
-            Scene scene2 = new Scene(root);
-            stage.setScene(scene2); 
-        });
+        
         imageView4.setFitHeight(100.0);
         imageView4.setFitWidth(185.0);
         imageView4.setPickOnBounds(true);
