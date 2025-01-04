@@ -16,39 +16,41 @@ import javafx.stage.Stage;
  *
  * @author nerme
  */
-public class HomePageController extends HomePage{
-    public HomePageController(Stage stage){
-        
-        
-        signupButton.setOnAction(e ->{
-         Scene scene = new Scene(new SignupPageController(stage));
-          stage.setScene(scene);
+public class HomePageController extends HomePage {
+
+    public HomePageController(Stage stage) {
+
+        signupButton.setOnAction(e -> {
+            Scene scene = new Scene(new SignupPageController(stage));
+            stage.setScene(scene);
         });
-        
-        loginButton.setOnAction(e ->{
-         Scene scene = new Scene(new LoginPageController(stage));
-          stage.setScene(scene);
+
+        loginButton.setOnAction(e -> {
+            Scene scene = new Scene(new LoginPageController(stage));
+            stage.setScene(scene);
         });
-        
-        historyButton.setOnAction(e->{
-          Scene scene = new Scene(new HistoryPageController(stage));
-          stage.setScene(scene);
+
+        historyButton.setOnAction(e -> {
+            Scene scene = new Scene(new HistoryPageController(stage));
+            stage.setScene(scene);
         });
-        
+
         playvscomputerButton.setOnMouseClicked(e -> {
-            VsCompPage root = new VsCompPageController(stage);
+            DifficultyLevelController root = new DifficultyLevelController(stage);
             Scene scene2 = new Scene(root);
-            stage.setScene(scene2); 
+            stage.setScene(scene2);
         });
+
         playofflineButton.setOnMouseClicked(e -> {
             OfflinePage root = new OfflinePageController(stage);
             Scene scene2 = new Scene(root);
-            stage.setScene(scene2); 
+            stage.setScene(scene2);
         });
+
         playonlineButton.setOnMouseClicked(e -> {
             OnlinePage root = new OnlinePageController(stage);
             Scene scene2 = new Scene(root);
-            stage.setScene(scene2); 
+            stage.setScene(scene2);
         });
     }
 }
