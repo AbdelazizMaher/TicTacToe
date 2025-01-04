@@ -42,9 +42,7 @@ public class HomePageController extends HomePage {
         });
 
         playofflineButton.setOnMouseClicked(e -> {
-            OfflinePage root = new OfflinePageController(stage);
-            Scene scene2 = new Scene(root);
-            stage.setScene(scene2);
+            new PopUpPageController(stage);
         });
 
         playonlineButton.setOnMouseClicked(e -> {
