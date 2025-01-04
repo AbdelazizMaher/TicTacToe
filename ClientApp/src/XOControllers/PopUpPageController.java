@@ -5,9 +5,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class PopUpPageController {
+
     public PopUpPageController(Stage stage) {
         PopUpPage prompt = new PopUpPage(stage, (user1, user2) -> {
-            DifficultyLevelController root = new DifficultyLevelController(stage);
+            HomePageController root = new HomePageController(stage);
             Scene scene2 = new Scene(root);
             stage.setScene(scene2);
         });

@@ -18,7 +18,7 @@ public class PopUpPage {
     private final TextField username1;
     private final TextField username2;
 
-    public PopUpPage(Stage owner, BiConsumer<String, String> onUsernamesEntered) {
+    public PopUpPage(Stage owner, BiConsumer<String, String> onCloseClicked) {
         dialog = new Stage();
         dialog.setTitle("Enter Usernames");
         dialog.initModality(Modality.APPLICATION_MODAL);
@@ -38,16 +38,22 @@ public class PopUpPage {
         okButton.setOnAction(e -> {
             String user1 = username1.getText().trim();
             String user2 = username2.getText().trim();
-            if (!user1.isEmpty() && !user2.isEmpty()) {
-                onUsernamesEntered.accept(user1, user2);
+            if (!user1.isEmpty() && !user2.isEmpty() && !user1.equals(user2)) {
                 dialog.close();
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Input Error");
                 alert.setHeaderText(null);
-                alert.setContentText("Both usernames must be entered.");
+                if(user1.equals(user2))
+                    alert.setContentText("Both usernames must be different.");
+                else
+                    alert.setContentText("Both usernames must be entered.");
                 alert.showAndWait();
             }
+        });
+
+        dialog.setOnCloseRequest(e -> {
+            onCloseClicked.accept(null, null);
         });
 
         grid.add(label1, 0, 0);
