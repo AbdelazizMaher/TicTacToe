@@ -5,9 +5,11 @@
  */
 package MainApp;
 
+import XOControllers.HomePageController;
 import XOGame.HistoryPage;
 import XOGame.HomePage;
 import XOGame.LoginPage;
+import XOGame.OnlinePage;
 import XOGame.SignupPage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,13 +22,10 @@ import javafx.stage.Stage;
  * @author Abdel
  */
 public class ClientApp extends Application {
-    Stage primaryStage;
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = new HomePage(stage);
-        
+        Parent root = new HomePageController(stage); 
         Scene scene = new Scene(root);
-        
         stage.setScene(scene);
         stage.show();
     }
