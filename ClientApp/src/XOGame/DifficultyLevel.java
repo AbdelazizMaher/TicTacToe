@@ -55,7 +55,7 @@ public class DifficultyLevel extends AnchorPane {
         backButton.setMnemonicParsing(false);
         backButton.setPrefHeight(41.0);
         backButton.setPrefWidth(35.0);
-        backButton.getStylesheets().add("/FXML/../styles/Stylesheet.css");
+        backButton.getStylesheets().add("/styles/Stylesheet.css");
         backButton.setTextFill(javafx.scene.paint.Color.WHITE);
         backButton.setFont(new Font("Arial", 12.0));
 
@@ -71,20 +71,20 @@ public class DifficultyLevel extends AnchorPane {
         iconImageView.setLayoutY(9.0);
         iconImageView.setPickOnBounds(true);
         iconImageView.setPreserveRatio(true);
-        iconImageView.setImage(new Image(getClass().getResource("../media/xo.jpg").toExternalForm()));
+        iconImageView.setImage(new Image(getClass().getResource("/media/xo.jpg").toExternalForm()));
 
         imageView.setFitHeight(542.0);
         imageView.setFitWidth(789.0);
         imageView.setLayoutY(47.0);
         imageView.setPickOnBounds(true);
-        imageView.setImage(new Image(getClass().getResource("../media/xo.jpg").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/media/xo.jpg").toExternalForm()));
 
         barImageView.setFitHeight(174.0);
         barImageView.setFitWidth(817.0);
         barImageView.setLayoutX(-28.0);
         barImageView.setLayoutY(416.0);
         barImageView.setPickOnBounds(true);
-        barImageView.setImage(new Image(getClass().getResource("../media/squids.png").toExternalForm()));
+        barImageView.setImage(new Image(getClass().getResource("/media/squids.png").toExternalForm()));
 
         hBox.setLayoutY(46.0);
         hBox.setPrefHeight(341.0);
@@ -97,7 +97,7 @@ public class DifficultyLevel extends AnchorPane {
         easyLevelButton.setPrefWidth(235.0);
         easyLevelButton.setStyle("-fx-background-color: #131218;");
         easyLevelButton.getStyleClass().add("button-edge");
-        easyLevelButton.getStylesheets().add("/FXML/../styles/Stylesheet.css");
+        easyLevelButton.getStylesheets().add("/styles/Stylesheet.css");
         easyLevelButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         easyLevelButton.setTextFill(javafx.scene.paint.Color.WHITE);
         easyLevelButton.setFont(new Font("Arial Bold", 14.0));
@@ -105,7 +105,7 @@ public class DifficultyLevel extends AnchorPane {
         easyLevelImageView.setFitHeight(100.0);
         easyLevelImageView.setFitWidth(185.0);
         easyLevelImageView.setPickOnBounds(true);
-        easyLevelImageView.setImage(new Image(getClass().getResource("../media/level1.png").toExternalForm()));
+        easyLevelImageView.setImage(new Image(getClass().getResource("/media/level1.png").toExternalForm()));
         easyLevelButton.setGraphic(easyLevelImageView);
 
         mediumLevelButton.setMnemonicParsing(false);
@@ -121,7 +121,7 @@ public class DifficultyLevel extends AnchorPane {
         mediumLevelImageView.setFitHeight(100.0);
         mediumLevelImageView.setFitWidth(185.0);
         mediumLevelImageView.setPickOnBounds(true);
-        mediumLevelImageView.setImage(new Image(getClass().getResource("../media/level2.png").toExternalForm()));
+        mediumLevelImageView.setImage(new Image(getClass().getResource("/media/level2.png").toExternalForm()));
         mediumLevelButton.setGraphic(mediumLevelImageView);
 
         hardLevelButton.setMnemonicParsing(false);
@@ -129,7 +129,7 @@ public class DifficultyLevel extends AnchorPane {
         hardLevelButton.setPrefWidth(235.0);
         hardLevelButton.setStyle("-fx-background-color: #131218;");
         hardLevelButton.getStyleClass().add("button-edge");
-        hardLevelButton.getStylesheets().add("/FXML/../styles/Stylesheet.css");
+        hardLevelButton.getStylesheets().add("/styles/Stylesheet.css");
         hardLevelButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         hardLevelButton.setTextFill(javafx.scene.paint.Color.WHITE);
         hardLevelButton.setFont(new Font("Arial Bold", 14.0));
@@ -137,7 +137,7 @@ public class DifficultyLevel extends AnchorPane {
         hardLevelImageView.setFitHeight(100.0);
         hardLevelImageView.setFitWidth(185.0);
         hardLevelImageView.setPickOnBounds(true);
-        hardLevelImageView.setImage(new Image(getClass().getResource("../media/level3.png").toExternalForm()));
+        hardLevelImageView.setImage(new Image(getClass().getResource("/media/level3.png").toExternalForm()));
         hardLevelButton.setGraphic(hardLevelImageView);
 
         mainAnchorPane.getChildren().add(backButton);
