@@ -7,6 +7,8 @@ package XOControllers;
 
 import XOGame.OnlinePage;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
@@ -14,11 +16,24 @@ import javafx.stage.Stage;
  * @author nerme
  */
 public class OnlinePageController extends OnlinePage{
+    private boolean isPaused = false; 
     public OnlinePageController(Stage stage){
         backButton.setOnMouseClicked(e -> {
-            HomePageController root = new HomePageController(stage);
-            Scene scene2 = new Scene(root);
+            Scene scene2 = new Scene(new AvailableUserPageController(stage));
             stage.setScene(scene2); 
+        });
+        recordButton.setOnMouseClicked(e -> {
+            Image recImage;
+            if (isPaused) {
+                recImage = new Image(getClass().getResourceAsStream("/media/record.png"));
+            } else {
+                recImage = new Image(getClass().getResourceAsStream("/media/stop.png"));
+            }
+            ImageView recImageView = new ImageView(recImage);
+            recImageView.setFitHeight(40);
+            recImageView.setFitWidth(40);
+            recordButton.setGraphic(recImageView);         
+            isPaused = !isPaused;
         });
     }
 }
