@@ -7,6 +7,7 @@ package XOControllers;
 
 import XOGame.RecordPage;
 import XOGame.VsCompPage;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -16,5 +17,10 @@ import javafx.stage.Stage;
 public class RecordPageController extends RecordPage{
     public RecordPageController(Stage stage){
         super(stage);
+        backButton.setOnMouseClicked(e->{
+          Scene scene = new Scene(new HistoryPageController(stage));
+          stage.setScene(scene);
+        });
+        
     }
 }
