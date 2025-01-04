@@ -30,6 +30,11 @@ public class HomePageController extends HomePage{
           stage.setScene(scene);
         });
         
+        historyButton.setOnAction(e->{
+          Scene scene = new Scene(new HistoryPageController(stage));
+          stage.setScene(scene);
+        });
+        
         playvscomputerButton.setOnMouseClicked(e -> {
             VsCompPage root = new VsCompPageController(stage);
             Scene scene2 = new Scene(root);
