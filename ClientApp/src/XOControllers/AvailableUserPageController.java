@@ -19,6 +19,11 @@ import javafx.scene.control.ListView;
  */
 public class AvailableUserPageController extends AvailableUsersPage{
     public AvailableUserPageController(Stage stage) {
+        backButton.setOnMouseClicked(e -> {
+            HomePageController root = new HomePageController(stage);
+            Scene scene2 = new Scene(root);
+            stage.setScene(scene2); 
+        });
         AvailableUsersPage availableUsersPage = new AvailableUsersPage();
         Scene scene = new Scene(availableUsersPage);
         stage.setScene(scene);

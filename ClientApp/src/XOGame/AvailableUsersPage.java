@@ -10,7 +10,10 @@ import javafx.scene.text.Font;
 import javafx.scene.layout.Region;
 
 import java.util.ArrayList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class AvailableUsersPage extends AnchorPane {
@@ -40,7 +43,7 @@ public class AvailableUsersPage extends AnchorPane {
         vBox.setPrefWidth(780.0);
 
         anchorPane.setPrefHeight(50.0);
-        anchorPane.setPrefWidth(780.0);
+        anchorPane.setPrefWidth(789.0);
         anchorPane.getStyleClass().add("sidebar");
         anchorPane.getStylesheets().add("/styles/Stylesheet.css");
 
@@ -58,7 +61,8 @@ public class AvailableUsersPage extends AnchorPane {
         label.setText("Available Players");
         label.setTextFill(javafx.scene.paint.Color.WHITE);
         label.setFont(new Font("Arial Bold", 18.0));
-
+        
+        anchorPane.setPadding(new Insets(7, 0, 0, 0));
         anchorPane.getChildren().addAll(backButton, label);
 
         scrollPane.setPrefHeight(580.0);
@@ -82,6 +86,7 @@ public class AvailableUsersPage extends AnchorPane {
             scoreLabel.setFont(new Font("Arial", 16));
 
             Button sendButton = new Button("Send Invitation " + (i + 1));
+            sendButton.setStyle("-fx-background-color: transparent; " +"-fx-text-fill: blue; " + "-fx-font-size: 14px; "+"-fx-underline: true;");
             buttons.add(sendButton);
             row.getChildren().addAll(nameLabel, scoreLabel, sendButton);
             rows.add(row);

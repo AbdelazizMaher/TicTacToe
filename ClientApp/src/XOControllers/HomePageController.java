@@ -9,6 +9,7 @@ import XOGame.HomePage;
 import XOGame.OfflinePage;
 import XOGame.OnlinePage;
 import XOGame.VsCompPage;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -42,7 +43,11 @@ public class HomePageController extends HomePage {
         });
 
         playofflineButton.setOnMouseClicked(e -> {
-            new PopUpPageController(stage);
+            Scene scene2 = new Scene(new OfflinePageController(stage));
+            stage.setScene(scene2);
+            Platform.runLater(() -> {
+                new PopUpPageController(stage);
+            });
         });
 
         playonlineButton.setOnMouseClicked(e -> {
