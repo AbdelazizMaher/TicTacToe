@@ -5,6 +5,7 @@
  */
 package MainApp;
 
+import XOControllers.LoginPageController;
 import XOGame.HistoryPage;
 import XOGame.HomePage;
 import XOGame.LoginPage;
@@ -23,8 +24,8 @@ public class ClientApp extends Application {
     Stage primaryStage;
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = new LoginPage();
-        
+        Parent root = new LoginPageController(stage);
+       
         Scene scene = new Scene(root);
         
         stage.setScene(scene);

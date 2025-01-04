@@ -11,7 +11,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class LoginPage extends AnchorPane {
+public abstract class LoginPage extends AnchorPane {
 
     protected final ImageView imageView;
     protected final AnchorPane anchorPane;
@@ -25,6 +25,7 @@ public class LoginPage extends AnchorPane {
     protected final Label label0;
     protected final ImageView imageView0;
     protected final ImageView imageView1;
+    protected final Button backButton;
 
     public LoginPage() {
 
@@ -40,6 +41,7 @@ public class LoginPage extends AnchorPane {
         label0 = new Label();
         imageView0 = new ImageView();
         imageView1 = new ImageView();
+        backButton = new Button();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -51,14 +53,13 @@ public class LoginPage extends AnchorPane {
         getStylesheets().add("/styles/Stylesheet.css");
         
         
-        Button backButton = new Button();
+       
         backButton.setPrefSize(60, 41);
         Image backImage = new Image(getClass().getResourceAsStream("/media/back2.png"));
         ImageView backImageView = new ImageView(backImage);
         backImageView.setFitHeight(40);
         backImageView.setFitWidth(40);
         backButton.setGraphic(backImageView);
-      //  backButton.setStyle("-fx-background-color: transparent;");
 
         imageView.setFitHeight(580.0);
         imageView.setFitWidth(780.0);
@@ -149,8 +150,6 @@ public class LoginPage extends AnchorPane {
         imageView1.setImage(new Image(getClass().getResource("/media/xomini.jpg").toExternalForm()));
 
         getChildren().addAll(imageView,backButton);
-        //getChildren().add(backButton);
-
         anchorPane.getChildren().add(usernameTextField);
         anchorPane.getChildren().add(passwordTextField);
         anchorPane.getChildren().add(loginButton);
@@ -161,7 +160,6 @@ public class LoginPage extends AnchorPane {
         anchorPane.getChildren().add(label0);
         anchorPane.getChildren().add(imageView0);
         anchorPane.getChildren().add(imageView1);
-       // anchorPane.getChildren().add(backButton);
         getChildren().add(anchorPane);
 
     }
