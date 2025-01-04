@@ -46,8 +46,7 @@ public class HomePageController extends HomePage {
         });
 
         playonlineButton.setOnMouseClicked(e -> {
-            OnlinePage root = new OnlinePageController(stage);
-            Scene scene2 = new Scene(root);
+            Scene scene2 = new Scene(new AvailableUserPageController(stage));
             stage.setScene(scene2);
         });
     }

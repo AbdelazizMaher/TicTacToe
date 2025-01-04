@@ -16,8 +16,7 @@ import javafx.stage.Stage;
 public class OnlinePageController extends OnlinePage{
     public OnlinePageController(Stage stage){
         backButton.setOnMouseClicked(e -> {
-            HomePageController root = new HomePageController(stage);
-            Scene scene2 = new Scene(root);
+            Scene scene2 = new Scene(new AvailableUserPageController(stage));
             stage.setScene(scene2); 
         });
     }

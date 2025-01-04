@@ -29,9 +29,9 @@ public class PopUpPage {
         grid.setHgap(10);
         grid.setVgap(10);
 
-        Label label1 = new Label("Username 1:");
+        Label label1 = new Label("Player 1:");
         username1 = new TextField();
-        Label label2 = new Label("Username 2:");
+        Label label2 = new Label("Player 2:");
         username2 = new TextField();
 
         Button okButton = new Button("OK");
