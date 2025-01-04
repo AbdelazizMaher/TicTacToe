@@ -5,48 +5,53 @@
  */
 package XOControllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import XOGame.DifficultyLevel;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
  *
  * @author Abdel
  */
-public class DifficultyLevelController implements Initializable {
+public class DifficultyLevelController extends DifficultyLevel {
 
-    @FXML
-    private AnchorPane mainAnchorPane;
-    @FXML
-    private Button backButton;
-    @FXML
-    private ImageView iconImageView;
-    @FXML
-    private ImageView barImageView;
-    @FXML
-    private Button easyLevelButton;
-    @FXML
-    private ImageView easyLevelImageView;
-    @FXML
-    private Button mediumLevelButton;
-    @FXML
-    private ImageView mediumLevelImageView;
-    @FXML
-    private Button hardLevelButton;
-    @FXML
-    private ImageView hardLevelImageView;
+    public static final int EASY_LEVEL = 0;
+    public static final int MEDIUM_LEVEL = 1;
+    public static final int HARD_LEVEL = 2;
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+    private int difficultyLevel = -1;
+
+    public DifficultyLevelController(Stage stage) {
+
+        backButton.setOnAction(e -> {
+            Scene scene = new Scene(new HomePageController(stage));
+            stage.setScene(scene);
+        });
+
+        easyLevelButton.setOnAction(e -> {
+            difficultyLevel = EASY_LEVEL;
+
+            Scene scene = new Scene(new VsCompPageController(stage));
+            stage.setScene(scene);
+        });
+
+        mediumLevelButton.setOnAction(e -> {
+            difficultyLevel = MEDIUM_LEVEL;
+
+            Scene scene = new Scene(new VsCompPageController(stage));
+            stage.setScene(scene);
+        });
+
+        hardLevelButton.setOnAction(e -> {
+            difficultyLevel = HARD_LEVEL;
+
+            Scene scene = new Scene(new VsCompPageController(stage));
+            stage.setScene(scene);
+        });
+    }
+
+    public int getDifficultyLevel() {
+        return difficultyLevel;
+    }
 }
