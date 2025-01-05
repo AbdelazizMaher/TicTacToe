@@ -62,12 +62,12 @@ public abstract class OfflinePage extends AnchorPane {
         playerOneVBox.setPrefWidth(589);
         playerOneVBox.setSpacing(5);
         
-        Label playerOneLabel = new Label("Player Vs Computer");
+        Label playerOneLabel = new Label("Play Offline");
         playerOneLabel.setPrefHeight(35);
         playerOneLabel.setPrefWidth(250);
         playerOneLabel.setTextFill(javafx.scene.paint.Color.WHITE);
         playerOneLabel.setFont(new Font(24));
-        playerOneLabel.setPadding(new Insets(0, 0, 0, 40));
+        playerOneLabel.setPadding(new Insets(0, 0, 0, 100));
 
         playerOneVBox.getChildren().add(playerOneLabel);
 
