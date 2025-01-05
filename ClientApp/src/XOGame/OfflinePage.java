@@ -11,18 +11,18 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public abstract class OfflinePage extends AnchorPane {
-    private int score;
+    private int score1;
     private int score2;
     private Button[][] buttons = new Button[3][3];
-    private String playerX = "Player X";
-    private String playerO = "Player O";
+    private String playerX = "Player1";
+    private String playerO = "Player2";
     protected Button backButton;
     protected Button replayButton;
     protected Button recordButton;
     public OfflinePage() {
-        score =0;
-        score2 =0;
-        
+        score1 = 0;
+        score2 = 0;
+
         // Create the AnchorPane
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefHeight(200);
@@ -55,8 +55,6 @@ public abstract class OfflinePage extends AnchorPane {
         backImageView.setFitWidth(40);
         backButton.setGraphic(backImageView);
         backButton.setStyle("-fx-background-color: transparent;");
-
-        HBox.setMargin(backButton, new Insets(0, 0, 0, 0));
         
         VBox playerOneVBox = new VBox();
         playerOneVBox.setAlignment(javafx.geometry.Pos.CENTER);
@@ -64,12 +62,12 @@ public abstract class OfflinePage extends AnchorPane {
         playerOneVBox.setPrefWidth(589);
         playerOneVBox.setSpacing(5);
         
-        Label playerOneLabel = new Label("Player Offline");
+        Label playerOneLabel = new Label("Play Offline");
         playerOneLabel.setPrefHeight(35);
-        playerOneLabel.setPrefWidth(203);
+        playerOneLabel.setPrefWidth(250);
         playerOneLabel.setTextFill(javafx.scene.paint.Color.WHITE);
         playerOneLabel.setFont(new Font(24));
-        playerOneLabel.setPadding(new Insets(0, 0, 0, 60));
+        playerOneLabel.setPadding(new Insets(0, 0, 0, 100));
 
         playerOneVBox.getChildren().add(playerOneLabel);
 
@@ -96,7 +94,8 @@ public abstract class OfflinePage extends AnchorPane {
         recordButton.setGraphic(recImageView);
         
         HBox hBox = new HBox(10);  
-        hBox.setAlignment(Pos.CENTER);        
+        hBox.setAlignment(Pos.CENTER); 
+        
         hBox.getChildren().addAll(replayButton,recordButton);
 
         topHBox.getChildren().addAll(backButton, playerOneVBox, hBox);
@@ -108,19 +107,24 @@ public abstract class OfflinePage extends AnchorPane {
         centerVBox.setSpacing(10);
 
         // Player X and Score Labels
-        HBox playerXHBox = new HBox();
-        playerXHBox.setAlignment(javafx.geometry.Pos.CENTER);
-        playerXHBox.setSpacing(10);
-        
-        Label playerXLabel = new Label(playerX+" - X");
+        AnchorPane playerXAnchorPane = new AnchorPane();
+        playerXAnchorPane.setPrefHeight(50);
+        playerXAnchorPane.setPrefWidth(780);
+
+        // Player X Label
+        Label playerXLabel = new Label(playerX + " - X");
         playerXLabel.setTextFill(javafx.scene.paint.Color.BLACK);
-        playerXLabel.setFont(new Font(24));
+        playerXLabel.setFont(new Font("Arial BOLD", 22));
+        AnchorPane.setLeftAnchor(playerXLabel, 10.0); // Fixed position from the left
 
-        Label scoreLabelX = new Label("Score "+score);
-        scoreLabelX.setTextFill(javafx.scene.paint.Color.BLACK);
-        scoreLabelX.setFont(new Font(24));
+        // Player O Label
+        Label playerOLabel = new Label(playerO + " - O");
+        playerOLabel.setFont(new Font("Arial BOLD", 22));
+        playerOLabel.setTextFill(javafx.scene.paint.Color.BLACK);
+        AnchorPane.setRightAnchor(playerOLabel, 10.0); // Fixed position from the right
 
-        playerXHBox.getChildren().addAll(playerXLabel, scoreLabelX);
+        // Add labels to AnchorPane
+        playerXAnchorPane.getChildren().addAll(playerXLabel, playerOLabel);
 
         // GridPane
         GridPane gridPane = new GridPane();
@@ -142,7 +146,7 @@ public abstract class OfflinePage extends AnchorPane {
                 gridPane.getChildren().add(cell);
             }
         }
-        centerVBox.getChildren().addAll(playerXHBox, gridPane);
+        centerVBox.getChildren().addAll(playerXAnchorPane, gridPane);
         
         // Bottom Section
         HBox bottomHBox = new HBox();
@@ -151,16 +155,13 @@ public abstract class OfflinePage extends AnchorPane {
         bottomHBox.setPrefWidth(780);
         bottomHBox.setSpacing(10);
         
-        Label playerOLabel = new Label(playerO+" - O");
-        playerOLabel.setFont(new Font(24));
-        playerOLabel.setPrefHeight(33);
-        playerOLabel.setPrefWidth(145);
+        Label scoreLabelX = new Label("Scores "+score1+":"+score2);
+        scoreLabelX.setTextFill(javafx.scene.paint.Color.BLACK);
+        scoreLabelX.setFont(new Font("Arial BOLD",22));
 
-        Label scoreLabelO = new Label("Score "+score2);
-        scoreLabelO.setFont(new Font(24));
-
-        bottomHBox.getChildren().addAll(playerOLabel, scoreLabelO);
-
+        HBox.setMargin(scoreLabelX, new Insets(0, 20, 0, 0));
+        bottomHBox.getChildren().addAll(scoreLabelX);
+       
         borderPane.setTop(topSection);
         borderPane.setCenter(centerVBox);
         borderPane.setBottom(bottomHBox);

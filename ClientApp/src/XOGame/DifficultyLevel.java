@@ -114,7 +114,7 @@ public class DifficultyLevel extends AnchorPane {
         mediumLevelButton.setPrefWidth(235.0);
         mediumLevelButton.setStyle("-fx-background-color: #131218;");
         mediumLevelButton.getStyleClass().add("button-edge");
-        mediumLevelButton.getStylesheets().add("/FXML/../styles/Stylesheet.css");
+        mediumLevelButton.getStylesheets().add("/styles/Stylesheet.css");
         mediumLevelButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         mediumLevelButton.setTextFill(javafx.scene.paint.Color.WHITE);
         mediumLevelButton.setFont(new Font("Arial Bold", 14.0));

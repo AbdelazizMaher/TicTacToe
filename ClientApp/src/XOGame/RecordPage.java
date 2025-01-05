@@ -23,7 +23,7 @@ public abstract class RecordPage extends AnchorPane {
         anchorPane.setPrefWidth(320);
 
         // Create and configure the ImageView for background image
-        ImageView imageView = new ImageView(new Image("file:///D:/ITI/javaProject/TestTicTacToe/src/xo.jpg"));
+        ImageView imageView = new ImageView(new Image("/media/xo.jpg"));
         imageView.setFitHeight(580);
         imageView.setFitWidth(780);
         imageView.setPreserveRatio(false);
@@ -107,20 +107,24 @@ public abstract class RecordPage extends AnchorPane {
         centerVBox.setAlignment(javafx.geometry.Pos.CENTER);
         centerVBox.setSpacing(10);
         
-        HBox playerLabels = new HBox();
-        playerLabels.setAlignment(javafx.geometry.Pos.CENTER);
-        playerLabels.setSpacing(10);
-        
-        Label playerXLabel = new Label(playerX+" - X");
+        AnchorPane playerXAnchorPane = new AnchorPane();
+        playerXAnchorPane.setPrefHeight(50);
+        playerXAnchorPane.setPrefWidth(780);
+
+        // Player X Label
+        Label playerXLabel = new Label(playerX + " - X");
         playerXLabel.setTextFill(javafx.scene.paint.Color.BLACK);
-        playerXLabel.setFont(new Font(24));
-
-        Label playerOLabel = new Label(playerO+" - O");
-        playerOLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-        playerOLabel.setFont(new Font(24));
-        playerOLabel.setPadding(new Insets(0, 0, 0, 30));
-
-        playerLabels.getChildren().addAll(playerXLabel, playerOLabel);
+        playerXLabel.setFont(new Font("Arial BOLD", 22));
+        AnchorPane.setLeftAnchor(playerXLabel, 10.0); // Fixed position from the left
+        AnchorPane.setTopAnchor(playerXLabel, 10.0);
+        // Player O Label
+        Label playerOLabel = new Label(playerO + " - O");
+        playerOLabel.setFont(new Font("Arial BOLD", 22));
+        playerOLabel.setTextFill(javafx.scene.paint.Color.BLACK);
+        AnchorPane.setRightAnchor(playerOLabel, 10.0); // Fixed position from the right
+        AnchorPane.setTopAnchor(playerOLabel, 10.0);
+        // Add labels to AnchorPane
+        playerXAnchorPane.getChildren().addAll(playerXLabel, playerOLabel);
         
         // GridPane
         GridPane gridPane = new GridPane();
@@ -142,7 +146,7 @@ public abstract class RecordPage extends AnchorPane {
                 gridPane.getChildren().add(cell);
             }
         }
-        centerVBox.getChildren().addAll(playerLabels, gridPane);
+        centerVBox.getChildren().addAll(playerXAnchorPane, gridPane);
 
         // Set sections to BorderPane
         borderPane.setTop(topSection);

@@ -6,6 +6,7 @@
 package XOControllers;
 
 import XOGame.HomePage;
+import XOGame.HomePage;
 import XOGame.OfflinePage;
 import XOGame.OnlinePage;
 import XOGame.VsCompPage;
