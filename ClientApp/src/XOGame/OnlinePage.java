@@ -10,23 +10,30 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public abstract class RecordPage extends AnchorPane {
+public class OnlinePage extends AnchorPane {
+    private int score;
+    private int score2;
     private Button[][] buttons = new Button[3][3];
     private String playerX = "Player X";
     private String playerO = "Player O";
-    protected final Button backButton;
-
-    public RecordPage(Stage stage) {
+    protected Button backButton;
+    protected Button replayButton;
+    protected Button recordButton;
+    public OnlinePage() {
+        score = 0;
+        score2 = 0;
+        
         // Create the AnchorPane
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefHeight(200);
         anchorPane.setPrefWidth(320);
 
-        // Create and configure the ImageView for background image
-        ImageView imageView = new ImageView(new Image("file:///D:/ITI/javaProject/TestTicTacToe/src/xo.jpg"));
+        // Create and configure the ImageView
+        ImageView imageView = new ImageView();
         imageView.setFitHeight(580);
         imageView.setFitWidth(780);
         imageView.setPreserveRatio(false);
+        imageView.setImage(new Image(getClass().getResource("/media/xo.jpg").toExternalForm()));
 
         // Create and configure the BorderPane
         BorderPane borderPane = new BorderPane();
@@ -36,9 +43,7 @@ public abstract class RecordPage extends AnchorPane {
         // Top Section
         BorderPane topSection = new BorderPane();
         HBox topHBox = new HBox();
-        topHBox.setMaxWidth(Double.MAX_VALUE);
-        topHBox.setMinWidth(Double.MIN_VALUE);
-        topHBox.setPrefHeight(46);
+        topHBox.setPrefHeight(32);
         topHBox.setPrefWidth(780);
         topHBox.setStyle("-fx-background-color: black;");
         
@@ -50,6 +55,8 @@ public abstract class RecordPage extends AnchorPane {
         backImageView.setFitWidth(40);
         backButton.setGraphic(backImageView);
         backButton.setStyle("-fx-background-color: transparent;");
+
+        HBox.setMargin(backButton, new Insets(0, 0, 0, 0));
         
         VBox playerOneVBox = new VBox();
         playerOneVBox.setAlignment(javafx.geometry.Pos.CENTER);
@@ -57,71 +64,64 @@ public abstract class RecordPage extends AnchorPane {
         playerOneVBox.setPrefWidth(589);
         playerOneVBox.setSpacing(5);
         
-        Label playerOneLabel = new Label("Record");
+        Label playerOneLabel = new Label("Player Online");
         playerOneLabel.setPrefHeight(35);
-        playerOneLabel.setPrefWidth(150);
+        playerOneLabel.setPrefWidth(203);
         playerOneLabel.setTextFill(javafx.scene.paint.Color.WHITE);
         playerOneLabel.setFont(new Font(24));
         playerOneLabel.setPadding(new Insets(0, 0, 0, 60));
 
         playerOneVBox.getChildren().add(playerOneLabel);
 
-        topHBox.getChildren().addAll(backButton, playerOneVBox);
+        replayButton = new Button();
+        replayButton.setMaxWidth(Double.MAX_VALUE);
+        replayButton.setStyle("-fx-font-size: 20px;");
+        replayButton.setStyle("-fx-background-color: transparent;");
+        replayButton.setTextFill(javafx.scene.paint.Color.BLACK);
+        Image replayImage = new Image(getClass().getResourceAsStream("/media/restart.png"));
+        ImageView replayImageView = new ImageView(replayImage);
+        replayImageView.setFitHeight(40);
+        replayImageView.setFitWidth(40);
+        replayButton.setGraphic(replayImageView);
+        
+        recordButton = new Button();
+        recordButton.setMaxWidth(Double.MAX_VALUE);
+        recordButton.setStyle(" -fx-font-size: 20px;");
+        recordButton.setStyle("-fx-background-color: transparent;");
+        recordButton.setTextFill(javafx.scene.paint.Color.BLACK);
+        Image recImage = new Image(getClass().getResourceAsStream("/media/record.png"));
+        ImageView recImageView = new ImageView(recImage);
+        recImageView.setFitHeight(40);
+        recImageView.setFitWidth(40);
+        recordButton.setGraphic(recImageView);
+        
+        HBox hBox = new HBox(10);  
+        hBox.setAlignment(Pos.CENTER); 
+        hBox.getChildren().addAll(replayButton,recordButton);
+        
+        topHBox.getChildren().addAll(backButton, playerOneVBox, hBox);
         topSection.setTop(topHBox);
-        
-        
-        // Bottom Section
-        HBox bottomHBox = new HBox();
-        bottomHBox.setAlignment(javafx.geometry.Pos.CENTER);
-        bottomHBox.setSpacing(10);
-        
-        Button stopButton = new Button();
-        stopButton.setMaxWidth(Double.MAX_VALUE);
-        stopButton.setMinWidth(Double.MIN_VALUE);
-        stopButton.setPrefHeight(38);
-        stopButton.setPrefWidth(100);
-        stopButton.setStyle("-fx-background-color: transparent;");
-        Image stopImage = new Image(getClass().getResourceAsStream("/media/stop.png"));
-        ImageView stopImageView = new ImageView(stopImage);
-        stopImageView.setFitHeight(40);
-        stopImageView.setFitWidth(40);
-        stopButton.setGraphic(stopImageView);
-        
-        Button rewatchButton = new Button();
-        rewatchButton.setMaxWidth(Double.MAX_VALUE);
-        rewatchButton.setMinWidth(Double.MIN_VALUE);
-        rewatchButton.setPrefHeight(38);
-        rewatchButton.setPrefWidth(110);
-        rewatchButton.setStyle("-fx-background-color: transparent;");
-        Image rewatchImage = new Image(getClass().getResourceAsStream("/media/restart.png"));
-        ImageView rewatchImageView = new ImageView(rewatchImage);
-        rewatchImageView.setFitHeight(40);
-        rewatchImageView.setFitWidth(40);
-        rewatchButton.setGraphic(rewatchImageView);
-        HBox.setMargin(rewatchButton, new Insets(0, 0, 0, 30));
 
-        bottomHBox.getChildren().addAll(stopButton, rewatchButton);
-
-        // Center VBox for Player Labels and Grid
+        // Center Section
         VBox centerVBox = new VBox();
         centerVBox.setAlignment(javafx.geometry.Pos.CENTER);
         centerVBox.setSpacing(10);
-        
-        HBox playerLabels = new HBox();
-        playerLabels.setAlignment(javafx.geometry.Pos.CENTER);
-        playerLabels.setSpacing(10);
+
+        // Player X and Score Labels
+        HBox playerXHBox = new HBox();
+        playerXHBox.setAlignment(javafx.geometry.Pos.CENTER);
+        playerXHBox.setSpacing(10);
         
         Label playerXLabel = new Label(playerX+" - X");
         playerXLabel.setTextFill(javafx.scene.paint.Color.BLACK);
         playerXLabel.setFont(new Font(24));
 
-        Label playerOLabel = new Label(playerO+" - O");
-        playerOLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-        playerOLabel.setFont(new Font(24));
-        playerOLabel.setPadding(new Insets(0, 0, 0, 30));
+        Label scoreLabelX = new Label("Score "+score);
+        scoreLabelX.setTextFill(javafx.scene.paint.Color.BLACK);
+        scoreLabelX.setFont(new Font(24));
 
-        playerLabels.getChildren().addAll(playerXLabel, playerOLabel);
-        
+        playerXHBox.getChildren().addAll(playerXLabel, scoreLabelX);
+
         // GridPane
         GridPane gridPane = new GridPane();
         gridPane.setMaxHeight(Double.MAX_VALUE);
@@ -142,14 +142,30 @@ public abstract class RecordPage extends AnchorPane {
                 gridPane.getChildren().add(cell);
             }
         }
-        centerVBox.getChildren().addAll(playerLabels, gridPane);
+        centerVBox.getChildren().addAll(playerXHBox, gridPane);
+        
+        // Bottom Section
+        HBox bottomHBox = new HBox();
+        bottomHBox.setAlignment(javafx.geometry.Pos.CENTER);
+        bottomHBox.setPrefHeight(21);
+        bottomHBox.setPrefWidth(780);
+        bottomHBox.setSpacing(10);
+        
+        Label playerOLabel = new Label(playerO+" - O");
+        playerOLabel.setFont(new Font(24));
+        playerOLabel.setPrefHeight(33);
+        playerOLabel.setPrefWidth(145);
 
-        // Set sections to BorderPane
+        Label scoreLabelO = new Label("Score "+score2);
+        scoreLabelO.setFont(new Font(24));
+
+        bottomHBox.getChildren().addAll(playerOLabel, scoreLabelO);
+
         borderPane.setTop(topSection);
         borderPane.setCenter(centerVBox);
         borderPane.setBottom(bottomHBox);
 
-        // Set everything to AnchorPane
+        // Set the background image and add the BorderPane to the AnchorPane
         anchorPane.getChildren().addAll(imageView, borderPane);
 
         anchorPane.setPrefSize(780, 580);
