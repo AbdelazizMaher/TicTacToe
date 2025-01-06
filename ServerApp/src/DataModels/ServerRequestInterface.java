@@ -9,6 +9,17 @@ package DataModels;
  *
  * @author Abdel
  */
-public interface ServerRequestInterface {
-    
+public interface ServerRequestInterface 
+{
+    void signUp();
+    void signIn();
+    void sendAvailablePlayers();
+    void sendInvitation();
+    void getInvetation();
+    void sendMove();
+    void gameWinner();
+    void gameDraw();
+    void withdraw();
+    void logout();
+    void connectionEnded();
 }
