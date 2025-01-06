@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOGame/VsCompPage.java</file>
             <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/MainApp/ClientApp.java</file>
-            <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOGame/HomePage.java</file>
+            <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOGame/RecordPage.java</file>
+            <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOGame/DifficultyLevel.java</file>
+            <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOGame/OnlinePage.java</file>
             <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOGame/OfflinePage.java</file>
         </group>
     </open-files>
