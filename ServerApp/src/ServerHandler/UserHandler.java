@@ -7,11 +7,13 @@ package ServerHandler;
 
 import DataModels.ServerRequestInterface;
 import DataModels.UserDataModel;
+import Database.DataAccessLayer;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,16 +82,20 @@ public class UserHandler extends Thread implements ServerRequestInterface
     @Override
     public void signUp() 
     {
-        user.setUsername(requestMsgTokens.nextToken());
-        user.setPassword(requestMsgTokens.nextToken());
-        boolean signedUp = DataAccessLayer.addUser(user);
-        if(signedUp)
-        {
-            talker.println("Success Adding User");
-        }
-        else
-        {
-            talker.println("Error Adding User");
+        try {
+            user.setUsername(requestMsgTokens.nextToken());
+            user.setPassword(requestMsgTokens.nextToken());
+            boolean signedUp = DataAccessLayer.addUser(user);
+            if(signedUp)
+            {
+                talker.println("Success Adding User");
+            }
+            else
+            {
+                talker.println("Error Adding User");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
