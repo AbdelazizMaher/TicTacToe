@@ -9,7 +9,8 @@ package DataModels;
  *
  * @author Abdel
  */
-public interface ServerRequestInterface {
+public interface ServerRequestInterface 
+{
     void signUp();
     void signIn();
     void sendAvailablePlayers();
