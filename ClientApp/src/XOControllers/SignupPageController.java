@@ -24,6 +24,7 @@ public class SignupPageController extends SignupPage {
             String pass = passwordTextField.getText().trim();
             String conf = confirmPasswordTextField.getText().trim();
             String info = "signUp#@$"+name+"#@$"+pass+"#@$";
+            if(pass.equals(conf)){
                 if(ClientHandler.startConnection(info)){               
                     Thread thread = new Thread(()->{ 
                         String message = ClientHandler.getResponse();
@@ -46,6 +47,9 @@ public class SignupPageController extends SignupPage {
                     thread.setDaemon(true);
                     thread.start();
                 }
+            }else{
+                showAlert("Server Error","server is out");
+            }
             });
 
         backButton.setOnMouseClicked(e -> {
