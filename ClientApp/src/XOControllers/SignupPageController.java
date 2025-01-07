@@ -24,32 +24,34 @@ public class SignupPageController extends SignupPage {
             String pass = passwordTextField.getText().trim();
             String conf = confirmPasswordTextField.getText().trim();
             String info = "signUp#@$"+name+"#@$"+pass+"#@$";
-            if(pass.equals(conf)){
-                if(ClientHandler.startConnection(info)){               
-                    Thread thread = new Thread(()->{ 
-                        String message = ClientHandler.getResponse();
-                        if(message.equals("Signed Up")){
-                                Platform.runLater(()->{
-                                    Scene scene = new Scene(new HomePageController(stage));
-                                    stage.setScene(scene);
-                                });
-                            }
-                            else{
-                                Platform.runLater(()->{
-                                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                                    alert.setTitle("Server Error");
-                                    alert.setHeaderText(null);
-                                    alert.setContentText(message); 
-                                    alert.showAndWait();
-                                });                                 
-                            }
-                    });
-                    thread.setDaemon(true);
-                    thread.start();
-                }
-            }else{
-                showAlert("Server Error","server is out");
-            }
+                if(pass.equals(conf)){
+                    if(ClientHandler.startConnection(info)){               
+                        Thread thread = new Thread(()->{ 
+                            String message = ClientHandler.getResponse();
+                            if(message.equals("Signed Up")){
+                                    Platform.runLater(()->{
+                                        Scene scene = new Scene(new HomePageController(stage));
+                                        stage.setScene(scene);
+                                    });
+                                }
+                                else{
+                                    Platform.runLater(()->{
+                                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                                        alert.setTitle("Server Error");
+                                        alert.setHeaderText(null);
+                                        alert.setContentText(message); 
+                                        alert.showAndWait();
+                                    });                                 
+                                }
+                        });
+                        thread.setDaemon(true);
+                        thread.start();
+                    }else{
+                        showAlert("Server Error","server is out");
+                    }}
+                    else{
+                        showAlert("SignUp Error","Password and confirm password must be the same");
+                    }
             });
 
         backButton.setOnMouseClicked(e -> {
