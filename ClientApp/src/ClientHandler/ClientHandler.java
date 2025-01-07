@@ -39,7 +39,14 @@ public class ClientHandler {
         }
         return connect;
     }
+    
+     public static void sendRequest(String text) {
+      
+            mouth.println(text); // Send the request
+      
+    }
 
+   
     public static String getResponse() {
         try {
             receivedText = ear.readLine();
