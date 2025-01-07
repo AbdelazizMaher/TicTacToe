@@ -27,11 +27,11 @@ public class GUIController extends ServerGUI {
             if (stateToggleButton.isSelected()) {
                 stateToggleButton.getStyleClass().removeAll("button1");
                 stateToggleButton.getStyleClass().add("button2");
+                server = new ServerHandler();
+                server.startServer();
             } else {
                 stateToggleButton.getStyleClass().removeAll("button2");
                 stateToggleButton.getStyleClass().add("button1");
-                server = new ServerHandler();
-                server.startServer();
             }
         }
         );
