@@ -15,29 +15,37 @@ import java.net.Socket;
  * @author eman_
  */
 public class ClientHandler {
-    
-     protected static Socket server;
+
+    protected static Socket server;
     protected static DataInputStream ear;
     protected static PrintStream mouth;
-    private static String receivedText=null;
+    private static String receivedText = null;
     private static boolean connect = false;
-    public ClientHandler(){}
-   
-    public static boolean startConnection(String info){
-            try {
-                server = new Socket("127.0.0.1", 5005);
-                ear = new DataInputStream(server.getInputStream());
-                mouth = new PrintStream(server.getOutputStream());
-                mouth.println(info);
-                connect=true;
-            } catch (IOException ex) {
-                connect = false; 
-            }
-            return connect;
+
+    public ClientHandler() {
+    }
+
+    public static boolean startConnection(String info) {
+        try {
+            server = new Socket("127.0.0.1", 5005);
+            ear = new DataInputStream(server.getInputStream());
+            mouth = new PrintStream(server.getOutputStream());
+            mouth.println(info);
+            connect = true;
+        } catch (IOException ex) {
+            connect = false;
         }
-    
-    
-    
-    
-    
+        return connect;
+    }
+
+    public static String getResponse() {
+        try {
+            receivedText = ear.readLine();
+        } catch (IOException e) {
+        }
+        return receivedText;
+    }
+
+   
+
 }
