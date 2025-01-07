@@ -16,21 +16,33 @@ import java.util.logging.Logger;
  * @author Abdel
  */
 public class ServerHandler extends Thread {
-        
+
     ServerSocket serverSocket;
-    
+
     public void startServer() {
+
         try {
             serverSocket = new ServerSocket(5005);
-            Socket clientSocket = serverSocket.accept();
-            new UserHandler(clientSocket);
+            start();
         } catch (IOException ex) {
             Logger.getLogger(ServerHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void stopServer() {
+
+    }
+
+    @Override
+    public void run() {
+        Socket clientSocket;
+        try {
+            clientSocket = serverSocket.accept();
+            new UserHandler(clientSocket);
+        } catch (IOException ex) {
+            Logger.getLogger(ServerHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
-    
+
 }

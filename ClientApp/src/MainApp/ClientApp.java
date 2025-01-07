@@ -29,7 +29,7 @@ public class ClientApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //Parent root = new HomePageController(stage); 
-        Parent root = new LoseVideoPageController();
+        Parent root = new WinVideoPageController();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

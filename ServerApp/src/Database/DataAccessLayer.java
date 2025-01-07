@@ -25,7 +25,7 @@ public class DataAccessLayer {
 
     static {
         try {
-            DriverManager.registerDriver(new ClientDriver());
+            //DriverManager.registerDriver(new ClientDriver());
             connection = DriverManager.getConnection("jdbc:derby://localhost:1527/ServerDB", "root", "root");
         } catch (SQLException ex) {
             Logger.getLogger(DataAccessLayer.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,7 +60,7 @@ public class DataAccessLayer {
 
         PreparedStatement statment;
         try {
-            statment = connection.prepareStatement("SELECT ? FROM USERS ",
+            statment = connection.prepareStatement("SELECT * FROM USERS WHERE USERNAME = ? ",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             statment.setString(1, username);
