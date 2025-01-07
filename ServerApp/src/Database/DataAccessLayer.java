@@ -36,7 +36,7 @@ public class DataAccessLayer {
         boolean finalResult = false;
 
         PreparedStatement statment;
-        try {
+     
             statment = connection.prepareStatement("INSERT INTO USERS "
                     + "(USERNAME, PASSWORD, SCORE) VALUES (?, ?, ?)",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -49,9 +49,6 @@ public class DataAccessLayer {
             if (result > 0) {
                 finalResult = true;
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(DataAccessLayer.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
         return finalResult;
     }
@@ -59,7 +56,7 @@ public class DataAccessLayer {
     public static UserDataModel getUser(String username) throws SQLException {
 
         PreparedStatement statment;
-        try {
+       
             statment = connection.prepareStatement("SELECT * FROM USERS WHERE USERNAME = ? ",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
@@ -71,9 +68,7 @@ public class DataAccessLayer {
                 return new UserDataModel(rs.getString("USERNAME"), rs.getString("PASSWORD"), rs.getInt("SCORE"));
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(DataAccessLayer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
         return null;
     }
 }
