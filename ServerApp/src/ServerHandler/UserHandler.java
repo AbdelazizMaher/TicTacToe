@@ -32,10 +32,11 @@ public class UserHandler extends Thread implements ServerRequestInterface
     String opponentName;
     static Vector <UserHandler> userVector = new Vector<UserHandler>();
     
-    Thread th = new Thread();
+   
     String requestMsg;
     public StringTokenizer requestMsgTokens;
     UserDataModel user;
+    boolean isSignedUp;
     
     UserHandler(Socket s)
         {
@@ -44,7 +45,7 @@ public class UserHandler extends Thread implements ServerRequestInterface
                 reader = new DataInputStream(s.getInputStream());
                 talker = new PrintStream(s.getOutputStream());
                 UserHandler.userVector.add(this);
-                th.start();
+                start();
             } 
             catch (IOException ex) 
             {
@@ -80,23 +81,19 @@ public class UserHandler extends Thread implements ServerRequestInterface
         }
 
     @Override
-    public void signUp() 
+   public void signUp()
     {
-        try {
             user.setUsername(requestMsgTokens.nextToken());
             user.setPassword(requestMsgTokens.nextToken());
-            boolean signedUp = DataAccessLayer.addUser(user);
-            if(signedUp)
+            try{
+                isSignedUp = DataAccessLayer.addUser(user);
+                if(isSignedUp)
             {
                 talker.println("Signed Up");
             }
-            else
-            {
-                talker.println("Error in Sign Up");
+            } catch (SQLException ex) {
+                talker.println("The username exists");
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @Override
