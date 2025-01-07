@@ -30,6 +30,7 @@ public class GUIController extends ServerGUI {
             } else {
                 stateToggleButton.getStyleClass().removeAll("button2");
                 stateToggleButton.getStyleClass().add("button1");
+                server = new ServerHandler();
                 server.startServer();
             }
         }
