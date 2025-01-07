@@ -37,12 +37,14 @@ public class ServerHandler extends Thread {
     public void run() {
         Socket clientSocket;
         try {
-            clientSocket = serverSocket.accept();
-            new UserHandler(clientSocket);
+            while (true) {
+                clientSocket = serverSocket.accept();
+                new UserHandler(clientSocket);
+            }
+
         } catch (IOException ex) {
             Logger.getLogger(ServerHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
 }
