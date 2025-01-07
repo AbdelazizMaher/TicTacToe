@@ -24,6 +24,7 @@ public class SignupPageController extends SignupPage {
             String pass = passwordTextField.getText().trim();
             String conf = confirmPasswordTextField.getText().trim();
             String info = "signUp#@$"+name+"#@$"+pass+"#@$";
+            if(name!=null && pass!=null && conf!=null){
                 if(pass.equals(conf)){
                     if(ClientHandler.startConnection(info)){               
                         Thread thread = new Thread(()->{ 
@@ -51,6 +52,9 @@ public class SignupPageController extends SignupPage {
                     }}
                     else{
                         showAlert("SignUp Error","Password and confirm password must be the same");
+                    }}
+                    else{
+                    showAlert("SignUp Error","All fields can't be empty");
                     }
             });
 
