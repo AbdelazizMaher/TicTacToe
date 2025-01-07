@@ -53,7 +53,7 @@ public class UserHandler extends Thread implements ServerRequestInterface
 
         }
     
-    @Override
+        @Override
         public void run()
         {
             while(true)
@@ -88,11 +88,11 @@ public class UserHandler extends Thread implements ServerRequestInterface
             boolean signedUp = DataAccessLayer.addUser(user);
             if(signedUp)
             {
-                talker.println("Success Adding User");
+                talker.println("Signed Up");
             }
             else
             {
-                talker.println("Error Adding User");
+                talker.println("Error in Sign Up");
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
