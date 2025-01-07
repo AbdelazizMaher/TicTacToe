@@ -6,6 +6,7 @@
 package MainApp;
 
 
+import XOControllers.LoseVideoPageController;
 import XOGame.WinVideoPage;
 import XOControllers.WinVideoPageController;
 import XOControllers.HomePageController;
@@ -28,7 +29,7 @@ public class ClientApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //Parent root = new HomePageController(stage); 
-        Parent root = new WinVideoPageController();
+        Parent root = new LoseVideoPageController();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
