@@ -71,7 +71,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
             } catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
-                closeConnection();
             }
         }
     }
@@ -85,7 +84,14 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         if (isSignedUp) {
             talker.println("Signed Up");
         } else {
-            talker.println("The username exists");
+            try {
+                talker.println("The username exists");
+                closeConnection();
+                stop();
+                join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -99,6 +105,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             talker.println("Signed In");
         } else {
             talker.println("Invalid username or password");
+            closeConnection();
         }
     }
     
@@ -147,6 +154,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             talker.close();
             reader.close();
             userVector.remove(this);
+            System.out.println("here");
         } catch (IOException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }

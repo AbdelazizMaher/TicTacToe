@@ -65,8 +65,7 @@ public class ClientHandler {
                 } catch (IOException ex) {
                     Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-        
+            }       
     }
 
 }
