@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.derby.jdbc.ClientDriver;
+
 /**
  *
  * @author Abdel
@@ -32,11 +33,11 @@ public class DataAccessLayer {
         }
     }
 
-    public static boolean addUser(UserDataModel user) throws SQLException {
+    public static boolean addUser(UserDataModel user) {
         boolean finalResult = false;
 
         PreparedStatement statment;
-     
+        try {
             statment = connection.prepareStatement("INSERT INTO USERS "
                     + "(USERNAME, PASSWORD, SCORE) VALUES (?, ?, ?)",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -49,26 +50,30 @@ public class DataAccessLayer {
             if (result > 0) {
                 finalResult = true;
             }
+        } catch (SQLException ex) {
+            System.out.println(ex.getLocalizedMessage()); 
+            return finalResult;
+        }
 
         return finalResult;
     }
 
-    public static UserDataModel getUser(String username) throws SQLException {
-
+    public static UserDataModel getUser(String username) {
         PreparedStatement statment;
-       
+        
+        try {
             statment = connection.prepareStatement("SELECT * FROM USERS WHERE USERNAME = ? ",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             statment.setString(1, username);
 
             rs = statment.executeQuery();
-
             if (rs.next()) {
                 return new UserDataModel(rs.getString("USERNAME"), rs.getString("PASSWORD"), rs.getInt("SCORE"));
-            }
-
-       
+            }           
+        } catch (SQLException ex) {
+            System.out.println(ex.getLocalizedMessage()); 
+        }
         return null;
     }
 }

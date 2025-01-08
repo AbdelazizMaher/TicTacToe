@@ -18,112 +18,136 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.StringTokenizer;
+
 /**
  *
  * @author Abdel
  */
-public class UserHandler extends Thread implements ServerRequestInterface 
-{
+public class UserHandler extends Thread implements ServerRequestInterface {
+
     public static boolean isOnline;
-    ServerSocket serverSocket;
+    Socket socket;
     DataInputStream reader;
     PrintStream talker;
     boolean isPlaying;
     String opponentName;
-    static Vector <UserHandler> userVector = new Vector<UserHandler>();
-    
+    static Vector<UserHandler> userVector = new Vector<UserHandler>();
+
     String requestMsg;
     public StringTokenizer requestMsgTokens;
     UserDataModel user;
-    boolean signedUp;
-    UserHandler(Socket s)
-        {
-            user = new UserDataModel();
-            try 
-            {
-                reader = new DataInputStream(s.getInputStream());
-                talker = new PrintStream(s.getOutputStream());
-                UserHandler.userVector.add(this);
-                start();
-            } 
-            catch (IOException ex) 
-            {
-                ex.printStackTrace();
-            }
 
-        }
-    
-        @Override
-        public void run()
-        {
-            while(true)
-            {
-                try
-                {
-                    requestMsg = reader.readLine();
-                    if(requestMsg!=null){
-                        requestMsgTokens = new StringTokenizer(requestMsg,"#@$");
-                        String clientRequest = requestMsgTokens.nextToken();
-                        switch(clientRequest)
-                        {
-                            case "signUp":
-                                signUp();
-                                break;
-                        }
-                    }                    
-                } 
-                catch (IOException ex) 
-                {
-                    ex.printStackTrace();
-                }
-            }
-        }
+    UserHandler(Socket socket) {
+        user = new UserDataModel();
+        this.socket = socket;
 
-    @Override
-    public void signUp() 
-    {
-            user.setUsername(requestMsgTokens.nextToken());
-            user.setPassword(requestMsgTokens.nextToken());
-            try{
-                signedUp = DataAccessLayer.addUser(user);
-                if(signedUp)
-            {
-                talker.println("Signed Up");
-            }
-            } catch (SQLException ex) {
-                talker.println("The username exists");
-            }
+        try {
+            reader = new DataInputStream(socket.getInputStream());
+            talker = new PrintStream(socket.getOutputStream());
+            UserHandler.userVector.add(this);
+            start();
+        } catch (IOException ex) {
+            System.out.println(ex.getLocalizedMessage());
+        }
     }
 
     @Override
-    public void signIn() {}
+    public void run() {
+        while (true) {
+            try {
+                requestMsg = reader.readLine();
+
+                requestMsgTokens = new StringTokenizer(requestMsg, "#@$");
+                String clientRequest = requestMsgTokens.nextToken();
+                switch (clientRequest) {
+                    case "signUp":
+                        signUp();
+                        break;
+                }
+
+            } catch (IOException ex) {
+                System.out.println(ex.getLocalizedMessage());
+                closeConnection();
+            }
+        }
+    }
 
     @Override
-    public void sendAvailablePlayers() {}
+    public void signUp() {
+        user.setUsername(requestMsgTokens.nextToken());
+        user.setPassword(requestMsgTokens.nextToken());
+
+        boolean isSignedUp = DataAccessLayer.addUser(user);
+        if (isSignedUp) {
+            talker.println("Signed Up");
+        } else {
+            talker.println("The username exists");
+        }
+    }
 
     @Override
-    public void sendInvitation() {}
+    public void signIn() {
+    }
 
     @Override
-    public void getInvetation() {}
+    public void sendAvailablePlayers() {
+    }
 
     @Override
-    public void sendMove() {}
+    public void sendInvitation() {
+    }
 
     @Override
-    public void gameWinner() {}
+    public void getInvetation() {
+    }
 
     @Override
-    public void gameDraw() {}
+    public void sendMove() {
+    }
 
     @Override
-    public void withdraw() {}
+    public void gameWinner() {
+    }
 
     @Override
-    public void logout() {}
+    public void gameDraw() {
+    }
 
     @Override
-    public void connectionEnded() {}
-    
+    public void withdraw() {
+    }
 
+    @Override
+    public void logout() {
+    }
+
+    @Override
+    public void connectionEnded() {
+    }
+
+    public void closeConnection() {
+        try {
+            socket.close();
+            talker.close();
+            reader.close();
+            userVector.remove(this);
+        } catch (IOException ex) {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void closeAllConnections() {
+        for (UserHandler user : userVector) {
+            if (user.socket.isConnected()) {
+                try {
+                    user.socket.close();
+                    user.talker.close();
+                    user.reader.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }
+    }
 }

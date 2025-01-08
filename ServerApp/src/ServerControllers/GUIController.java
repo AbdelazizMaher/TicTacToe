@@ -12,7 +12,8 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import serverapp.ServerGUI;
+import javafx.stage.Stage;
+import ServerGameApp.ServerGUI;
 
 /**
  *
@@ -21,22 +22,25 @@ import serverapp.ServerGUI;
 public class GUIController extends ServerGUI {
 
     ServerHandler server;
-    
-    public GUIController() {
-        stateToggleButton.setOnAction(event -> {
+
+    public GUIController(Stage stage) {
+        stateToggleButton.setOnAction(e -> {
             if (stateToggleButton.isSelected()) {
                 stateToggleButton.getStyleClass().removeAll("button1");
                 stateToggleButton.getStyleClass().add("button2");
+
                 server = new ServerHandler();
                 server.startServer();
             } else {
                 stateToggleButton.getStyleClass().removeAll("button2");
                 stateToggleButton.getStyleClass().add("button1");
+
+                server.stopServer();
             }
         }
         );
 
-        chartButton.setOnAction(event -> {
+        chartButton.setOnAction(e -> {
             BarChart<String, Number> barChart = createBarChart();
             barChart.getStylesheets().add("/styles/Stylesheet.css");
 
@@ -45,6 +49,11 @@ public class GUIController extends ServerGUI {
             dialog.getDialogPane().setContent(barChart);
             dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
             dialog.show();
+        });
+
+        stage.setOnCloseRequest(e -> {
+            if (server != null && server.isConnected())
+                server.stopServer();
         });
     }
 
@@ -67,5 +76,4 @@ public class GUIController extends ServerGUI {
 
         return barChart;
     }
-
 }
