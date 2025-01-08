@@ -31,7 +31,7 @@ public class SignupPageController extends SignupPage {
                             String message = ClientHandler.getResponse();
                             if(message.equals("Signed Up")){
                                     Platform.runLater(()->{
-                                        Scene scene = new Scene(new HomePageController(stage));
+                                        Scene scene = new Scene(new AvailableUserPageController(stage));
                                         stage.setScene(scene);
                                     });
                                 }

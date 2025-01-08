@@ -32,14 +32,13 @@ public class UserHandler extends Thread implements ServerRequestInterface
     String opponentName;
     static Vector <UserHandler> userVector = new Vector<UserHandler>();
     
-   
     String requestMsg;
     public StringTokenizer requestMsgTokens;
     UserDataModel user;
-    boolean isSignedUp;
-    
+    boolean signedUp;
     UserHandler(Socket s)
         {
+            user = new UserDataModel();
             try 
             {
                 reader = new DataInputStream(s.getInputStream());
@@ -62,16 +61,16 @@ public class UserHandler extends Thread implements ServerRequestInterface
                 try
                 {
                     requestMsg = reader.readLine();
-                    
-                    requestMsgTokens = new StringTokenizer(requestMsg,"#@$");
-                    String clientRequest = requestMsgTokens.nextToken();
-                    switch(clientRequest)
-                    {
-                        case "signUp":
-                            signUp();
-                            break;
-                    }
-                    
+                    if(requestMsg!=null){
+                        requestMsgTokens = new StringTokenizer(requestMsg,"#@$");
+                        String clientRequest = requestMsgTokens.nextToken();
+                        switch(clientRequest)
+                        {
+                            case "signUp":
+                                signUp();
+                                break;
+                        }
+                    }                    
                 } 
                 catch (IOException ex) 
                 {
@@ -81,13 +80,13 @@ public class UserHandler extends Thread implements ServerRequestInterface
         }
 
     @Override
-   public void signUp()
+    public void signUp() 
     {
             user.setUsername(requestMsgTokens.nextToken());
             user.setPassword(requestMsgTokens.nextToken());
             try{
-                isSignedUp = DataAccessLayer.addUser(user);
-                if(isSignedUp)
+                signedUp = DataAccessLayer.addUser(user);
+                if(signedUp)
             {
                 talker.println("Signed Up");
             }
