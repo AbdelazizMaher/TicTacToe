@@ -63,6 +63,10 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "signUp":
                         signUp();
                         break;
+                        
+                    case "signIn":
+                        signIn();
+                        break;
                 }
 
             } catch (IOException ex) {
@@ -87,7 +91,19 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
     @Override
     public void signIn() {
+        String username = requestMsgTokens.nextToken();
+        String password = requestMsgTokens.nextToken();
+        
+        user = DataAccessLayer.getUser(username);
+        if(user != null && password.equals(user.getPassword())){
+            talker.println("Signed In");
+        } else {
+            talker.println("Invalid username or password");
+        }
     }
+    
+        
+    
 
     @Override
     public void sendAvailablePlayers() {
