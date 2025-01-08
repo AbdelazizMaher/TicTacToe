@@ -20,6 +20,9 @@ public class UserDataModel {
         this.score = score;
     }
 
+    public UserDataModel() {
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
