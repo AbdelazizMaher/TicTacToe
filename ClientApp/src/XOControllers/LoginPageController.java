@@ -21,10 +21,10 @@ public class LoginPageController extends LoginPage {
     public LoginPageController(Stage stage) {
 
         loginButton.setOnAction(e -> {
-            if(usernameTextField.getText()!=null && passwordTextField.getText()!=null){
-                String name = usernameTextField.getText().trim();
-                String pass = passwordTextField.getText().trim();
-                String info = "signIn#@$"+name+"#@$"+pass+"#@$";
+            String name = usernameTextField.getText().trim();
+            String pass = passwordTextField.getText().trim();
+            String info = "signIn#@$"+name+"#@$"+pass+"#@$";
+            if(!name.isEmpty() && !pass.isEmpty()){
                 if(ClientHandler.startConnection(info)){
                     Thread thread = new Thread(()->{
                         String message = ClientHandler.getResponse();
@@ -50,9 +50,7 @@ public class LoginPageController extends LoginPage {
                     showAlert("Server Error","server is out");
                 }}
                 else{
-                System.out.println("errrrrrrrrrrrr");
-                   showAlert("SignIn Error","All fields can't be empty"); 
-                    
+                   showAlert("SignIn Error","All fields can't be empty");     
                 }
         });
 
