@@ -1,4 +1,4 @@
-package serverapp;
+package ServerGameApp;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

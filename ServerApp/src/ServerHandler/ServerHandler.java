@@ -20,7 +20,6 @@ public class ServerHandler extends Thread {
     ServerSocket serverSocket;
 
     public void startServer() {
-
         try {
             serverSocket = new ServerSocket(5005);
             start();
@@ -30,7 +29,22 @@ public class ServerHandler extends Thread {
     }
 
     public void stopServer() {
-
+        try {
+            serverSocket.close();
+            UserHandler.closeAllConnections();
+            try { 
+                stop();
+                join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ServerHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ServerHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public boolean isConnected() {
+        return !serverSocket.isClosed();
     }
 
     @Override

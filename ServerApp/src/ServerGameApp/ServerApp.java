@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package serverapp;
+package ServerGameApp;
 
 import ServerControllers.GUIController;
 import javafx.application.Application;
@@ -16,15 +16,17 @@ import javafx.stage.Stage;
  * @author Abdel
  */
 public class ServerApp extends Application {
+
+    GUIController root;
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = new GUIController();
-        
+        root = new GUIController(stage);
+
         Scene scene = new Scene(root);
-        
+
         scene.getStylesheets().add(getClass().getResource("/styles/Stylesheet.css").toString());
-        
+
         stage.setScene(scene);
         stage.setTitle("TicTacToe Dashboard");
         stage.show();
@@ -36,5 +38,5 @@ public class ServerApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
