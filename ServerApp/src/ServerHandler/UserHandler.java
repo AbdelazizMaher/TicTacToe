@@ -95,7 +95,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         String password = requestMsgTokens.nextToken();
         
         user = DataAccessLayer.getUser(username);
-        if(user != null && password == user.getPassword()){
+        if(user != null && password.equals(user.getPassword())){
             talker.println("Signed In");
         } else {
             talker.println("Invalid username or password");

@@ -72,7 +72,7 @@ public class SignupPageController extends SignupPage {
     
      private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-         alert.setTitle(title);
+        alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();
     }
