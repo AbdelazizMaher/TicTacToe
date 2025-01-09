@@ -24,7 +24,7 @@ public class SignupPageController extends SignupPage {
             String pass = passwordTextField.getText().trim();
             String conf = confirmPasswordTextField.getText().trim();
             String info = "signUp#@$"+name+"#@$"+pass+"#@$";
-            if(name!=null && pass!=null && conf!=null){
+            if(!name.isEmpty() && !pass.isEmpty() && !conf.isEmpty()){
                 if(pass.equals(conf)){
                     if(ClientHandler.startConnection(info)){               
                         Thread thread = new Thread(()->{ 
@@ -70,9 +70,9 @@ public class SignupPageController extends SignupPage {
     }
     
     
-     private void showAlert(String title, String content) {
+    private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-         alert.setTitle(title);
+        alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();
     }
