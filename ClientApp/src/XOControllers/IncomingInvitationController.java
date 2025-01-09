@@ -21,7 +21,7 @@ public class IncomingInvitationController {
 
     public IncomingInvitationController(Stage stage) {
         Thread thread = new Thread(() -> {
-            while (true) {
+            while (ClientHandler.isConnected()) {
                 String message = ClientHandler.getResponse();
                 StringTokenizer requestMsgTokens = new StringTokenizer(message, "#@$");
                 

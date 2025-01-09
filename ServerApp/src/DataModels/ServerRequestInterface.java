@@ -15,7 +15,7 @@ public interface ServerRequestInterface
     void signIn();
     void sendAvailablePlayers();
     void sendInvitation();
-    void getInvitation();
+    void getInvitationResponse();
     void sendMove();
     void gameWinner();
     void gameDraw();
