@@ -67,7 +67,10 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "signIn":
                         signIn();
                         break;
-
+                    case "send invitaion":
+                        sendInvitation();
+                        break;
+                
                     case "invitationResponse":
                         getInvitationResponse();
                         break;
@@ -118,6 +121,14 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
     @Override
     public void sendInvitation() {
+        String opponentName = requestMsgTokens.nextToken();
+        UserHandler opponent = getUserHandlerByUsername(opponentName);
+        if (opponent != null) {
+            opponent.talker.println("invitation#@$"+user.getUsername() + " has invited you to play#@$");
+            talker.println("success#@$invitation successfully sent#@$");
+        } else {
+            talker.println("Error#@$failed#@$");
+        }
     }
 
     @Override
@@ -183,6 +194,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             }
         }
     }
+
     
     private void setOpponent(String name, String opponent) {
         for (UserHandler userHandler : userVector) {
@@ -202,5 +214,14 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             }
         }
         return ps;
+    }
+
+    private UserHandler getUserHandlerByUsername(String username) {
+        for (UserHandler userHandler : userVector) {
+            if (userHandler.user.getUsername().equals(username)) {
+                return userHandler;
+            }
+        }
+        return null;
     }
 }
