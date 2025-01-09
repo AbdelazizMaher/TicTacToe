@@ -119,21 +119,14 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
     @Override
     public void sendInvitation() {
-        String opponentName=requestMsgTokens.nextToken();
-        System.out.println(opponentName);
+        String opponentName = requestMsgTokens.nextToken();
         UserHandler opponent = getUserHandlerByUsername(opponentName);
-        
-        if(opponent !=null){
-            
-            opponent.talker.println(user.getUsername()+ " invite you to play");
-            talker.println("request send successfuly");
-        }
-        else{
-            
+        if (opponent != null) {
+            opponent.talker.println(user.getUsername() + " has invited you to play");
+            talker.println("invitation successfully sent");
+        } else {
             talker.println("User not found or not online");
-        
         }
-       
     }
 
     @Override
