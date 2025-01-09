@@ -123,9 +123,24 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         user = DataAccessLayer.getUser(username);
         if (user != null && password.equals(user.getPassword())) {
             talker.println("Signed In");
+        } else if(user != null && !password.equals(user.getPassword())){
+            try {
+                talker.println("Invalid password!");
+                closeConnection();
+                stop();
+                join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
-            talker.println("Invalid username or password");
-            closeConnection();
+            try {
+                talker.println("Invalid username!");
+                closeConnection();
+                stop();
+                join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
