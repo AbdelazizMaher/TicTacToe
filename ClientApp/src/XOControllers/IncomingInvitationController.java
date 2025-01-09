@@ -8,6 +8,7 @@ package XOControllers;
 import ClientHandler.ClientHandler;
 import static ClientHandler.ClientHandler.sendRequest;
 import java.util.StringTokenizer;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -24,7 +25,7 @@ public class IncomingInvitationController {
             while (ClientHandler.isConnected()) {
                 String message = ClientHandler.getResponse();
                 StringTokenizer requestMsgTokens = new StringTokenizer(message, "#@$");
-                
+
                 String opponent = requestMsgTokens.nextToken();
                 handleInvitationRequest(opponent, stage);
             }
@@ -34,15 +35,17 @@ public class IncomingInvitationController {
     }
 
     private void handleInvitationRequest(String opponent, Stage stage) {
-        boolean isInvitationAccepted = showRequestAlert("Game Invitation", "Player " + opponent + " has invited you to a game. Do you accept?");
-        if (isInvitationAccepted) {
-            sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
-            
-            Scene scene = new Scene(new OnlinePageController(stage));
-            stage.setScene(scene);
-        }else {
-            sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
-        }
+        Platform.runLater(() -> {
+            boolean isInvitationAccepted = showRequestAlert("Game Invitation", "Player " + opponent + " has invited you to a game. Do you accept?");
+            if (isInvitationAccepted) {
+                sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
+
+                Scene scene = new Scene(new OnlinePageController(stage));
+                stage.setScene(scene);
+            } else {
+                sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
+            }
+        });
     }
 
     private boolean showRequestAlert(String title, String contentMessage) {
@@ -59,11 +62,11 @@ public class IncomingInvitationController {
         alert.showAndWait().ifPresent(response -> {
             if (response == acceptButton) {
                 retVal[0] = true;
-            }else if (response == declineButton) {
+            } else if (response == declineButton) {
                 retVal[0] = false;
             }
         });
-        
+
         return retVal[0];
     }
 }
