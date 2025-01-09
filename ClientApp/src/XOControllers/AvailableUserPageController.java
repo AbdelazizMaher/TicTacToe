@@ -43,8 +43,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
                     responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
                     
                     String status = responseMsgTokens.nextToken();
-                    
-                    switch (status) {
+                     switch (status) {
                         case "invitation": {
                             message = responseMsgTokens.nextToken();
                              System.out.println(message);
@@ -64,7 +63,6 @@ public class AvailableUserPageController extends AvailableUsersPage {
                             Platform.runLater(() -> {
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                 alert.setTitle("success");
-                                // alert.setHeaderText("You've received an invitation!");
                                 alert.setContentText(message);
                                 alert.show();
                             });
@@ -85,10 +83,11 @@ public class AvailableUserPageController extends AvailableUsersPage {
                         break;
 
                     }
+                    
+                    
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
-                    //alert.setHeaderText("You've received an invitation!");
                     alert.setContentText("server Error");
                     alert.showAndWait();
 
@@ -105,16 +104,18 @@ public class AvailableUserPageController extends AvailableUsersPage {
             stage.setScene(scene2);
         });
 
-        AvailableUsersPage availableUsersPage = new AvailableUsersPage();    //WHY ?????
-        Scene scene = new Scene(availableUsersPage);
-        stage.setScene(scene);
+//        AvailableUsersPage availableUsersPage = new AvailableUsersPage();    //WHY ?????
+//        Scene scene = new Scene(availableUsersPage);
+//        stage.setScene(scene);
         for (Button b : buttons) {
             b.setOnAction(e -> {
-                messageRequest = "send invitaion#@$" + "chio" + "#@";   //replace with playerName
+                messageRequest = "send invitaion#@$" + "playerName" + "#@";   //replace with playerName from listView
                 ClientHandler.sendRequest(messageRequest);
                 System.out.println("clicked on invitatiiiiiiiion");
+                
+                
 
-//            Scene scene2 = new Scene(new OnlinePageController(stage));
+//            Scene scene2 = new Scene(new OnlinePageController(stage));      
 //            stage.setScene(scene2); 
             });
         }
