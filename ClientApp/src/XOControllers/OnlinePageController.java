@@ -5,7 +5,6 @@
  */
 package XOControllers;
 
-import static ClientHandler.ClientHandler.getAvailablePlayers;
 import XOGame.OnlinePage;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -20,8 +19,7 @@ public class OnlinePageController extends OnlinePage{
     private boolean isPaused = false; 
     public OnlinePageController(Stage stage){
         backButton.setOnMouseClicked(e -> {
-            String online = getAvailablePlayers("sendAvailablePlayers#@$");
-            Scene scene = new Scene(new AvailableUserPageController(stage,online));
+            Scene scene = new Scene(new AvailableUserPageController(stage));
             stage.setScene(scene); 
         });
         recordButton.setOnMouseClicked(e -> {

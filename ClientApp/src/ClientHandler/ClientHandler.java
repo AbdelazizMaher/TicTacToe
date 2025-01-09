@@ -24,7 +24,7 @@ public class ClientHandler {
     protected static PrintStream mouth;
     private static String receivedText = null;
     private static boolean connect = false;
-    static String online = null;
+    
     public ClientHandler() {
     }
 
@@ -33,7 +33,7 @@ public class ClientHandler {
             server = new Socket("127.0.0.1", 5005);
             ear = new DataInputStream(server.getInputStream());
             mouth = new PrintStream(server.getOutputStream());
-            mouth.println(info);
+            sendRequest(info);
             connect = true;
         } catch (IOException ex) {
             connect = false;
@@ -42,11 +42,8 @@ public class ClientHandler {
     }
     
      public static void sendRequest(String text) {
-      
-            mouth.println(text); // Send the request
-      
+        mouth.println(text);
     }
-
    
     public static String getResponse() {
         try {
@@ -55,19 +52,8 @@ public class ClientHandler {
         }
         return receivedText;
     }
-    public static String getAvailablePlayers (String text){
-        mouth.println(text);
-        Thread thread = new Thread(()->{
-            online = getResponse(); 
-        });
-        thread.start();
-        try {
-            thread.join();  
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return online;
-    }
+
+    
     public static void closeConnection() {
       
             if (server != null && !server.isClosed()) {

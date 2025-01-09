@@ -6,7 +6,6 @@
 package XOControllers;
 
 import ClientHandler.ClientHandler;
-import static ClientHandler.ClientHandler.getAvailablePlayers;
 import XOGame.LoginPage;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -31,8 +30,7 @@ public class LoginPageController extends LoginPage {
                         String message = ClientHandler.getResponse();
                         if(message.equals("Signed In")){
                                 Platform.runLater(()->{
-                                    String online = getAvailablePlayers("sendAvailablePlayers#@$");
-                                    Scene scene = new Scene(new AvailableUserPageController(stage,online));
+                                    Scene scene = new Scene(new AvailableUserPageController(stage));
                                     stage.setScene(scene);
                                 });
                             }

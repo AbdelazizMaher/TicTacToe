@@ -5,7 +5,6 @@
  */
 package XOControllers;
 
-import static ClientHandler.ClientHandler.getAvailablePlayers;
 import XOGame.HomePage;
 import XOGame.HomePage;
 import XOGame.OfflinePage;
@@ -53,8 +52,7 @@ public class HomePageController extends HomePage {
         });
 
         playonlineButton.setOnMouseClicked(e -> {
-            String online = getAvailablePlayers("sendAvailablePlayers#@$");
-            Scene scene = new Scene(new AvailableUserPageController(stage,online));
+            Scene scene = new Scene(new AvailableUserPageController(stage));
             stage.setScene(scene);
         });
     }

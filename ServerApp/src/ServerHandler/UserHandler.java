@@ -25,14 +25,13 @@ import java.util.StringTokenizer;
  */
 public class UserHandler extends Thread implements ServerRequestInterface {
 
-    public boolean isOnline;
     Socket socket;
     DataInputStream reader;
     PrintStream talker;
     boolean isPlaying;
     String opponentName;
     static Vector<UserHandler> userVector = new Vector<UserHandler>();
-    Vector<String> online=new Vector<String>();
+    
 
     String requestMsg;
     public StringTokenizer requestMsgTokens;
@@ -87,10 +86,10 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         user.setPassword(requestMsgTokens.nextToken());        
         boolean isSignedUp = DataAccessLayer.addUser(user);
         if (isSignedUp) {
-            this.isOnline=true;
             talker.println("Signed Up");         
         } else {
             talker.println("The username exists");
+            closeConnection();
         }
     }
 
@@ -100,22 +99,24 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         String password = requestMsgTokens.nextToken(); 
         user = DataAccessLayer.getUser(username);
         if(user != null && password.equals(user.getPassword())){
-            this.isOnline=true;
             talker.println("Signed In");
         } else {
             talker.println("Invalid username or password");
+            closeConnection();
         }
     }
 
 
     @Override
     public void sendAvailablePlayers() {  
+        Vector<String> online=new Vector<String>();
         for(UserHandler player:userVector){
-            if(player.isOnline && player.user != null){
+            if(!player.isPlaying && player.user != null){
                 online.add(player.user.getUsername() + "#@$" + player.user.getScore() + "#@$");
             }
         }
         online.remove(this.user.getUsername() + "#@$" + this.user.getScore() + "#@$");
+        System.out.println(online);
         talker.println(online);
     }
 
