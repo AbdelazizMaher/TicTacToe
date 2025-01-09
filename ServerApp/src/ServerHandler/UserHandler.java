@@ -67,14 +67,23 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "signIn":
                         signIn();
                         break;
-
-                    case "send invitaion":
+                    case "sendInvitaion":
                         sendInvitation();
                         break;
-                }
 
+                    case "invitationResponse":
+                        getInvitationResponse();
+                        break;
+                }
             } catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
+                closeConnection();
+                try {
+                    stop();
+                    join();
+                } catch (InterruptedException ex1) {
+                    Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex1);
+                }
             }
         }
     }
@@ -120,17 +129,27 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void sendInvitation() {
         String opponentName = requestMsgTokens.nextToken();
-        UserHandler opponent = getUserHandlerByUsername(opponentName);
+
+        UserHandler opponent = getOpponentHandler(opponentName);
         if (opponent != null) {
-            opponent.talker.println("invitation#@$"+user.getUsername() + " has invited you to play#@$");
-            talker.println("success#@$invitation successfully sent#@$");
+            opponent.talker.println("invitation" + "#@$" + user.getUsername());
         } else {
-            talker.println("Error#@$failed#@$");
+            talker.println("Error" + "#@$" + "failed");
         }
     }
 
     @Override
-    public void getInvetation() {
+    public void getInvitationResponse() {
+        String response = requestMsgTokens.nextToken();
+        if (response.equals("accept")) {
+            isPlaying = true;
+            opponentName = requestMsgTokens.nextToken();
+            setOpponent(opponentName, user.getUsername());
+
+            getOpponentOutputStream(opponentName).println("accepted" + "#@$" + user.getUsername());
+        } else {
+            getOpponentOutputStream(opponentName).println("declined" + "#@$" + user.getUsername());
+        }
     }
 
     @Override
@@ -179,12 +198,31 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                 } catch (IOException ex) {
                     Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
             }
         }
     }
 
-    private UserHandler getUserHandlerByUsername(String username) {
+    private void setOpponent(String name, String opponent) {
+        for (UserHandler userHandler : userVector) {
+            if (userHandler.user.getUsername().equals(name)) {
+                userHandler.opponentName = opponent;
+                break;
+            }
+        }
+    }
+
+    private PrintStream getOpponentOutputStream(String username) {
+        PrintStream ps = null;
+        for (UserHandler userHandler : userVector) {
+            if (userHandler.user.getUsername().equals(username)) {
+                ps = userHandler.talker;
+                break;
+            }
+        }
+        return ps;
+    }
+
+    private UserHandler getOpponentHandler(String username) {
         for (UserHandler userHandler : userVector) {
             if (userHandler.user.getUsername().equals(username)) {
                 return userHandler;
@@ -192,5 +230,4 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         }
         return null;
     }
-
 }
