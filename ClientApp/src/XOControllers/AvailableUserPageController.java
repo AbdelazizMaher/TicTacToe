@@ -29,33 +29,28 @@ import javafx.scene.text.Font;
  * @author nerme
  */
 public class AvailableUserPageController extends AvailableUsersPage{
-    String onlineList = null;
+    String onlineList = "";
 
     public AvailableUserPageController(Stage stage) {
-        sendRequest("sendAvailablePlayers#@$");
+        
         backButtonEvent(stage);
         handleClickedButtonInvitation();
 
         Thread thread = new Thread(() -> {
             while (ClientHandler.isConnected()) {
+                sendRequest("sendAvailablePlayers#@$");
                 String serverResponse = ClientHandler.getResponse();
                 StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
-
                 String status = responseMsgTokens.nextToken();
                 switch (status) {
                     case "sendAvailablePlayers":{
-                        onlineList = responseMsgTokens.nextToken();
-                        System.out.println(onlineList);
-                        Platform.runLater(()->{
-                        updateList();
-                        });
-                
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException ex) {
-                            ex.printStackTrace();
-                            break;
+                            onlineList = responseMsgTokens.nextToken();                            
+                        if(!onlineList.isEmpty()){
+                            Platform.runLater(()->{
+                            updateList();
+                            });
                         }
+                        break;
                     }                 
                     case "invitation":
                         String opponent = responseMsgTokens.nextToken();
@@ -91,9 +86,14 @@ public class AvailableUserPageController extends AvailableUsersPage{
                             });
                         break;
                 }
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                                break;                
+                }                    
             }
-        }
-        );
+        });
         thread.setDaemon(true);
         thread.start();
     }
@@ -158,7 +158,7 @@ public class AvailableUserPageController extends AvailableUsersPage{
             for (String player : playersArray) {          
 
                 if(!player.isEmpty()){
-                    StringTokenizer info = new StringTokenizer(player, "#@$");
+                    StringTokenizer info = new StringTokenizer(player, "*");
                     VBox row = new VBox(5);
                     Label playerName = new Label(info.nextToken());
                     playerName.setFont(new Font("Arial", 16));

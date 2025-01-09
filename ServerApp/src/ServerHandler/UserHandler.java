@@ -149,12 +149,11 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         Vector<String> online=new Vector<String>();
         for(UserHandler player:userVector){
             if(!player.isPlaying && player.user != null){
-                online.add(player.user.getUsername() + "#@$" + player.user.getScore() + "#@$");
+                online.add(player.user.getUsername() + "*" + player.user.getScore() + "*");
             }
         }
-        online.remove(this.user.getUsername() + "#@$" + this.user.getScore() + "#@$");
-        System.out.println(online);
-        talker.println("sendAvailablePlayers#@$"+online);
+        online.remove(this.user.getUsername() + "*" + this.user.getScore() + "*");
+        talker.println("sendAvailablePlayers#@$"+online+"#@$");
     }
 
     @Override
