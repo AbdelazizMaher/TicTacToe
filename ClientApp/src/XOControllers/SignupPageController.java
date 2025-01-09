@@ -6,7 +6,9 @@
 package XOControllers;
 
 import ClientHandler.ClientHandler;
+import static ClientHandler.ClientHandler.getAvailablePlayers;
 import XOGame.SignupPage;
+import java.util.Vector;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -31,7 +33,8 @@ public class SignupPageController extends SignupPage {
                             String message = ClientHandler.getResponse();
                             if(message.equals("Signed Up")){
                                     Platform.runLater(()->{
-                                        Scene scene = new Scene(new AvailableUserPageController(stage));
+                                        String online = getAvailablePlayers("sendAvailablePlayers#@$");
+                                        Scene scene = new Scene(new AvailableUserPageController(stage,online));
                                         stage.setScene(scene);
                                     });
                                 }
