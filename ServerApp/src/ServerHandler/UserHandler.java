@@ -63,12 +63,15 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "signUp":
                         signUp();
                         break;
-                        
+
                     case "signIn":
                         signIn();
                         break;
-                }
 
+                    case "invitationResponse":
+                        getInvitationResponse();
+                        break;
+                }
             } catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
                 closeConnection();
@@ -93,17 +96,14 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void signIn() {
         String username = requestMsgTokens.nextToken();
         String password = requestMsgTokens.nextToken();
-        
+
         user = DataAccessLayer.getUser(username);
-        if(user != null && password.equals(user.getPassword())){
+        if (user != null && password.equals(user.getPassword())) {
             talker.println("Signed In");
         } else {
             talker.println("Invalid username or password");
         }
     }
-    
-        
-    
 
     @Override
     public void sendAvailablePlayers() {
@@ -114,7 +114,17 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     }
 
     @Override
-    public void getInvetation() {
+    public void getInvitationResponse() {
+        String response = requestMsgTokens.nextToken();
+        if (response.equals("accept")) {
+            isPlaying = true;
+            opponentName = requestMsgTokens.nextToken();
+            setOpponent(opponentName, user.getUsername());
+            
+            getOpponentOutputStream(opponentName).println(user.getUsername() + "accepted");
+        } else {
+            getOpponentOutputStream(opponentName).println(user.getUsername() + "declined");
+        }
     }
 
     @Override
@@ -165,5 +175,25 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
             }
         }
+    }
+    
+    private void setOpponent(String name, String opponent) {
+        for (UserHandler userHandler : userVector) {
+            if (userHandler.user.getUsername().equals(name)) {
+                userHandler.opponentName = opponent;
+                break;
+            }
+        }
+    }
+    
+    private PrintStream getOpponentOutputStream(String username) {
+        PrintStream ps = null;
+         for (UserHandler userHandler : userVector) {
+            if (userHandler.user.getUsername().equals(username)) {
+                ps = userHandler.talker;
+                break;
+            }
+        }
+        return ps;
     }
 }
