@@ -20,8 +20,26 @@ import javafx.scene.control.ListView;
  */
 public class AvailableUserPageController extends AvailableUsersPage{
     String messageRequest;
+    Thread thread;
+   
+    
+    
+    
     
     public AvailableUserPageController(Stage stage) {
+        
+         thread=new Thread(()->{
+      String response=  ClientHandler.getResponse();
+        System.out.println(response);
+    
+    }
+    );
+         thread.start();
+        
+        
+        
+        
+        
         backButton.setOnMouseClicked(e -> {
             HomePageController root = new HomePageController(stage);
             Scene scene2 = new Scene(root);
@@ -33,14 +51,17 @@ public class AvailableUserPageController extends AvailableUsersPage{
 //        stage.setScene(scene);
         for(Button b : buttons){
             b.setOnAction(e -> {
-//                messageRequest="send invitaion#@$"+"chico"+"#@$"+pass+"#@$";
-//                ClientHandler.sendRequest(text);
+                messageRequest="send invitaion#@$"+"chico"+"#@";
+                ClientHandler.sendRequest(messageRequest);
+                System.out.println("clicked on invitatiiiiiiiion");
+//                 String response=  ClientHandler.getResponse();
+//                 System.out.println(response);
+                
+               
                 
                 
-                
-                
-            Scene scene2 = new Scene(new OnlinePageController(stage));
-            stage.setScene(scene2); 
+//            Scene scene2 = new Scene(new OnlinePageController(stage));
+//            stage.setScene(scene2); 
             });                 
         }
     }
