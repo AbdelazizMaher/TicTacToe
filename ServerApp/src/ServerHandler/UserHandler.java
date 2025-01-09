@@ -172,7 +172,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                 } catch (IOException ex) {
                     Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
             }
         }
     }
