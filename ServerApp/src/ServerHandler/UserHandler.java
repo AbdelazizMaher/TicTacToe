@@ -67,6 +67,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "signIn":
                         signIn();
                         break;
+                        
                     case "sendInvitaion":
                         sendInvitation();
                         break;
