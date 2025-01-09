@@ -80,8 +80,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
     private void handleClickedButtonInvitation() {
         for (Button button : buttons) {
             button.setOnAction(e -> {
-                String messageRequest = "sendInvitaion" + "#@$" + "zizo" + "#@";   //replace with playerName from listView
-                ClientHandler.sendRequest(messageRequest);
+                ClientHandler.sendRequest("sendInvitaion" + "#@$" + "zizo" + "#@"); //replace with playerName from listView
             });
         }
     }
@@ -98,12 +97,12 @@ public class AvailableUserPageController extends AvailableUsersPage {
         Platform.runLater(() -> {
             boolean isInvitationAccepted = showRequestAlert("Game Invitation", "Player " + opponent + " has invited you to a game. Do you accept?", stage);
             if (isInvitationAccepted) {
-                sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + "hello");
+                sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
 
                 Scene scene = new Scene(new OnlinePageController(stage));
                 stage.setScene(scene);
             } else {
-                sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + "hello");
+                sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
             }
         });
     }
