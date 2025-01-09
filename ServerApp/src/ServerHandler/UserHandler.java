@@ -63,9 +63,13 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "signUp":
                         signUp();
                         break;
-                        
+
                     case "signIn":
                         signIn();
+                        break;
+
+                    case "send invitaion":
+                        sendInvitation();
                         break;
                 }
 
@@ -99,18 +103,15 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void signIn() {
         String username = requestMsgTokens.nextToken();
         String password = requestMsgTokens.nextToken();
-        
+
         user = DataAccessLayer.getUser(username);
-        if(user != null && password.equals(user.getPassword())){
+        if (user != null && password.equals(user.getPassword())) {
             talker.println("Signed In");
         } else {
             talker.println("Invalid username or password");
             closeConnection();
         }
     }
-    
-        
-    
 
     @Override
     public void sendAvailablePlayers() {
@@ -118,6 +119,14 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
     @Override
     public void sendInvitation() {
+        String opponentName = requestMsgTokens.nextToken();
+        UserHandler opponent = getUserHandlerByUsername(opponentName);
+        if (opponent != null) {
+            opponent.talker.println("invitation#@$"+user.getUsername() + " has invited you to play#@$");
+            talker.println("success#@$invitation successfully sent#@$");
+        } else {
+            talker.println("Error#@$failed#@$");
+        }
     }
 
     @Override
@@ -174,4 +183,14 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             }
         }
     }
+
+    private UserHandler getUserHandlerByUsername(String username) {
+        for (UserHandler userHandler : userVector) {
+            if (userHandler.user.getUsername().equals(username)) {
+                return userHandler;
+            }
+        }
+        return null;
+    }
+
 }
