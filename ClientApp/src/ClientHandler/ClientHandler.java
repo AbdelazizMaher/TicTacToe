@@ -9,6 +9,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +24,7 @@ public class ClientHandler {
     protected static PrintStream mouth;
     private static String receivedText = null;
     private static boolean connect = false;
-
+    static String online = null;
     public ClientHandler() {
     }
 
@@ -54,7 +55,19 @@ public class ClientHandler {
         }
         return receivedText;
     }
-
+    public static String getAvailablePlayers (String text){
+        mouth.println(text);
+        Thread thread = new Thread(()->{
+            online = getResponse(); 
+        });
+        thread.start();
+        try {
+            thread.join();  
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return online;
+    }
     public static void closeConnection() {
       
             if (server != null && !server.isClosed()) {
