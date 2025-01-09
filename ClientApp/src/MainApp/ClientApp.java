@@ -5,7 +5,7 @@
  */
 package MainApp;
 
-
+import ClientHandler.ClientHandler;
 import XOControllers.LoseVideoPageController;
 import XOGame.WinVideoPage;
 import XOControllers.WinVideoPageController;
@@ -26,14 +26,18 @@ import javafx.stage.Stage;
  * @author Abdel
  */
 public class ClientApp extends Application {
+
+    HomePageController root;
+    
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = new HomePageController(stage); 
-        //Parent root = new WinVideoPageController();
+        root = new HomePageController(stage);
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        
     }
+
 
     /**
      * @param args the command line arguments
@@ -41,5 +45,5 @@ public class ClientApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
