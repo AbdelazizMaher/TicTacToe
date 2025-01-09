@@ -19,8 +19,8 @@ public class OnlinePageController extends OnlinePage{
     private boolean isPaused = false; 
     public OnlinePageController(Stage stage){
         backButton.setOnMouseClicked(e -> {
-            Scene scene2 = new Scene(new AvailableUserPageController(stage));
-            stage.setScene(scene2); 
+            Scene scene = new Scene(new AvailableUserPageController(stage));
+            stage.setScene(scene); 
         });
         recordButton.setOnMouseClicked(e -> {
             Image recImage;

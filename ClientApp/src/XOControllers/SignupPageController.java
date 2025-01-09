@@ -7,6 +7,7 @@ package XOControllers;
 
 import ClientHandler.ClientHandler;
 import XOGame.SignupPage;
+import java.util.Vector;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -54,7 +55,7 @@ public class SignupPageController extends SignupPage {
                         else{
                             showAlert("SignUp Error","Password and confirm password must be the same");
                         }
-                }   else if(name.length()<6){
+                    } else if(name.length()<6){
                         showAlert("SignUp Error","username must be at least 6 digits");
                     } else if(pass.length()<6){
                         showAlert("SignUp Error","password must be at least 6 digits");

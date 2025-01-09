@@ -5,37 +5,53 @@
  */
 package XOControllers;
 
+import static ClientHandler.ClientHandler.getResponse;
 import ClientHandler.ClientHandler;
 import static ClientHandler.ClientHandler.sendRequest;
 import XOGame.AvailableUsersPage;
-import XOGame.OnlinePage;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 /**
  *
  * @author nerme
  */
-public class AvailableUserPageController extends AvailableUsersPage {
+public class AvailableUserPageController extends AvailableUsersPage{
+    String onlineList = "";
 
     public AvailableUserPageController(Stage stage) {
+        
         backButtonEvent(stage);
         handleClickedButtonInvitation();
 
         Thread thread = new Thread(() -> {
             while (ClientHandler.isConnected()) {
+                sendRequest("sendAvailablePlayers#@$");
                 String serverResponse = ClientHandler.getResponse();
                 StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
-
                 String status = responseMsgTokens.nextToken();
                 switch (status) {
+                    case "sendAvailablePlayers":{
+                            onlineList = responseMsgTokens.nextToken();                            
+                        if(!onlineList.isEmpty()){
+                            Platform.runLater(()->{
+                            updateList();
+                            });
+                        }
+                        break;
+                    }                 
                     case "invitation":
                         String opponent = responseMsgTokens.nextToken();
                         handleInvitationRequest(opponent, stage);
@@ -70,9 +86,14 @@ public class AvailableUserPageController extends AvailableUsersPage {
                             });
                         break;
                 }
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                                break;                
+                }                    
             }
-        }
-        );
+        });
         thread.setDaemon(true);
         thread.start();
     }
@@ -128,5 +149,29 @@ public class AvailableUserPageController extends AvailableUsersPage {
         });
 
         return retVal[0];
+    }
+    public void updateList(){
+        rows.clear();
+        buttons.clear();
+        if (onlineList != null && !onlineList.isEmpty()) {
+            String[] playersArray = onlineList.substring(1, onlineList.length() - 1).split(", ");
+            for (String player : playersArray) {          
+
+                if(!player.isEmpty()){
+                    StringTokenizer info = new StringTokenizer(player, "*");
+                    VBox row = new VBox(5);
+                    Label playerName = new Label(info.nextToken());
+                    playerName.setFont(new Font("Arial", 16));
+                    Label playerScore = new Label(info.nextToken());
+                    playerScore.setFont(new Font("Arial", 14));
+                    Button inviteButton = new Button("Send Invitation");
+                    inviteButton.setStyle("-fx-background-color: transparent; -fx-text-fill: red; -fx-font-size: 14px; -fx-underline: true;");
+                    buttons.add(inviteButton);
+                    row.getChildren().addAll(playerName, playerScore, inviteButton);
+                    rows.add(row);
+                }
+            }
+            listView.getItems().setAll(rows);       
+        }
     }
 }

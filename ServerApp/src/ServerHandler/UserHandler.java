@@ -25,13 +25,13 @@ import java.util.StringTokenizer;
  */
 public class UserHandler extends Thread implements ServerRequestInterface {
 
-    public static boolean isOnline;
     Socket socket;
     DataInputStream reader;
     PrintStream talker;
     boolean isPlaying;
     String opponentName;
     static Vector<UserHandler> userVector = new Vector<UserHandler>();
+    
 
     String requestMsg;
     public StringTokenizer requestMsgTokens;
@@ -40,6 +40,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     UserHandler(Socket socket) {
         user = new UserDataModel();
         this.socket = socket;
+        
 
         try {
             reader = new DataInputStream(socket.getInputStream());
@@ -56,7 +57,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         while (true) {
             try {
                 requestMsg = reader.readLine();
-
+                if(!requestMsg.equals(null)){
                 requestMsgTokens = new StringTokenizer(requestMsg, "#@$");
                 String clientRequest = requestMsgTokens.nextToken();
                 switch (clientRequest) {
@@ -67,7 +68,11 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "signIn":
                         signIn();
                         break;
-                        
+
+                    case "sendAvailablePlayers":
+                        sendAvailablePlayers();
+                        break;
+
                     case "sendInvitaion":
                         sendInvitation();
                         break;
@@ -76,7 +81,9 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                         getInvitationResponse();
                         break;
                 }
-            } catch (IOException ex) {
+
+                }
+            }catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
                 closeConnection();
                 try {
@@ -92,11 +99,10 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void signUp() {
         user.setUsername(requestMsgTokens.nextToken());
-        user.setPassword(requestMsgTokens.nextToken());
-
+        user.setPassword(requestMsgTokens.nextToken());        
         boolean isSignedUp = DataAccessLayer.addUser(user);
         if (isSignedUp) {
-            talker.println("Signed Up");
+            talker.println("Signed Up");         
         } else {
             try {
                 talker.println("The username exists");
@@ -112,7 +118,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void signIn() {
         String username = requestMsgTokens.nextToken();
-        String password = requestMsgTokens.nextToken();
+        String password = requestMsgTokens.nextToken(); 
 
         user = DataAccessLayer.getUser(username);
         if (user != null && password.equals(user.getPassword())) {
@@ -139,7 +145,15 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     }
 
     @Override
-    public void sendAvailablePlayers() {
+    public void sendAvailablePlayers() {  
+        Vector<String> online=new Vector<String>();
+        for(UserHandler player:userVector){
+            if(!player.isPlaying && player.user != null){
+                online.add(player.user.getUsername() + "*" + player.user.getScore() + "*");
+            }
+        }
+        online.remove(this.user.getUsername() + "*" + this.user.getScore() + "*");
+        talker.println("sendAvailablePlayers#@$"+online+"#@$");
     }
 
     @Override

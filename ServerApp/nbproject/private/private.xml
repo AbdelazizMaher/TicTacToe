@@ -3,16 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/D:/TicTacToe%20Project/TicTacToe/ServerApp/src/ServerHandler/UserHandler.java</file>
-            <file>file:/D:/TicTacToe%20Project/TicTacToe/ServerApp/src/ServerHandler/ServerHandler.java</file>
-            <file>file:/D:/TicTacToe%20Project/TicTacToe/ServerApp/src/Database/DataAccessLayer.java</file>
-=======
-            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ServerApp/src/ServerHandler/ServerHandler.java</file>
-            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ServerApp/src/Database/DataAccessLayer.java</file>
-            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ServerApp/src/ServerControllers/GUIController.java</file>
-            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ServerApp/src/ServerHandler/UserHandler.java</file>
->>>>>>> 4ccced5f6e5600295b76c04a5fe6a7e79ec71b86
+            <file>file:/D:/ITI/javaProject/TicTacToe/ServerApp/src/ServerHandler/UserHandler.java</file>
+            <file>file:/D:/ITI/javaProject/TicTacToe/ServerApp/src/Database/DataAccessLayer.java</file>
         </group>
     </open-files>
 </project-private>

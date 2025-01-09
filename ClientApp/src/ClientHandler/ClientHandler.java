@@ -9,6 +9,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,18 +33,18 @@ public class ClientHandler {
             server = new Socket("127.0.0.1", 5005);
             ear = new DataInputStream(server.getInputStream());
             mouth = new PrintStream(server.getOutputStream());
-            mouth.println(info);
+            sendRequest(info);
             connected = true;
         } catch (IOException ex) {
             connected = false;
         }
         return connected;
     }
-
-    public static void sendRequest(String text) {
-        mouth.println(text); // Send the request
+    
+     public static void sendRequest(String text) {
+        mouth.println(text);
     }
-
+   
     public static String getResponse() {
         try {
             receivedText = ear.readLine();
@@ -52,6 +53,7 @@ public class ClientHandler {
         return receivedText;
     }
 
+    
     public static void closeConnection() {
         if (server != null && !server.isClosed()) {
             try {
