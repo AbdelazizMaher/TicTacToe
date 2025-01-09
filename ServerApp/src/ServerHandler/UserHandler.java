@@ -118,8 +118,14 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         if (user != null && password.equals(user.getPassword())) {
             talker.println("Signed In");
         } else {
-            talker.println("Invalid username or password");
-            closeConnection();
+            try {
+                talker.println("Invalid username or password");
+                closeConnection();
+                stop();
+                join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
