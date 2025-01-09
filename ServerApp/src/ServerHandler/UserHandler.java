@@ -64,18 +64,34 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "signUp":
                         signUp();
                         break;
-                        
+
                     case "signIn":
                         signIn();
                         break;
+
                     case "sendAvailablePlayers":
                         sendAvailablePlayers();
                         break;
+
+                    case "sendInvitaion":
+                        sendInvitation();
+                        break;
+
+                    case "invitationResponse":
+                        getInvitationResponse();
+                        break;
                 }
+
                 }
-            } catch (IOException ex) {
+            }catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
                 closeConnection();
+                try {
+                    stop();
+                    join();
+                } catch (InterruptedException ex1) {
+                    Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex1);
+                }
             }
         }
     }
@@ -88,8 +104,14 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         if (isSignedUp) {
             talker.println("Signed Up");         
         } else {
-            talker.println("The username exists");
-            closeConnection();
+            try {
+                talker.println("The username exists");
+                closeConnection();
+                stop();
+                join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -97,15 +119,15 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void signIn() {
         String username = requestMsgTokens.nextToken();
         String password = requestMsgTokens.nextToken(); 
+
         user = DataAccessLayer.getUser(username);
-        if(user != null && password.equals(user.getPassword())){
+        if (user != null && password.equals(user.getPassword())) {
             talker.println("Signed In");
         } else {
             talker.println("Invalid username or password");
             closeConnection();
         }
     }
-
 
     @Override
     public void sendAvailablePlayers() {  
@@ -117,15 +139,33 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         }
         online.remove(this.user.getUsername() + "#@$" + this.user.getScore() + "#@$");
         System.out.println(online);
-        talker.println(online);
+        talker.println("sendAvailablePlayers#@$"+online);
     }
 
     @Override
     public void sendInvitation() {
+        String opponentName = requestMsgTokens.nextToken();
+
+        UserHandler opponent = getOpponentHandler(opponentName);
+        if (opponent != null) {
+            opponent.talker.println("invitation" + "#@$" + user.getUsername());
+        } else {
+            talker.println("Error" + "#@$" + "failed");
+        }
     }
 
     @Override
-    public void getInvetation() {
+    public void getInvitationResponse() {
+        String response = requestMsgTokens.nextToken();
+        if (response.equals("accept")) {
+            isPlaying = true;
+            opponentName = requestMsgTokens.nextToken();
+            setOpponent(opponentName, user.getUsername());
+
+            getOpponentOutputStream(opponentName).println("accepted" + "#@$" + user.getUsername());
+        } else {
+            getOpponentOutputStream(opponentName).println("declined" + "#@$" + user.getUsername());
+        }
     }
 
     @Override
@@ -158,6 +198,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             talker.close();
             reader.close();
             userVector.remove(this);
+            System.out.println("here");
         } catch (IOException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -173,8 +214,36 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                 } catch (IOException ex) {
                     Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
             }
         }
+    }
+
+    private void setOpponent(String name, String opponent) {
+        for (UserHandler userHandler : userVector) {
+            if (userHandler.user.getUsername().equals(name)) {
+                userHandler.opponentName = opponent;
+                break;
+            }
+        }
+    }
+
+    private PrintStream getOpponentOutputStream(String username) {
+        PrintStream ps = null;
+        for (UserHandler userHandler : userVector) {
+            if (userHandler.user.getUsername().equals(username)) {
+                ps = userHandler.talker;
+                break;
+            }
+        }
+        return ps;
+    }
+
+    private UserHandler getOpponentHandler(String username) {
+        for (UserHandler userHandler : userVector) {
+            if (userHandler.user.getUsername().equals(username)) {
+                return userHandler;
+            }
+        }
+        return null;
     }
 }

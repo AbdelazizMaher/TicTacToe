@@ -23,8 +23,8 @@ public class ClientHandler {
     protected static DataInputStream ear;
     protected static PrintStream mouth;
     private static String receivedText = null;
-    private static boolean connect = false;
-    
+    private static boolean connected = false;
+
     public ClientHandler() {
     }
 
@@ -34,11 +34,11 @@ public class ClientHandler {
             ear = new DataInputStream(server.getInputStream());
             mouth = new PrintStream(server.getOutputStream());
             sendRequest(info);
-            connect = true;
+            connected = true;
         } catch (IOException ex) {
-            connect = false;
+            connected = false;
         }
-        return connect;
+        return connected;
     }
     
      public static void sendRequest(String text) {
@@ -55,17 +55,22 @@ public class ClientHandler {
 
     
     public static void closeConnection() {
-      
-            if (server != null && !server.isClosed()) {
-                try {
-                    server.close();
-                    mouth.close();
-                    ear.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        if (server != null && !server.isClosed()) {
+            try {
+                server.close();
+                mouth.close();
+                ear.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
-        
+        }
     }
-
+    
+    public static boolean isConnected() {
+        return connected;
+    }
+    
+    public static void setConnected(boolean connected) {
+        ClientHandler.connected = connected;
+    }
 }
