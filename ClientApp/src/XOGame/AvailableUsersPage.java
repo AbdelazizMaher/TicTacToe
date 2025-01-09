@@ -21,9 +21,9 @@ public class AvailableUsersPage extends AnchorPane {
     protected final ArrayList<Button> buttons;
     protected final Label label;
     protected final ScrollPane scrollPane;
-    public final ListView<VBox> listView;
+    public  ListView<VBox> listView;
     protected final ImageView imageView;
-
+    protected ArrayList<VBox> rows = new ArrayList<>();
     public AvailableUsersPage() {
         vBox = new VBox();
         anchorPane = new AnchorPane();
@@ -77,19 +77,7 @@ public class AvailableUsersPage extends AnchorPane {
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         // Populate ListView
-        ArrayList<VBox> rows = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            VBox row = new VBox(5);
-            Label playerName = new Label("Player " + (i + 1));
-            playerName.setFont(new Font("Arial", 16));
-            Label playerScore = new Label("Score: " + ((i + 2) * 20 + 60));
-            playerScore.setFont(new Font("Arial", 14));
-            Button inviteButton = new Button("Send Invitation");
-            inviteButton.setStyle("-fx-background-color: transparent; -fx-text-fill: red; -fx-font-size: 14px; -fx-underline: true;");
-            buttons.add(inviteButton);
-            row.getChildren().addAll(playerName, playerScore, inviteButton);
-            rows.add(row);
-        }
+  
         listView.getItems().addAll(rows);
 
         // Add ListView to ScrollPane
