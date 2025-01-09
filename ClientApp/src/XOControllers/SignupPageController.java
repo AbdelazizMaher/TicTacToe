@@ -21,7 +21,7 @@ public class SignupPageController extends SignupPage {
     public SignupPageController(Stage stage) {
         registerButton.setOnAction(e -> {
             String name = usernameTextField.getText().trim();
-            String pass = passwordTextField.getText().trim();
+            String pass = passwordTextField.getText().trim();;
             String conf = confirmPasswordTextField.getText().trim();
             String info = "signUp#@$"+name+"#@$"+pass+"#@$";
             if(!name.isEmpty() && !pass.isEmpty() && !conf.isEmpty()){
