@@ -2,21 +2,19 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+
         <group>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
             <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOControllers/LoginPageController.java</file>
             <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/ClientHandler/ClientHandler.java</file>
             <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOControllers/SignupPageController.java</file>
-=======
-            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOControllers/SignupPageController.java</file>
->>>>>>> 4ccced5f6e5600295b76c04a5fe6a7e79ec71b86
-=======
+
             <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/PopUpLogOutController.java</file>
             <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/SignupPageController.java</file>
             <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/HomePageController.java</file>
             <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOGame/HomePage.java</file>
->>>>>>> eee75b56d58e64ac6008986b0df81bf3ada7a8e4
-        </group>
+
+        <group/>
+
     </open-files>
 </project-private>
