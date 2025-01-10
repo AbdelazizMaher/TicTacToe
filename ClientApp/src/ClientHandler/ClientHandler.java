@@ -57,7 +57,7 @@ public class ClientHandler {
     public static void closeConnection() {
     if (server != null && !server.isClosed()) {
         try {
-               server.close();
+                server.close();
                 mouth.close();
                 ear.close();
             } catch (IOException ex) {

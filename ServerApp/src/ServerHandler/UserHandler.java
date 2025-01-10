@@ -80,6 +80,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "invitationResponse":
                         getInvitationResponse();
                         break;
+                        
                     case "logout":
                         logout();
                         break;
