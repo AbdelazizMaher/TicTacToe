@@ -8,15 +8,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+import XOGame.OfflinePage;
 import java.util.function.BiConsumer;
 import javafx.scene.control.Alert;
 
 public class PopUpPage {
 
     private final Stage dialog;
-    private final TextField username1;
-    private final TextField username2;
+    public static TextField username1;
+    public static TextField username2;
 
     public PopUpPage(Stage owner, BiConsumer<String, String> onCloseClicked) {
         dialog = new Stage();
@@ -39,6 +39,7 @@ public class PopUpPage {
             String user1 = username1.getText().trim();
             String user2 = username2.getText().trim();
             if (!user1.isEmpty() && !user2.isEmpty() && !user1.equals(user2)) {
+                OfflinePage.updatePlayerLabels(user1,user2);
                 dialog.close();
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);

@@ -25,13 +25,13 @@ import java.util.StringTokenizer;
  */
 public class UserHandler extends Thread implements ServerRequestInterface {
 
-    public static boolean isOnline;
     Socket socket;
     DataInputStream reader;
     PrintStream talker;
     boolean isPlaying;
     String opponentName;
     static Vector<UserHandler> userVector = new Vector<UserHandler>();
+    
 
     String requestMsg;
     public StringTokenizer requestMsgTokens;
@@ -40,6 +40,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     UserHandler(Socket socket) {
         user = new UserDataModel();
         this.socket = socket;
+        
 
         try {
             reader = new DataInputStream(socket.getInputStream());
@@ -54,11 +55,11 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void run() {
         while (true) {
-            try {
+            try {               
                 requestMsg = reader.readLine();
-
+                if(!requestMsg.equals(null)){
                 requestMsgTokens = new StringTokenizer(requestMsg, "#@$");
-                String clientRequest = requestMsgTokens.nextToken();
+                String clientRequest = requestMsgTokens.nextToken();               
                 switch (clientRequest) {
                     case "signUp":
                         signUp();
@@ -67,6 +68,11 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "signIn":
                         signIn();
                         break;
+
+                    case "sendAvailablePlayers":
+                        sendAvailablePlayers();
+                        break;
+
                     case "sendInvitaion":
                         sendInvitation();
                         break;
@@ -74,8 +80,13 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "invitationResponse":
                         getInvitationResponse();
                         break;
+                    case "logout":
+                        logout();
+                        break;
                 }
-            } catch (IOException ex) {
+
+                }
+            }catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
                 closeConnection();
                 try {
@@ -91,11 +102,10 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void signUp() {
         user.setUsername(requestMsgTokens.nextToken());
-        user.setPassword(requestMsgTokens.nextToken());
-
+        user.setPassword(requestMsgTokens.nextToken());        
         boolean isSignedUp = DataAccessLayer.addUser(user);
         if (isSignedUp) {
-            talker.println("Signed Up");
+            talker.println("Signed Up");         
         } else {
             try {
                 talker.println("The username exists");
@@ -111,25 +121,55 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void signIn() {
         String username = requestMsgTokens.nextToken();
-        String password = requestMsgTokens.nextToken();
+        String password = requestMsgTokens.nextToken(); 
 
         user = DataAccessLayer.getUser(username);
         if (user != null && password.equals(user.getPassword())) {
             talker.println("Signed In");
+        } else if(user != null && !password.equals(user.getPassword())){
+            try {
+                talker.println("Invalid password!");
+                closeConnection();
+                stop();
+                join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
-            talker.println("Invalid username or password");
-            closeConnection();
+            try {
+                talker.println("Invalid username!");
+                closeConnection();
+                stop();
+                join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     @Override
-    public void sendAvailablePlayers() {
+    public void sendAvailablePlayers() {  
+        Vector<String> online=new Vector<String>();  
+        for(UserHandler player:userVector){
+            if(!player.isPlaying && player.user != null){
+                online.add(player.user.getUsername() + "*" + player.user.getScore() + "*");
+            }           
+        }
+        sendListToAll(online);
+    }
+    void sendListToAll(Vector<String> online)
+    {
+        for (UserHandler client : userVector) {
+                Vector<String> list = new Vector<>(online);
+                list.remove(client.user.getUsername() + "*" + client.user.getScore() + "*");
+                String msg = "sendAvailablePlayers#@$"+list+"#@$";
+                client.talker.println(msg);
+        }
     }
 
     @Override
     public void sendInvitation() {
         String opponentName = requestMsgTokens.nextToken();
-
         UserHandler opponent = getOpponentHandler(opponentName);
         if (opponent != null) {
             opponent.talker.println("invitation" + "#@$" + user.getUsername());
@@ -141,12 +181,14 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void getInvitationResponse() {
         String response = requestMsgTokens.nextToken();
-        if (response.equals("accept")) {
+        if (response.equals("accept")) { 
             isPlaying = true;
             opponentName = requestMsgTokens.nextToken();
             setOpponent(opponentName, user.getUsername());
-
+            UserHandler opponent = getOpponentHandler(opponentName);
+            opponent.isPlaying=true;
             getOpponentOutputStream(opponentName).println("accepted" + "#@$" + user.getUsername());
+            sendAvailablePlayers();
         } else {
             getOpponentOutputStream(opponentName).println("declined" + "#@$" + user.getUsername());
         }
@@ -170,6 +212,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
     @Override
     public void logout() {
+        closeConnection();
     }
 
     @Override
@@ -182,7 +225,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             talker.close();
             reader.close();
             userVector.remove(this);
-            System.out.println("here");
         } catch (IOException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }

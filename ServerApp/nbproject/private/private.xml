@@ -4,6 +4,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <file>file:/D:/TicTacToe%20Project/TicTacToe/ServerApp/src/ServerHandler/UserHandler.java</file>
             <file>file:/D:/TicTacToe%20Project/TicTacToe/ServerApp/src/ServerHandler/ServerHandler.java</file>
             <file>file:/D:/TicTacToe%20Project/TicTacToe/ServerApp/src/Database/DataAccessLayer.java</file>
@@ -13,6 +14,9 @@
             <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ServerApp/src/ServerControllers/GUIController.java</file>
             <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ServerApp/src/ServerHandler/UserHandler.java</file>
 >>>>>>> 4ccced5f6e5600295b76c04a5fe6a7e79ec71b86
+=======
+            <file>file:/D:/ITI/javaProject/TicTacToe/ServerApp/src/ServerHandler/UserHandler.java</file>
+>>>>>>> eee75b56d58e64ac6008986b0df81bf3ada7a8e4
         </group>
     </open-files>
 </project-private>

@@ -9,20 +9,24 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import static XOGame.PopUpPage.username1;
+import static XOGame.PopUpPage.username2;
 
 public abstract class OfflinePage extends AnchorPane {
     private int score1;
     private int score2;
     private Button[][] buttons = new Button[3][3];
-    private String playerX = "Player1";
-    private String playerO = "Player2";
+    public String playerX = "Player1";
+    public String playerO = "Player2";
     protected Button backButton;
     protected Button replayButton;
     protected Button recordButton;
+    static Label playerXLabel;
+    static Label playerOLabel;
     public OfflinePage() {
         score1 = 0;
         score2 = 0;
-
+        
         // Create the AnchorPane
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefHeight(200);
@@ -112,13 +116,13 @@ public abstract class OfflinePage extends AnchorPane {
         playerXAnchorPane.setPrefWidth(780);
 
         // Player X Label
-        Label playerXLabel = new Label(playerX + " - X");
+        playerXLabel = new Label(playerX + " - X");
         playerXLabel.setTextFill(javafx.scene.paint.Color.BLACK);
         playerXLabel.setFont(new Font("Arial BOLD", 22));
         AnchorPane.setLeftAnchor(playerXLabel, 10.0); // Fixed position from the left
 
         // Player O Label
-        Label playerOLabel = new Label(playerO + " - O");
+        playerOLabel = new Label(playerO + " - O");
         playerOLabel.setFont(new Font("Arial BOLD", 22));
         playerOLabel.setTextFill(javafx.scene.paint.Color.BLACK);
         AnchorPane.setRightAnchor(playerOLabel, 10.0); // Fixed position from the right
@@ -174,4 +178,11 @@ public abstract class OfflinePage extends AnchorPane {
         setPrefSize(780, 580);
         getChildren().add(anchorPane);
     }
+
+    public static void updatePlayerLabels(String player1,String player2) {
+        playerXLabel.setText(player1 + " - X");
+        playerOLabel.setText(player2 + " - O");
+    }
+
+
 }

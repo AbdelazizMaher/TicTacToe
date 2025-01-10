@@ -2,6 +2,7 @@ package XOGame;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
@@ -16,7 +17,7 @@ public abstract class LoginPage extends AnchorPane {
     protected final ImageView imageView;
     protected final AnchorPane anchorPane;
     protected final TextField usernameTextField;
-    protected final TextField passwordTextField;
+    protected final PasswordField passwordTextField;
     protected final ToggleButton loginButton;
     protected final Text text;
     protected final Label registerLabel;
@@ -32,7 +33,7 @@ public abstract class LoginPage extends AnchorPane {
         imageView = new ImageView();
         anchorPane = new AnchorPane();
         usernameTextField = new TextField();
-        passwordTextField = new TextField();
+        passwordTextField = new PasswordField();
         loginButton = new ToggleButton();
         text = new Text();
         registerLabel = new Label();
