@@ -55,11 +55,11 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void run() {
         while (true) {
-            try {
+            try {               
                 requestMsg = reader.readLine();
                 if(!requestMsg.equals(null)){
                 requestMsgTokens = new StringTokenizer(requestMsg, "#@$");
-                String clientRequest = requestMsgTokens.nextToken();
+                String clientRequest = requestMsgTokens.nextToken();               
                 switch (clientRequest) {
                     case "signUp":
                         signUp();
@@ -149,15 +149,22 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
     @Override
     public void sendAvailablePlayers() {  
-        Vector<String> online=new Vector<String>();
-        
+        Vector<String> online=new Vector<String>();  
         for(UserHandler player:userVector){
             if(!player.isPlaying && player.user != null){
                 online.add(player.user.getUsername() + "*" + player.user.getScore() + "*");
-            }
+            }           
         }
-        online.remove(this.user.getUsername() + "*" + this.user.getScore() + "*");
-        talker.println("sendAvailablePlayers#@$"+online+"#@$");
+        sendListToAll(online);
+    }
+    void sendListToAll(Vector<String> online)
+    {
+        for (UserHandler client : userVector) {
+                Vector<String> list = new Vector<>(online);
+                list.remove(client.user.getUsername() + "*" + client.user.getScore() + "*");
+                String msg = "sendAvailablePlayers#@$"+list+"#@$";
+                client.talker.println(msg);
+        }
     }
 
     @Override
@@ -174,12 +181,14 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void getInvitationResponse() {
         String response = requestMsgTokens.nextToken();
-        if (response.equals("accept")) {
+        if (response.equals("accept")) { 
             isPlaying = true;
             opponentName = requestMsgTokens.nextToken();
             setOpponent(opponentName, user.getUsername());
-
+            UserHandler opponent = getOpponentHandler(opponentName);
+            opponent.isPlaying=true;
             getOpponentOutputStream(opponentName).println("accepted" + "#@$" + user.getUsername());
+            sendAvailablePlayers();
         } else {
             getOpponentOutputStream(opponentName).println("declined" + "#@$" + user.getUsername());
         }

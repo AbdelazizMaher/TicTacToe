@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/AvailableUserPageController.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/OnlinePageController.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOGame/AvailableUsersPage.java</file>
+            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/PopUpLogOutController.java</file>
             <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/SignupPageController.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/ClientHandler/ClientHandler.java</file>
+            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/HomePageController.java</file>
+            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOGame/HomePage.java</file>
         </group>
     </open-files>
 </project-private>

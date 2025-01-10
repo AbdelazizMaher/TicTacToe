@@ -10,8 +10,6 @@ import ClientHandler.ClientHandler;
 import static ClientHandler.ClientHandler.sendRequest;
 import XOGame.AvailableUsersPage;
 import static XOGame.HomePage.username;
-import static XOGame.OnlinePage.playerX;
-import static XOGame.OnlinePage.playerO;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,89 +31,87 @@ import javafx.scene.text.Font;
  */
 public class AvailableUserPageController extends AvailableUsersPage{
     String onlineList = "";
-    String opponentName;
+    static String opponentName="";
+    Thread thread;
     public AvailableUserPageController(Stage stage) {
-        
+        sendRequest("sendAvailablePlayers#@$");
         backButtonEvent(stage);
-        Thread thread = new Thread(() -> {
-            while (ClientHandler.isConnected()) {
-                sendRequest("sendAvailablePlayers#@$");
-                String serverResponse = ClientHandler.getResponse();
-                StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
-                String status = responseMsgTokens.nextToken();
-                switch (status) {
-                    case "sendAvailablePlayers":{
-                            onlineList = responseMsgTokens.nextToken();                            
-                        if(!onlineList.isEmpty()){
-                            Platform.runLater(()->{
-                            updateList();
+        if (thread == null || !thread.isAlive()) {
+            thread = new Thread(() -> {
+                while (ClientHandler.isConnected()) {               
+                    String serverResponse = ClientHandler.getResponse();
+                    StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
+                    String status = responseMsgTokens.nextToken();
+                    switch (status) {
+                        case "sendAvailablePlayers":{
+                                onlineList = responseMsgTokens.nextToken();                            
+                            if(!onlineList.isEmpty()){
+                                Platform.runLater(()->{
+                                updateList();
+                                });
+                            }
+                            break;
+                        }                 
+                        case "invitation":                       
+                            String opponent = responseMsgTokens.nextToken();
+                            handleInvitationRequest(opponent, stage);
+                            break;
+                        case "accepted":
+                            Platform.runLater(() -> {
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.initOwner(stage);
+                                alert.setTitle("Accepted");
+                                alert.setContentText("your inivitation has been accepted");
+                                alert.showAndWait();
+                                System.out.println("user"+username);
+                                System.out.println("opp2"+opponentName);
+                                Scene scene = new Scene(new OnlinePageController(stage,opponentName));
+                                stage.setScene(scene);
                             });
-                        }
-                        break;
-                    }                 
-                    case "invitation":                       
-                        String opponent = responseMsgTokens.nextToken();
-                        opponentName=opponent;
-                        handleInvitationRequest(opponent, stage);
-                        break;
-                    case "accepted":
-                        Platform.runLater(() -> {
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.initOwner(stage);
-                            alert.setTitle("Accepted");
-                            alert.setContentText("your inivitation has been accepted");
-                            alert.showAndWait();
-                            playerX = username;
-                            playerO = opponentName;
-                            Scene scene = new Scene(new OnlinePageController(stage));
-                            stage.setScene(scene);
-                        });
-                        break;
-                    case "declined":
-                        Platform.runLater(() -> {
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.initOwner(stage);
-                            alert.setTitle("declined");
-                            alert.setContentText("your inivitation has been declined");
-                            alert.showAndWait();
-                        });
-                        break;
-                    case "Error":
-                        Platform.runLater(() -> {
+                            break;
+                        case "declined":
+                            Platform.runLater(() -> {
                                 Alert alert = new Alert(Alert.AlertType.ERROR);
                                 alert.initOwner(stage);
-                                alert.setTitle("Error");
-                                alert.setContentText("Failed to connect to client");
+                                alert.setTitle("declined");
+                                alert.setContentText("your inivitation has been declined");
                                 alert.showAndWait();
                             });
-                        break;
+                            break;
+                        case "Error":
+                            Platform.runLater(() -> {
+                                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                                    alert.initOwner(stage);
+                                    alert.setTitle("Error");
+                                    alert.setContentText("Failed to connect to client");
+                                    alert.showAndWait();
+                                });
+                            break;
+                    }                   
                 }
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                                break;                
-                }                    
-            }
-        });
-        thread.setDaemon(true);
-        thread.start();
+            });
+            thread.setDaemon(true);
+            thread.start();
+        }       
     }
 
-    private void handleClickedButtonInvitation(String player) {
-   
-        for (Button button : buttons) {
-            button.setOnAction(e -> {
-                ClientHandler.sendRequest("sendInvitaion" + "#@$" + player + "#@"); //replace with playerName from listView
+    private void handleClickedButtonInvitation(Button button,String player) {           
+               button.setOnAction(e -> {
+               opponentName=player;
+               System.out.println("new"+opponentName);
+               ClientHandler.sendRequest("sendInvitaion" + "#@$" + player + "#@$"); //replace with playerName from listView
             });
-        }
     }
 
     private void backButtonEvent(Stage stage) {
         backButton.setOnMouseClicked(e -> {
+            Platform.runLater(() -> {
+            rows.clear();
+            buttons.clear();           
             HomePageController root = new HomePageController(stage);
             Scene scene2 = new Scene(root);
             stage.setScene(scene2);
+        });
         });
     }
 
@@ -124,8 +120,7 @@ public class AvailableUserPageController extends AvailableUsersPage{
             boolean isInvitationAccepted = showRequestAlert("Game Invitation", "Player " + opponent + " has invited you to a game. Do you accept?", stage);
             if (isInvitationAccepted) {
                 sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
-
-                Scene scene = new Scene(new OnlinePageController(stage));
+                Scene scene = new Scene(new OnlinePageController(stage,opponent));
                 stage.setScene(scene);
             } else {
                 sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
@@ -174,7 +169,7 @@ public class AvailableUserPageController extends AvailableUsersPage{
                     buttons.add(inviteButton);
                     row.getChildren().addAll(playerName, playerScore, inviteButton);
                     rows.add(row);
-                    handleClickedButtonInvitation(playerName.getText());
+                    handleClickedButtonInvitation(inviteButton,playerName.getText());
                 }
             }
             listView.getItems().setAll(rows);       
