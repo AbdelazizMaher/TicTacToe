@@ -9,7 +9,9 @@ import static ClientHandler.ClientHandler.getResponse;
 import ClientHandler.ClientHandler;
 import static ClientHandler.ClientHandler.sendRequest;
 import XOGame.AvailableUsersPage;
-import static XOGame.HomePage.username;
+import static XOGame.HomePage.userName;
+import static XOGame.OnlinePage.playerO;
+import static XOGame.OnlinePage.playerX;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,6 +42,7 @@ public class AvailableUserPageController extends AvailableUsersPage{
             thread = new Thread(() -> {
                 while (ClientHandler.isConnected()) {               
                     String serverResponse = ClientHandler.getResponse();
+                    System.out.println("serverResponse"+serverResponse);
                     StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
                     String status = responseMsgTokens.nextToken();
                     switch (status) {
@@ -54,6 +57,7 @@ public class AvailableUserPageController extends AvailableUsersPage{
                         }                 
                         case "invitation":                       
                             String opponent = responseMsgTokens.nextToken();
+                            opponentName = opponent;
                             handleInvitationRequest(opponent, stage);
                             break;
                         case "accepted":
@@ -63,8 +67,9 @@ public class AvailableUserPageController extends AvailableUsersPage{
                                 alert.setTitle("Accepted");
                                 alert.setContentText("your inivitation has been accepted");
                                 alert.showAndWait();
-                                System.out.println("user"+username);
-                                System.out.println("opp2"+opponentName);
+                                opponentName = responseMsgTokens.nextToken();
+                                playerX=userName;
+                                playerO=opponentName;
                                 Scene scene = new Scene(new OnlinePageController(stage,opponentName));
                                 stage.setScene(scene);
                             });
@@ -97,8 +102,6 @@ public class AvailableUserPageController extends AvailableUsersPage{
 
     private void handleClickedButtonInvitation(Button button,String player) {           
                button.setOnAction(e -> {
-               opponentName=player;
-               System.out.println("new"+opponentName);
                ClientHandler.sendRequest("sendInvitaion" + "#@$" + player + "#@$"); //replace with playerName from listView
             });
     }
@@ -119,6 +122,8 @@ public class AvailableUserPageController extends AvailableUsersPage{
         Platform.runLater(() -> {
             boolean isInvitationAccepted = showRequestAlert("Game Invitation", "Player " + opponent + " has invited you to a game. Do you accept?", stage);
             if (isInvitationAccepted) {
+                playerX=userName;
+                playerO=opponentName;
                 sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
                 Scene scene = new Scene(new OnlinePageController(stage,opponent));
                 stage.setScene(scene);

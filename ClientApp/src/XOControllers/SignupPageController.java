@@ -33,7 +33,7 @@ public class SignupPageController extends SignupPage {
                             Thread thread = new Thread(()->{ 
                                 String message = ClientHandler.getResponse();
                                 if(message.equals("Signed Up")){
-                                        HomePage.username = name;
+                                        HomePage.userName = name;
                                         Platform.runLater(()->{
                                             Scene scene = new Scene(new AvailableUserPageController(stage));
                                             stage.setScene(scene);
