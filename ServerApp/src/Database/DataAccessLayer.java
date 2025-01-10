@@ -76,4 +76,20 @@ public class DataAccessLayer {
         }
         return null;
     }
+    
+     public static int getNumberOfUsers() {
+          PreparedStatement statment;
+
+        try {    
+            statment = connection.prepareStatement("SELECT COUNT(*) AS TOTAL FROM USERS");
+            rs = statment.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("TOTAL");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getLocalizedMessage());
+        }
+        return -1;
+    }
+    
 }
