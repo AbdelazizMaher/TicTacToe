@@ -28,13 +28,13 @@ import javafx.scene.text.Font;
  *
  * @author nerme
  */
-public class AvailableUserPageController extends AvailableUsersPage{
+public class AvailableUserPageController extends AvailableUsersPage {
+
     String onlineList = "";
 
     public AvailableUserPageController(Stage stage) {
-        
+
         backButtonEvent(stage);
-        handleClickedButtonInvitation();
 
         Thread thread = new Thread(() -> {
             while (ClientHandler.isConnected()) {
@@ -43,15 +43,15 @@ public class AvailableUserPageController extends AvailableUsersPage{
                 StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
                 String status = responseMsgTokens.nextToken();
                 switch (status) {
-                    case "sendAvailablePlayers":{
-                            onlineList = responseMsgTokens.nextToken();                            
-                        if(!onlineList.isEmpty()){
-                            Platform.runLater(()->{
-                            updateList();
+                    case "sendAvailablePlayers": {
+                        onlineList = responseMsgTokens.nextToken();
+                        if (!onlineList.isEmpty()) {
+                            Platform.runLater(() -> {
+                                updateList();
                             });
                         }
                         break;
-                    }                 
+                    }
                     case "invitation":
                         String opponent = responseMsgTokens.nextToken();
                         handleInvitationRequest(opponent, stage);
@@ -78,32 +78,30 @@ public class AvailableUserPageController extends AvailableUsersPage{
                         break;
                     case "Error":
                         Platform.runLater(() -> {
-                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                alert.initOwner(stage);
-                                alert.setTitle("Error");
-                                alert.setContentText("Failed to connect to client");
-                                alert.showAndWait();
-                            });
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.initOwner(stage);
+                            alert.setTitle("Error");
+                            alert.setContentText("Failed to connect to client");
+                            alert.showAndWait();
+                        });
                         break;
                 }
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
-                                break;                
-                }                    
+                    break;
+                }
             }
         });
         thread.setDaemon(true);
         thread.start();
     }
 
-    private void handleClickedButtonInvitation() {
-        for (Button button : buttons) {
-            button.setOnAction(e -> {
-                ClientHandler.sendRequest("sendInvitaion" + "#@$" + "zizo" + "#@"); //replace with playerName from listView
-            });
-        }
+    private void handleClickedButtonInvitation(Button inviteButton, String player) {
+        inviteButton.setOnAction(e -> {
+            ClientHandler.sendRequest("sendInvitaion" + "#@$" + player + "#@"); //replace with playerName from listView
+        });
     }
 
     private void backButtonEvent(Stage stage) {
@@ -150,14 +148,15 @@ public class AvailableUserPageController extends AvailableUsersPage{
 
         return retVal[0];
     }
-    public void updateList(){
+
+    public void updateList() {
         rows.clear();
         buttons.clear();
         if (onlineList != null && !onlineList.isEmpty()) {
             String[] playersArray = onlineList.substring(1, onlineList.length() - 1).split(", ");
-            for (String player : playersArray) {          
+            for (String player : playersArray) {
 
-                if(!player.isEmpty()){
+                if (!player.isEmpty()) {
                     StringTokenizer info = new StringTokenizer(player, "*");
                     VBox row = new VBox(5);
                     Label playerName = new Label(info.nextToken());
@@ -169,9 +168,10 @@ public class AvailableUserPageController extends AvailableUsersPage{
                     buttons.add(inviteButton);
                     row.getChildren().addAll(playerName, playerScore, inviteButton);
                     rows.add(row);
+                    handleClickedButtonInvitation(inviteButton, playerName.getText());
                 }
             }
-            listView.getItems().setAll(rows);       
+            listView.getItems().setAll(rows);
         }
     }
 }
