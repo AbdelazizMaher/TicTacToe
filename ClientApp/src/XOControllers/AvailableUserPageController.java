@@ -35,15 +35,18 @@ public class AvailableUserPageController extends AvailableUsersPage {
 
     String onlineList = "";
     String opponentName;
+
     public AvailableUserPageController(Stage stage) {
 
         backButtonEvent(stage);
 
         Thread thread = new Thread(() -> {
-            while (ClientHandler.isConnected()) {
-                sendRequest("sendAvailablePlayers#@$");
+            sendRequest("sendAvailablePlayers#@$");
+            
+            while (ClientHandler.isConnected()) {               
                 String serverResponse = ClientHandler.getResponse();
                 StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
+                
                 String status = responseMsgTokens.nextToken();
                 switch (status) {
                     case "sendAvailablePlayers": {
@@ -54,10 +57,10 @@ public class AvailableUserPageController extends AvailableUsersPage {
                             });
                         }
                         break;
-                    }                 
-                    case "invitation":                       
+                    }
+                    case "invitation":
                         String opponent = responseMsgTokens.nextToken();
-                        opponentName=opponent;
+                        opponentName = opponent;
                         handleInvitationRequest(opponent, stage);
                         break;
                     case "accepted":
@@ -92,25 +95,16 @@ public class AvailableUserPageController extends AvailableUsersPage {
                         });
                         break;
                 }
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                    break;
-                }
             }
         });
         thread.setDaemon(true);
         thread.start();
     }
 
-    private void handleClickedButtonInvitation(String player) {
-   
-        for (Button button : buttons) {
-            button.setOnAction(e -> {
-                ClientHandler.sendRequest("sendInvitaion" + "#@$" + player + "#@"); //replace with playerName from listView
-            });
-        }
+    private void handleClickedButtonInvitation(Button inviteButton, String player) {
+        inviteButton.setOnAction(e -> {
+            ClientHandler.sendRequest("sendInvitaion" + "#@$" + player + "#@"); 
+        });
     }
 
     private void backButtonEvent(Stage stage) {
@@ -178,7 +172,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
                     row.getChildren().addAll(playerName, playerScore, inviteButton);
                     rows.add(row);
 
-                    handleClickedButtonInvitation(playerName.getText());
+                    handleClickedButtonInvitation(inviteButton, playerName.getText());
                 }
             }
             listView.getItems().setAll(rows);
