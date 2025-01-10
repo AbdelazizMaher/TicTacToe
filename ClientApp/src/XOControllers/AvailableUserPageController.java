@@ -9,6 +9,9 @@ import static ClientHandler.ClientHandler.getResponse;
 import ClientHandler.ClientHandler;
 import static ClientHandler.ClientHandler.sendRequest;
 import XOGame.AvailableUsersPage;
+import static XOGame.HomePage.username;
+import static XOGame.OnlinePage.playerX;
+import static XOGame.OnlinePage.playerO;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,7 +33,7 @@ import javafx.scene.text.Font;
  */
 public class AvailableUserPageController extends AvailableUsersPage{
     String onlineList = "";
-
+    String opponentName;
     public AvailableUserPageController(Stage stage) {
         
         backButtonEvent(stage);
@@ -50,8 +53,9 @@ public class AvailableUserPageController extends AvailableUsersPage{
                         }
                         break;
                     }                 
-                    case "invitation":
+                    case "invitation":                       
                         String opponent = responseMsgTokens.nextToken();
+                        opponentName=opponent;
                         handleInvitationRequest(opponent, stage);
                         break;
                     case "accepted":
@@ -61,6 +65,8 @@ public class AvailableUserPageController extends AvailableUsersPage{
                             alert.setTitle("Accepted");
                             alert.setContentText("your inivitation has been accepted");
                             alert.showAndWait();
+                            playerX = username;
+                            playerO = opponentName;
                             Scene scene = new Scene(new OnlinePageController(stage));
                             stage.setScene(scene);
                         });
