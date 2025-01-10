@@ -97,9 +97,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
     @Override
     public void signUp() {
-       System.out.print(DataAccessLayer.getNumberOfUsers());
-       
-       
         user.setUsername(requestMsgTokens.nextToken());
         user.setPassword(requestMsgTokens.nextToken());
         boolean isSignedUp = DataAccessLayer.addUser(user);
@@ -121,6 +118,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void signIn() {
         String username = requestMsgTokens.nextToken();
         String password = requestMsgTokens.nextToken();
+        System.out.println(DataAccessLayer.getUserScore(username)); 
 
         user = DataAccessLayer.getUser(username);
         if (user != null && password.equals(user.getPassword())) {

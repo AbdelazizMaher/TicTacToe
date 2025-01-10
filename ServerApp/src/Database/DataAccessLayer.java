@@ -79,12 +79,26 @@ public class DataAccessLayer {
     
      public static int getNumberOfUsers() {
           PreparedStatement statment;
-
         try {    
             statment = connection.prepareStatement("SELECT COUNT(*) AS TOTAL FROM USERS");
             rs = statment.executeQuery();
             if (rs.next()) {
                 return rs.getInt("TOTAL");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getLocalizedMessage());
+        }
+        return -1;
+    }
+     
+      public static int getUserScore(String username) {
+          PreparedStatement statment ;
+        try  {
+             statment = connection.prepareStatement("SELECT SCORE FROM USERS WHERE USERNAME = ?");
+            statment.setString(1, username);
+            rs = statment.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("SCORE");
             }
         } catch (SQLException ex) {
             System.out.println(ex.getLocalizedMessage());
