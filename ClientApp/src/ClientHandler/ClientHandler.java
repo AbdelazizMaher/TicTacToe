@@ -55,16 +55,16 @@ public class ClientHandler {
 
     
     public static void closeConnection() {
-        if (server != null && !server.isClosed()) {
-            try {
-                server.close();
+    if (server != null && !server.isClosed()) {
+        try {
+               server.close();
                 mouth.close();
                 ear.close();
                 connected = false;
             } catch (IOException ex) {
                 Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+            }        
+    }
     }
     
     public static boolean isConnected() {

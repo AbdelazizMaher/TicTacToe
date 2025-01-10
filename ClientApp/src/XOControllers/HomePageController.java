@@ -5,6 +5,7 @@
  */
 package XOControllers;
 
+import static ClientHandler.ClientHandler.closeConnection;
 import XOGame.HomePage;
 import XOGame.HomePage;
 import XOGame.OfflinePage;
@@ -19,22 +20,38 @@ import javafx.stage.Stage;
  * @author nerme
  */
 public class HomePageController extends HomePage {
-
     public HomePageController(Stage stage) {
+        if(username.isEmpty()){
+            signupButton.setOnAction(e -> {
+                Scene scene = new Scene(new SignupPageController(stage));
+                stage.setScene(scene);
+            });
 
-        signupButton.setOnAction(e -> {
-            Scene scene = new Scene(new SignupPageController(stage));
-            stage.setScene(scene);
-        });
-
-        loginButton.setOnAction(e -> {
-            Scene scene = new Scene(new LoginPageController(stage));
-            stage.setScene(scene);
-        });
-
+            loginButton.setOnAction(e -> {
+                Scene scene = new Scene(new LoginPageController(stage));
+                stage.setScene(scene);
+            });
+            
+            playonlineButton.setOnMouseClicked(e -> {
+                PopUpRegisterController popup = new PopUpRegisterController(stage);
+                popup.show();
+            });
+        }
+    
+        else{
+            logoutButton.setOnAction(e -> {
+                PopUpLogOutController popup = new PopUpLogOutController(stage);
+                popup.show();
+            });
+            
+            playonlineButton.setOnMouseClicked(e -> {
+                Scene scene2 = new Scene(new AvailableUserPageController(stage));
+                stage.setScene(scene2);
+            });
+        }
         historyButton.setOnAction(e -> {
-            Scene scene = new Scene(new HistoryPageController(stage));
-            stage.setScene(scene);
+                Scene scene = new Scene(new HistoryPageController(stage));
+                stage.setScene(scene);
         });
 
         playvscomputerButton.setOnMouseClicked(e -> {
@@ -49,11 +66,6 @@ public class HomePageController extends HomePage {
             Platform.runLater(() -> {
                 new PopUpPageController(stage);
             });
-        });
-
-        playonlineButton.setOnMouseClicked(e -> {
-            Scene scene = new Scene(new AvailableUserPageController(stage));
-            stage.setScene(scene);
         });
     }
 }

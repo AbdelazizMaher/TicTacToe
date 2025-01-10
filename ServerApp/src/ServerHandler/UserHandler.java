@@ -78,8 +78,11 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                         case "invitationResponse":
                             getInvitationResponse();
                             break;
-                    }
 
+                        case "logout":
+                            logout();
+                            break;
+                    }
                 }
             } catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
@@ -157,7 +160,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void sendInvitation() {
         String opponentName = requestMsgTokens.nextToken();
-        System.out.println(opponentName);
+
         UserHandler opponent = getOpponentHandler(opponentName);
         if (opponent != null) {
             opponent.talker.println("invitation" + "#@$" + user.getUsername());
@@ -198,6 +201,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
     @Override
     public void logout() {
+        closeConnection();
     }
 
     @Override
