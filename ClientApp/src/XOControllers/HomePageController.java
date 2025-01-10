@@ -52,8 +52,8 @@ public class HomePageController extends HomePage {
         });
 
         playonlineButton.setOnMouseClicked(e -> {
-            Scene scene = new Scene(new AvailableUserPageController(stage));
-            stage.setScene(scene);
+            PopUpRegisterController popup = new PopUpRegisterController(stage);
+            popup.show();
         });
     }
 }
