@@ -80,6 +80,9 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "invitationResponse":
                         getInvitationResponse();
                         break;
+                    case "logout":
+                        logout();
+                        break;
                 }
 
                 }
@@ -147,6 +150,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void sendAvailablePlayers() {  
         Vector<String> online=new Vector<String>();
+        
         for(UserHandler player:userVector){
             if(!player.isPlaying && player.user != null){
                 online.add(player.user.getUsername() + "*" + player.user.getScore() + "*");
@@ -159,7 +163,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void sendInvitation() {
         String opponentName = requestMsgTokens.nextToken();
-
         UserHandler opponent = getOpponentHandler(opponentName);
         if (opponent != null) {
             opponent.talker.println("invitation" + "#@$" + user.getUsername());
@@ -200,6 +203,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
     @Override
     public void logout() {
+        closeConnection();
     }
 
     @Override
@@ -212,7 +216,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             talker.close();
             reader.close();
             userVector.remove(this);
-            System.out.println("here");
         } catch (IOException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
