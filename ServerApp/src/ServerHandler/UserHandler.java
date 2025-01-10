@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -32,7 +32,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     String opponentName;
     static Vector<UserHandler> userVector = new Vector<UserHandler>();
 
-    String requestMsg;
     public StringTokenizer requestMsgTokens;
     UserDataModel user;
 
@@ -43,7 +42,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         try {
             reader = new DataInputStream(socket.getInputStream());
             talker = new PrintStream(socket.getOutputStream());
-            UserHandler.userVector.add(this);
+            userVector.add(this);
             start();
         } catch (IOException ex) {
             System.out.println(ex.getLocalizedMessage());
@@ -54,35 +53,34 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void run() {
         while (true) {
             try {
-                requestMsg = reader.readLine();
-                if (!requestMsg.equals(null)) {
-                    requestMsgTokens = new StringTokenizer(requestMsg, "#@$");
-                    String clientRequest = requestMsgTokens.nextToken();
-                    switch (clientRequest) {
-                        case "signUp":
-                            signUp();
-                            break;
+                String requestMsg = reader.readLine();
+                requestMsgTokens = new StringTokenizer(requestMsg, "#@$");
 
-                        case "signIn":
-                            signIn();
-                            break;
+                String clientRequest = requestMsgTokens.nextToken();
+                switch (clientRequest) {
+                    case "signUp":
+                        signUp();
+                        break;
 
-                        case "sendAvailablePlayers":
-                            sendAvailablePlayers();
-                            break;
+                    case "signIn":
+                        signIn();
+                        break;
 
-                        case "sendInvitaion":
-                            sendInvitation();
-                            break;
+                    case "sendAvailablePlayers":
+                        sendAvailablePlayers();
+                        break;
 
-                        case "invitationResponse":
-                            getInvitationResponse();
-                            break;
+                    case "sendInvitaion":
+                        sendInvitation();
+                        break;
 
-                        case "logout":
-                            logout();
-                            break;
-                    }
+                    case "invitationResponse":
+                        getInvitationResponse();
+                        break;
+
+                    case "logout":
+                        logout();
+                        break;
                 }
             } catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
@@ -153,14 +151,21 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                 online.add(player.user.getUsername() + "*" + player.user.getScore() + "*");
             }
         }
-        online.remove(this.user.getUsername() + "*" + this.user.getScore() + "*");
-        talker.println("sendAvailablePlayers#@$" + online + "#@$");
+        sendListToAll(online);
+    }
+
+    void sendListToAll(Vector<String> online) {
+        for (UserHandler client : userVector) {
+            Vector<String> list = new Vector<>(online);
+            list.remove(client.user.getUsername() + "*" + client.user.getScore() + "*");
+
+            client.talker.println("sendAvailablePlayers#@$" + list);
+        }
     }
 
     @Override
     public void sendInvitation() {
         String opponentName = requestMsgTokens.nextToken();
-
         UserHandler opponent = getOpponentHandler(opponentName);
         if (opponent != null) {
             opponent.talker.println("invitation" + "#@$" + user.getUsername());
@@ -172,12 +177,17 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void getInvitationResponse() {
         String response = requestMsgTokens.nextToken();
+
+        opponentName = requestMsgTokens.nextToken();
         if (response.equals("accept")) {
             isPlaying = true;
-            opponentName = requestMsgTokens.nextToken();
+
             setOpponent(opponentName, user.getUsername());
+            UserHandler opponent = getOpponentHandler(opponentName);
+            opponent.isPlaying = true;
 
             getOpponentOutputStream(opponentName).println("accepted" + "#@$" + user.getUsername());
+            sendAvailablePlayers();
         } else {
             getOpponentOutputStream(opponentName).println("declined" + "#@$" + user.getUsername());
         }
@@ -214,6 +224,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             talker.close();
             reader.close();
             userVector.remove(this);
+            removeUser(this);
         } catch (IOException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -260,5 +271,10 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             }
         }
         return null;
+    }
+
+    private void removeUser(UserHandler userHandler) {
+        userVector.remove(userHandler);
+        sendAvailablePlayers();
     }
 }

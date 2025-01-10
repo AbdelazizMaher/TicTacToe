@@ -39,7 +39,7 @@ public abstract class HomePage extends AnchorPane {
     protected final DropShadow dropShadow0;
     protected final Label label1;
     protected final DropShadow dropShadow1;
-    public static String username="";
+    public static String userName="";
     public HomePage() {
 
         imageView = new ImageView();
@@ -171,7 +171,7 @@ public abstract class HomePage extends AnchorPane {
         getChildren().add(welcometoourtictactoeLabel);
         
         
-        if(username.isEmpty()){
+        if(userName.isEmpty()){
             historyButton.setLayoutX(577.0);
             historyButton.setLayoutY(15.0);
             historyButton.setMnemonicParsing(false);

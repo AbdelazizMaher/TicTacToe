@@ -5,6 +5,7 @@
  */
 package XOControllers;
 
+import static XOGame.HomePage.userName;
 import XOGame.OnlinePage;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -19,8 +20,9 @@ public class OnlinePageController extends OnlinePage{
     private boolean isPaused = false; 
     public OnlinePageController(Stage stage){
         backButton.setOnMouseClicked(e -> {
-            Scene scene = new Scene(new AvailableUserPageController(stage));
-            stage.setScene(scene); 
+            AvailableUserPageController availablePage = new AvailableUserPageController(stage);
+            Scene scene = new Scene(availablePage);
+            stage.setScene(scene);
         });
         recordButton.setOnMouseClicked(e -> {
             Image recImage;
