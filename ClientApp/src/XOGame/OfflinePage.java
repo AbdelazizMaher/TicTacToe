@@ -16,8 +16,8 @@ public abstract class OfflinePage extends AnchorPane {
     private int score1;
     private int score2;
     private Button[][] buttons = new Button[3][3];
-    public String playerX = "Player1";
-    public String playerO = "Player2";
+    public static String playerX = "Player1";
+    public static String playerO = "Player2";
     protected Button backButton;
     protected Button replayButton;
     protected Button recordButton;

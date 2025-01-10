@@ -1,28 +1,30 @@
 package XOGame;
 
+import XOControllers.HomePageController;
+import XOControllers.OfflinePageController;
+import static XOGame.OfflinePage.playerO;
+import static XOGame.OfflinePage.playerX;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import XOGame.OfflinePage;
-import java.util.function.BiConsumer;
-import javafx.scene.control.Alert;
 
 public class PopUpPage {
 
     private final Stage dialog;
     public static TextField username1;
     public static TextField username2;
-
-    public PopUpPage(Stage owner, BiConsumer<String, String> onCloseClicked) {
+    
+    public PopUpPage(Stage stage) {
         dialog = new Stage();
         dialog.setTitle("Enter Usernames");
         dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(owner);
+        dialog.initOwner(stage);
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10));
@@ -38,23 +40,29 @@ public class PopUpPage {
         okButton.setOnAction(e -> {
             String user1 = username1.getText().trim();
             String user2 = username2.getText().trim();
-            if (!user1.isEmpty() && !user2.isEmpty() && !user1.equals(user2)) {
-                OfflinePage.updatePlayerLabels(user1,user2);
+            if (!user1.isEmpty() && !user2.isEmpty() && !user1.equals(user2)) {               
                 dialog.close();
+                OfflinePageController root = new OfflinePageController(stage);
+                OfflinePage.updatePlayerLabels(user1, user2);
+                Scene scene2 = new Scene(root);
+                stage.setScene(scene2);
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Input Error");
                 alert.setHeaderText(null);
-                if(user1.equals(user2))
+                if (user1.equals(user2)) {
                     alert.setContentText("Both usernames must be different.");
-                else
+                } else {
                     alert.setContentText("Both usernames must be entered.");
+                }
                 alert.showAndWait();
             }
         });
 
         dialog.setOnCloseRequest(e -> {
-            onCloseClicked.accept(null, null);
+            HomePageController root = new HomePageController(stage);
+            Scene scene2 = new Scene(root);
+            stage.setScene(scene2);
         });
 
         grid.add(label1, 0, 0);
@@ -65,9 +73,6 @@ public class PopUpPage {
 
         Scene dialogScene = new Scene(grid, 300, 150);
         dialog.setScene(dialogScene);
-    }
-
-    public void show() {
         dialog.showAndWait();
     }
 }
