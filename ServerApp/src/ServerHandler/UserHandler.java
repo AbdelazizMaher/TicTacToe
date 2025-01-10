@@ -40,7 +40,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     UserHandler(Socket socket) {
         user = new UserDataModel();
         this.socket = socket;
-        
 
         try {
             reader = new DataInputStream(socket.getInputStream());
@@ -225,6 +224,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             talker.close();
             reader.close();
             userVector.remove(this);
+            sendAvailablePlayers();
         } catch (IOException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
