@@ -16,10 +16,11 @@ import javafx.stage.Stage;
 
 public class PopUpPage {
 
-    private final Stage dialog;
+    public final Stage dialog;
     public static TextField username1;
     public static TextField username2;
-    
+    public Button okButton;
+
     public PopUpPage(Stage stage) {
         dialog = new Stage();
         dialog.setTitle("Enter Usernames");
@@ -36,34 +37,7 @@ public class PopUpPage {
         Label label2 = new Label("Player 2:");
         username2 = new TextField();
 
-        Button okButton = new Button("OK");
-        okButton.setOnAction(e -> {
-            String user1 = username1.getText().trim();
-            String user2 = username2.getText().trim();
-            if (!user1.isEmpty() && !user2.isEmpty() && !user1.equals(user2)) {               
-                dialog.close();
-                OfflinePageController root = new OfflinePageController(stage);
-                OfflinePage.updatePlayerLabels(user1, user2);
-                Scene scene2 = new Scene(root);
-                stage.setScene(scene2);
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Input Error");
-                alert.setHeaderText(null);
-                if (user1.equals(user2)) {
-                    alert.setContentText("Both usernames must be different.");
-                } else {
-                    alert.setContentText("Both usernames must be entered.");
-                }
-                alert.showAndWait();
-            }
-        });
-
-        dialog.setOnCloseRequest(e -> {
-            HomePageController root = new HomePageController(stage);
-            Scene scene2 = new Scene(root);
-            stage.setScene(scene2);
-        });
+        okButton = new Button("OK");
 
         grid.add(label1, 0, 0);
         grid.add(username1, 1, 0);
@@ -73,6 +47,13 @@ public class PopUpPage {
 
         Scene dialogScene = new Scene(grid, 300, 150);
         dialog.setScene(dialogScene);
+    }
+
+    public void show() {
         dialog.showAndWait();
+    }
+
+    public void close() {
+        dialog.close();
     }
 }
