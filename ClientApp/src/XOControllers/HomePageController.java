@@ -40,7 +40,6 @@ public class HomePageController extends HomePage {
     
         else{
             logoutButton.setOnAction(e -> {
-                closeConnection();
                 PopUpLogOutController popup = new PopUpLogOutController(stage);
                 popup.show();
             });

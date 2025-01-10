@@ -9,16 +9,19 @@ import XOGame.PopUpLogOut;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import static XOGame.HomePage.username;
-
+import ClientHandler.ClientHandler;
 /**
  *
  * @author nerme
  */
 public class PopUpLogOutController extends PopUpLogOut{
     public PopUpLogOutController(Stage stage){
-        super(stage);
+        super(stage);       
         yesLink.setOnAction(e -> {
             username="";
+            String info = "logout#@$";
+            ClientHandler.sendRequest(info);
+            ClientHandler.closeConnection();           
             Scene scene = new Scene(new HomePageController(stage));
             stage.setScene(scene);
             popupStage.close();
