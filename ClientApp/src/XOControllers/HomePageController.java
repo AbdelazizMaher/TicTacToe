@@ -5,6 +5,7 @@
  */
 package XOControllers;
 
+import static ClientHandler.ClientHandler.closeConnection;
 import XOGame.HomePage;
 import XOGame.HomePage;
 import XOGame.OfflinePage;
@@ -30,26 +31,7 @@ public class HomePageController extends HomePage {
                 Scene scene = new Scene(new LoginPageController(stage));
                 stage.setScene(scene);
             });
-
-            historyButton.setOnAction(e -> {
-                Scene scene = new Scene(new HistoryPageController(stage));
-                stage.setScene(scene);
-            });
-
-            playvscomputerButton.setOnMouseClicked(e -> {
-                DifficultyLevelController root = new DifficultyLevelController(stage);
-                Scene scene2 = new Scene(root);
-                stage.setScene(scene2);
-            });
-
-            playofflineButton.setOnMouseClicked(e -> {
-                Scene scene2 = new Scene(new OfflinePageController(stage));
-                stage.setScene(scene2);
-                Platform.runLater(() -> {
-                    new PopUpPageController(stage);
-                });
-            });
-
+            
             playonlineButton.setOnMouseClicked(e -> {
                 PopUpRegisterController popup = new PopUpRegisterController(stage);
                 popup.show();
@@ -57,12 +39,34 @@ public class HomePageController extends HomePage {
         }
     
         else{
-            
+            logoutButton.setOnAction(e -> {
+                closeConnection();
+                PopUpLogOutController popup = new PopUpLogOutController(stage);
+                popup.show();
+            });
             
             playonlineButton.setOnMouseClicked(e -> {
                 Scene scene2 = new Scene(new AvailableUserPageController(stage));
                 stage.setScene(scene2);
             });
         }
+        historyButton.setOnAction(e -> {
+                Scene scene = new Scene(new HistoryPageController(stage));
+                stage.setScene(scene);
+        });
+
+        playvscomputerButton.setOnMouseClicked(e -> {
+            DifficultyLevelController root = new DifficultyLevelController(stage);
+            Scene scene2 = new Scene(root);
+            stage.setScene(scene2);
+        });
+
+        playofflineButton.setOnMouseClicked(e -> {
+            Scene scene2 = new Scene(new OfflinePageController(stage));
+            stage.setScene(scene2);
+            Platform.runLater(() -> {
+                new PopUpPageController(stage);
+            });
+        });
     }
 }
