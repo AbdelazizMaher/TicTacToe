@@ -21,7 +21,7 @@ import javafx.stage.Stage;
  */
 public class HomePageController extends HomePage {
     public HomePageController(Stage stage) {
-        if(username.isEmpty()){
+        if(userName.isEmpty()){
             signupButton.setOnAction(e -> {
                 Scene scene = new Scene(new SignupPageController(stage));
                 stage.setScene(scene);

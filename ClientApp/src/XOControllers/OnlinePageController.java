@@ -5,7 +5,7 @@
  */
 package XOControllers;
 
-import static XOGame.HomePage.username;
+import static XOGame.HomePage.userName;
 import XOGame.OnlinePage;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -19,10 +19,6 @@ import javafx.stage.Stage;
 public class OnlinePageController extends OnlinePage{
     private boolean isPaused = false; 
     public OnlinePageController(Stage stage,String opponent){
-        playerX=username;
-        playerO=opponent;
-        System.out.println("hi"+playerX);
-        System.out.println("hi2"+playerX);
         backButton.setOnMouseClicked(e -> {
             AvailableUserPageController availablePage = new AvailableUserPageController(stage);
             Scene scene = new Scene(availablePage);
