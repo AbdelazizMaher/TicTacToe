@@ -18,7 +18,7 @@ import javafx.stage.Stage;
  */
 public class OnlinePageController extends OnlinePage{
     private boolean isPaused = false; 
-    public OnlinePageController(Stage stage,String opponent){
+    public OnlinePageController(Stage stage){
         backButton.setOnMouseClicked(e -> {
             AvailableUserPageController availablePage = new AvailableUserPageController(stage);
             Scene scene = new Scene(availablePage);
