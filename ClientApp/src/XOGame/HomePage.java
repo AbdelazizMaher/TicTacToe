@@ -6,6 +6,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 
@@ -39,7 +40,10 @@ public abstract class HomePage extends AnchorPane {
     protected final DropShadow dropShadow0;
     protected final Label label1;
     protected final DropShadow dropShadow1;
+    
     public static String userName="";
+    protected final Label logedinUserNameLabel;
+    
     public HomePage() {
 
         imageView = new ImageView();
@@ -70,6 +74,7 @@ public abstract class HomePage extends AnchorPane {
         dropShadow0 = new DropShadow();
         label1 = new Label();
         dropShadow1 = new DropShadow();
+        logedinUserNameLabel = new Label();
 
         setId("AnchorPane");
         setPrefHeight(580.0);
@@ -157,7 +162,6 @@ public abstract class HomePage extends AnchorPane {
         
         
         
-        
         getChildren().add(imageView);
         anchorPane.getChildren().add(imageView0);
         anchorPane.getChildren().add(imageView1);
@@ -208,6 +212,17 @@ public abstract class HomePage extends AnchorPane {
             getChildren().add(loginButton);
         }
         else{
+            logedinUserNameLabel.setText("Hi, " + userName);
+            logedinUserNameLabel.setTextFill(javafx.scene.paint.Color.valueOf("#131218"));
+            logedinUserNameLabel.setFont(new Font("Javanese Text", 16.0));            
+            logedinUserNameLabel.setWrapText(false);
+            logedinUserNameLabel.setMaxWidth(100);
+            HBox hbox = new HBox(0);
+            hbox.getChildren().add(logedinUserNameLabel);  
+            hbox.setLayoutX(535.0);
+            hbox.setLayoutY(6.0);    
+            getChildren().add(hbox);
+             
             historyButton.setLayoutX(633.0);
             historyButton.setLayoutY(15.0);
             historyButton.setMnemonicParsing(false);
