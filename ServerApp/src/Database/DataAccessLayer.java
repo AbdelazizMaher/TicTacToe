@@ -51,7 +51,7 @@ public class DataAccessLayer {
                 finalResult = true;
             }
         } catch (SQLException ex) {
-            System.out.println(ex.getLocalizedMessage()); 
+            System.out.println(ex.getLocalizedMessage());
             return finalResult;
         }
 
@@ -60,7 +60,7 @@ public class DataAccessLayer {
 
     public static UserDataModel getUser(String username) {
         PreparedStatement statment;
-        
+
         try {
             statment = connection.prepareStatement("SELECT * FROM USERS WHERE USERNAME = ? ",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -70,16 +70,16 @@ public class DataAccessLayer {
             rs = statment.executeQuery();
             if (rs.next()) {
                 return new UserDataModel(rs.getString("USERNAME"), rs.getString("PASSWORD"), rs.getInt("SCORE"));
-            }           
+            }
         } catch (SQLException ex) {
-            System.out.println(ex.getLocalizedMessage()); 
+            System.out.println(ex.getLocalizedMessage());
         }
         return null;
     }
-    
-     public static int getNumberOfUsers() {
-          PreparedStatement statment;
-        try {    
+
+    public static int getNumberOfUsers() {
+        PreparedStatement statment;
+        try {
             statment = connection.prepareStatement("SELECT COUNT(*) AS TOTAL FROM USERS");
             rs = statment.executeQuery();
             if (rs.next()) {
@@ -90,11 +90,24 @@ public class DataAccessLayer {
         }
         return -1;
     }
-     
-      public static int getUserScore(String username) {
-          PreparedStatement statment ;
-        try  {
-             statment = connection.prepareStatement("SELECT SCORE FROM USERS WHERE USERNAME = ?");
+
+    public static boolean updateUserScore(String username) {
+        PreparedStatement statment;
+        try {
+            statment = connection.prepareStatement("UPDATE USERS SET SCORE = SCORE + 5 WHERE USERNAME = ?");
+            statment.setString(1, username);
+            int rowsUpdated = statment.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException ex) {
+            System.out.println(ex.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    public static int getUserScore(String username) {
+        PreparedStatement statment;
+        try {
+            statment = connection.prepareStatement("SELECT SCORE FROM USERS WHERE USERNAME = ?");
             statment.setString(1, username);
             rs = statment.executeQuery();
             if (rs.next()) {
@@ -105,5 +118,5 @@ public class DataAccessLayer {
         }
         return -1;
     }
-    
+
 }
