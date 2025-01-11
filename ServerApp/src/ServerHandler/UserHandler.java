@@ -118,10 +118,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void signIn() {
         String username = requestMsgTokens.nextToken();
         String password = requestMsgTokens.nextToken();
-        System.out.println("this is update method: "+ DataAccessLayer.updateUserScore(username)); 
-        System.out.println("this is ne scoreeeeeeeeee:");
-        System.out.println(DataAccessLayer.getUserScore(username));
-
 
         user = DataAccessLayer.getUser(username);
         if (user != null && password.equals(user.getPassword())) {
@@ -162,7 +158,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         for (UserHandler client : userVector) {
             Vector<String> list = new Vector<>(online);
             list.remove(client.user.getUsername() + "*" + client.user.getScore() + "*");
-
+            System.out.println(list);
             client.talker.println("sendAvailablePlayers#@$" + list);
         }
     }
