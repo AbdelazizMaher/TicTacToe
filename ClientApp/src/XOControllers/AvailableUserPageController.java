@@ -12,6 +12,8 @@ import XOGame.AvailableUsersPage;
 import static XOGame.HomePage.userName;
 import static XOGame.OnlinePage.playerO;
 import static XOGame.OnlinePage.playerX;
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,9 +35,9 @@ import javafx.scene.text.Font;
  */
 public class AvailableUserPageController extends AvailableUsersPage {
 
-    String onlineList = "";
+    static String onlineList = "";
     static String opponentName = "";
-    Thread thread;
+    private static Thread thread;
 
     public AvailableUserPageController(Stage stage) {
         sendRequest("sendAvailablePlayers" + "#@$");
@@ -45,9 +47,9 @@ public class AvailableUserPageController extends AvailableUsersPage {
             thread = new Thread(() -> {
                 while (ClientHandler.isConnected()) {
                     String serverResponse = ClientHandler.getResponse();
-
+  
                     StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
-                    String status = responseMsgTokens.nextToken();
+                    String status = responseMsgTokens.nextToken();                    
                     switch (status) {
                         case "sendAvailablePlayers":
                             onlineList = responseMsgTokens.nextToken();
@@ -55,7 +57,6 @@ public class AvailableUserPageController extends AvailableUsersPage {
                                 updateList();
                             }
                             break;
-
                         case "invitation":
                             String opponent = responseMsgTokens.nextToken();
                             handleInvitationRequest(opponent, stage);
@@ -100,8 +101,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
             Platform.runLater(() -> {
                 rows.clear();
                 buttons.clear();
-                HomePageController root = new HomePageController(stage);
-                Scene scene2 = new Scene(root);
+                Scene scene2 = new Scene(new HomePageController(stage));
                 stage.setScene(scene2);
             });
         });
@@ -152,7 +152,6 @@ public class AvailableUserPageController extends AvailableUsersPage {
             if (onlineList != null && !onlineList.isEmpty()) {
                 String[] playersArray = onlineList.substring(1, onlineList.length() - 1).split(", ");
                 for (String player : playersArray) {
-
                     if (!player.isEmpty()) {
                         StringTokenizer info = new StringTokenizer(player, "*");
                         VBox row = new VBox(5);

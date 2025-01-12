@@ -49,6 +49,7 @@ public class ClientHandler {
         try {
             receivedText = ear.readLine();
         } catch (IOException e) {
+            System.out.println(e.getLocalizedMessage());
         }
         return receivedText;
     }
