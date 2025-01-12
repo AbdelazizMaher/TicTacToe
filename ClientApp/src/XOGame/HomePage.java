@@ -6,6 +6,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 
@@ -25,6 +26,7 @@ public abstract class HomePage extends AnchorPane {
     protected final Button historyButton;
     protected final Button signupButton;
     protected final Button loginButton;
+    protected final Button logoutButton;
     protected final Button playvscomputerButton;
     protected final ImageView imageView3;
     protected final Button playofflineButton;
@@ -38,7 +40,10 @@ public abstract class HomePage extends AnchorPane {
     protected final DropShadow dropShadow0;
     protected final Label label1;
     protected final DropShadow dropShadow1;
-
+    
+    public static String userName="";
+    protected final Label logedinUserNameLabel;
+    
     public HomePage() {
 
         imageView = new ImageView();
@@ -55,6 +60,7 @@ public abstract class HomePage extends AnchorPane {
         historyButton = new Button();
         signupButton = new Button();
         loginButton = new Button();
+        logoutButton = new Button();
         playvscomputerButton = new Button();
         imageView3 = new ImageView();
         playofflineButton = new Button();
@@ -68,6 +74,7 @@ public abstract class HomePage extends AnchorPane {
         dropShadow0 = new DropShadow();
         label1 = new Label();
         dropShadow1 = new DropShadow();
+        logedinUserNameLabel = new Label();
 
         setId("AnchorPane");
         setPrefHeight(580.0);
@@ -137,51 +144,117 @@ public abstract class HomePage extends AnchorPane {
         tictactoeLabel.setTextFill(javafx.scene.paint.Color.valueOf("#131218"));
         tictactoeLabel.setFont(new Font("Javanese Text", 18.0));
 
-        imageView2.setFitHeight(75.0);
-        imageView2.setFitWidth(50.0);
-        imageView2.setLayoutX(732.0);
-        imageView2.setLayoutY(12.0);
-        imageView2.setPickOnBounds(true);
-        imageView2.setPreserveRatio(true);
-        imageView2.setImage(new Image(getClass().getResource("/media/avatar.png").toExternalForm()));
+        
 
+        
+        
         welcometoourtictactoeLabel.setLayoutX(91.0);
         welcometoourtictactoeLabel.setLayoutY(41.0);
         welcometoourtictactoeLabel.setText("WELCOME TO OUR TICTACTOE GAME ..!");
         welcometoourtictactoeLabel.setTextFill(javafx.scene.paint.Color.valueOf("#131218"));
         welcometoourtictactoeLabel.setFont(new Font("Arial Bold", 16.0));
-
-        historyButton.setLayoutX(577.0);
-        historyButton.setLayoutY(15.0);
-        historyButton.setMnemonicParsing(false);
-        historyButton.setPrefHeight(29.0);
-        historyButton.setPrefWidth(50.0);
-        historyButton.setStyle("-fx-background-color: #e61409;");
-        historyButton.setText("History");
-        historyButton.setTextFill(javafx.scene.paint.Color.WHITE);
-        historyButton.setFont(new Font("Arial Bold", 12.0));
-
-        signupButton.setLayoutX(633.0);
-        signupButton.setLayoutY(15.0);
-        signupButton.setMnemonicParsing(false);
-        signupButton.setPrefHeight(29.0);
-        signupButton.setPrefWidth(50.0);
-        signupButton.setStyle("-fx-background-color: #e61409;");
-        signupButton.setText("Sign Up");
-        signupButton.setTextFill(javafx.scene.paint.Color.WHITE);
-        signupButton.setFont(new Font("Arial Bold", 12.0));
-
-        AnchorPane.setLeftAnchor(loginButton, 691.0);
-        loginButton.setLayoutX(691.0);
-        loginButton.setLayoutY(15.0);
-        loginButton.setMnemonicParsing(false);
-        loginButton.setPrefHeight(29.0);
-        loginButton.setPrefWidth(50.0);
-        loginButton.setStyle("-fx-background-color: #e61409;");
-        loginButton.setText("Login");
-        loginButton.setTextFill(javafx.scene.paint.Color.WHITE);
-        loginButton.setFont(new Font("Arial Bold", 12.0));
-
+        
+        
+        
+        getChildren().add(imageView);
+        anchorPane.getChildren().add(imageView0);
+        anchorPane.getChildren().add(imageView1);
+        anchorPane.getChildren().add(line);
+        anchorPane.getChildren().add(line0);
+        anchorPane.getChildren().add(line1);
+        anchorPane.getChildren().add(line2);
+        getChildren().add(anchorPane);
+        getChildren().add(tictactoeLabel);
+        getChildren().add(welcometoourtictactoeLabel);
+        
+        
+        if(userName.isEmpty()){
+            historyButton.setLayoutX(577.0);
+            historyButton.setLayoutY(15.0);
+            historyButton.setMnemonicParsing(false);
+            historyButton.setPrefHeight(29.0);
+            historyButton.setPrefWidth(50.0);
+            historyButton.setStyle("-fx-background-color: #e61409;");
+            historyButton.setText("History");
+            historyButton.setTextFill(javafx.scene.paint.Color.WHITE);
+            historyButton.setFont(new Font("Arial Bold", 12.0));
+            getChildren().add(historyButton);
+            
+            signupButton.setLayoutX(633.0);
+            signupButton.setLayoutY(15.0);
+            signupButton.setMnemonicParsing(false);
+            signupButton.setPrefHeight(29.0);
+            signupButton.setPrefWidth(50.0);
+            signupButton.setStyle("-fx-background-color: #e61409;");
+            signupButton.setText("Sign Up");
+            signupButton.setTextFill(javafx.scene.paint.Color.WHITE);
+            signupButton.setFont(new Font("Arial Bold", 12.0));
+            getChildren().add(signupButton);
+            
+            AnchorPane.setLeftAnchor(loginButton, 691.0);
+            loginButton.setLayoutX(691.0);
+            loginButton.setLayoutY(15.0);
+            loginButton.setMnemonicParsing(false);
+            loginButton.setPrefHeight(29.0);
+            loginButton.setPrefWidth(50.0);
+            loginButton.setStyle("-fx-background-color: #e61409;");
+            loginButton.setText("Login");
+            loginButton.setTextFill(javafx.scene.paint.Color.WHITE);
+            loginButton.setFont(new Font("Arial Bold", 12.0));
+            getChildren().add(loginButton);
+            
+            imageView2.setFitHeight(75.0);
+            imageView2.setFitWidth(50.0);
+            imageView2.setLayoutX(732.0);
+            imageView2.setLayoutY(12.0);
+            imageView2.setPickOnBounds(true);
+            imageView2.setPreserveRatio(true);
+            imageView2.setImage(new Image(getClass().getResource("/media/avatar.png").toExternalForm()));
+            getChildren().add(imageView2);
+        }
+        else{
+            logedinUserNameLabel.setText("Hi, " + userName);
+            logedinUserNameLabel.setTextFill(javafx.scene.paint.Color.valueOf("#131218"));
+            logedinUserNameLabel.setFont(new Font("Javanese Text", 16.0));            
+            logedinUserNameLabel.setWrapText(false);
+            logedinUserNameLabel.setMaxWidth(100);
+            HBox hbox = new HBox(0);
+            hbox.getChildren().add(logedinUserNameLabel);  
+            hbox.setLayoutX(540.0);
+            hbox.setLayoutY(6.0);    
+            getChildren().add(hbox);
+             
+            historyButton.setLayoutX(633.0);
+            historyButton.setLayoutY(15.0);
+            historyButton.setMnemonicParsing(false);
+            historyButton.setPrefHeight(29.0);
+            historyButton.setPrefWidth(50.0);
+            historyButton.setStyle("-fx-background-color: #e61409;");
+            historyButton.setText("History");
+            historyButton.setTextFill(javafx.scene.paint.Color.WHITE);
+            historyButton.setFont(new Font("Arial Bold", 12.0));
+            getChildren().add(historyButton);
+            
+            logoutButton.setLayoutX(691.0);
+            logoutButton.setLayoutY(15.0);
+            logoutButton.setMnemonicParsing(false);
+            logoutButton.setPrefHeight(29.0);
+            logoutButton.setPrefWidth(50.0);
+            logoutButton.setStyle("-fx-background-color: #e61409;");
+            logoutButton.setText("Logout");
+            logoutButton.setTextFill(javafx.scene.paint.Color.WHITE);
+            logoutButton.setFont(new Font("Arial Bold", 12.0));
+            getChildren().add(logoutButton);
+            
+            imageView2.setFitHeight(50.0);
+            imageView2.setFitWidth(50.0);
+            imageView2.setLayoutX(745.0);
+            imageView2.setLayoutY(3.0);
+            imageView2.setPickOnBounds(true);
+            imageView2.setPreserveRatio(true);
+            imageView2.setImage(new Image(getClass().getResource("/media/userAvatar.jpg").toExternalForm()));
+            getChildren().add(imageView2);
+        }
         playvscomputerButton.setLayoutX(265.0);
         playvscomputerButton.setLayoutY(219.0);
         playvscomputerButton.setMnemonicParsing(false);
@@ -261,20 +334,6 @@ public abstract class HomePage extends AnchorPane {
 
         label1.setEffect(dropShadow1);
 
-        getChildren().add(imageView);
-        anchorPane.getChildren().add(imageView0);
-        anchorPane.getChildren().add(imageView1);
-        anchorPane.getChildren().add(line);
-        anchorPane.getChildren().add(line0);
-        anchorPane.getChildren().add(line1);
-        anchorPane.getChildren().add(line2);
-        getChildren().add(anchorPane);
-        getChildren().add(tictactoeLabel);
-        getChildren().add(imageView2);
-        getChildren().add(welcometoourtictactoeLabel);
-        getChildren().add(historyButton);
-        getChildren().add(signupButton);
-        getChildren().add(loginButton);
         getChildren().add(playvscomputerButton);
         getChildren().add(playofflineButton);
         getChildren().add(playonlineButton);

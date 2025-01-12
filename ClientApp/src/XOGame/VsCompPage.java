@@ -1,5 +1,6 @@
 package XOGame;
 
+import static XOGame.HomePage.userName;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -20,6 +21,9 @@ public abstract class VsCompPage extends AnchorPane {
     protected Button replayButton;
     protected Button recordButton;
     public VsCompPage() {
+        if(!userName.isEmpty()){
+           playerX=userName; 
+        }
         score1 = 0;
         score2 = 0;
 

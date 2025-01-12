@@ -9,6 +9,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,7 +23,7 @@ public class ClientHandler {
     protected static DataInputStream ear;
     protected static PrintStream mouth;
     private static String receivedText = null;
-    private static boolean connect = false;
+    private static boolean connected = false;
 
     public ClientHandler() {
     }
@@ -32,41 +33,46 @@ public class ClientHandler {
             server = new Socket("127.0.0.1", 5005);
             ear = new DataInputStream(server.getInputStream());
             mouth = new PrintStream(server.getOutputStream());
-            mouth.println(info);
-            connect = true;
+            sendRequest(info);
+            connected = true;
         } catch (IOException ex) {
-            connect = false;
+            connected = false;
         }
-        return connect;
+        return connected;
     }
     
      public static void sendRequest(String text) {
-      
-            mouth.println(text); // Send the request
-      
+        mouth.println(text);
     }
-
    
     public static String getResponse() {
         try {
             receivedText = ear.readLine();
         } catch (IOException e) {
+            System.out.println(e.getLocalizedMessage());
         }
         return receivedText;
     }
 
+    
     public static void closeConnection() {
-      
-            if (server != null && !server.isClosed()) {
-                try {
-                    server.close();
-                    mouth.close();
-                    ear.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        
+    if (server != null && !server.isClosed()) {
+        try {
+                server.close();
+                mouth.close();
+                ear.close();
+                connected = false;
+            } catch (IOException ex) {
+                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }        
     }
-
+    }
+    
+    public static boolean isConnected() {
+        return connected;
+    }
+    
+    public static void setConnected(boolean connected) {
+        ClientHandler.connected = connected;
+    }
 }

@@ -18,7 +18,6 @@ import java.util.logging.Logger;
  *
  * @author Abdel
  */
-
 public class ServerHandler extends Thread {
 
     ServerSocket serverSocket;
