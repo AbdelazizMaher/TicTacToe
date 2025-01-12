@@ -8,6 +8,7 @@ package ServerHandler;
 import DataModels.ServerRequestInterface;
 import DataModels.UserDataModel;
 import Database.DataAccessLayer;
+import GraphHandler.GraphHandler;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -44,7 +45,11 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         try {
             reader = new DataInputStream(socket.getInputStream());
             talker = new PrintStream(socket.getOutputStream());
+<<<<<<< Updated upstream
             UserHandler.userVector.add(this);
+=======
+            addUser(this);
+>>>>>>> Stashed changes
             start();
         } catch (IOException ex) {
             System.out.println(ex.getLocalizedMessage());
@@ -165,5 +170,29 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
             }
         }
+<<<<<<< Updated upstream
+=======
+        return ps;
+    }
+
+    private UserHandler getOpponentHandler(String username) {
+        for (UserHandler userHandler : userVector) {
+            if (userHandler.user.getUsername().equals(username)) {
+                return userHandler;
+            }
+        }
+        return null;
+    }
+
+    private void addUser(UserHandler userHandler) {
+        userVector.add(userHandler);
+        GraphHandler.updateGraph(++GraphHandler.onlineUsers,--GraphHandler.offlineUsers);
+    }    
+    
+    private void removeUser(UserHandler userHandler) {
+        userVector.remove(userHandler);
+        sendAvailablePlayers();
+        GraphHandler.updateGraph(--GraphHandler.onlineUsers,++GraphHandler.offlineUsers);
+>>>>>>> Stashed changes
     }
 }
