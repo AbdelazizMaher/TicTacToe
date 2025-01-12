@@ -8,6 +8,7 @@ package ServerHandler;
 import DataModels.ServerRequestInterface;
 import DataModels.UserDataModel;
 import Database.DataAccessLayer;
+import GraphHandler.GraphHandler;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -42,7 +43,8 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         try {
             reader = new DataInputStream(socket.getInputStream());
             talker = new PrintStream(socket.getOutputStream());
-            userVector.add(this);
+
+            addUser(this);
             start();
         } catch (IOException ex) {
             System.out.println(ex.getLocalizedMessage());
@@ -85,12 +87,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             } catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
                 closeConnection();
-                try {
-                    stop();
-                    join();
-                } catch (InterruptedException ex1) {
-                    Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex1);
-                }
             }
         }
     }
@@ -103,14 +99,8 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         if (isSignedUp) {
             talker.println("Signed Up");
         } else {
-            try {
-                talker.println("The username exists");
-                closeConnection();
-                stop();
-                join();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            talker.println("The username exists");
+            closeConnection();
         }
     }
 
@@ -123,23 +113,11 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         if (user != null && password.equals(user.getPassword())) {
             talker.println("Signed In");
         } else if (user != null && !password.equals(user.getPassword())) {
-            try {
-                talker.println("Invalid password!");
-                closeConnection();
-                stop();
-                join();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            talker.println("Invalid password!");
+            closeConnection();
         } else {
-            try {
-                talker.println("Invalid username!");
-                closeConnection();
-                stop();
-                join();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            talker.println("Invalid username!");
+            closeConnection();
         }
     }
 
@@ -158,7 +136,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         for (UserHandler client : userVector) {
             Vector<String> list = new Vector<>(online);
             list.remove(client.user.getUsername() + "*" + client.user.getScore() + "*");
-            System.out.println(list);
             client.talker.println("sendAvailablePlayers#@$" + list);
         }
     }
@@ -223,9 +200,12 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             socket.close();
             talker.close();
             reader.close();
-            userVector.remove(this);
             removeUser(this);
+            stop();
+            join();
         } catch (IOException ex) {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -273,8 +253,14 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         return null;
     }
 
+    private void addUser(UserHandler userHandler) {
+        userVector.add(userHandler);
+        GraphHandler.updateGraph(++GraphHandler.onlineUsers, --GraphHandler.offlineUsers);
+    }
+
     private void removeUser(UserHandler userHandler) {
         userVector.remove(userHandler);
         sendAvailablePlayers();
+        GraphHandler.updateGraph(--GraphHandler.onlineUsers, ++GraphHandler.offlineUsers);
     }
 }
