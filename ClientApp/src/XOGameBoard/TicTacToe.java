@@ -69,7 +69,7 @@ public class TicTacToe {
         }
         return false;
     }
-    
+
     private boolean checkDiagonal() {
         if (board[0][0] != null && board[0][0].equals(board[1][1]) && board[1][1].equals(board[2][2])) {
             setWinningLine(0, 0, 1, 1, 2, 2);
@@ -80,7 +80,7 @@ public class TicTacToe {
         }
         return false;
     }
-    
+
     private void setWinningLine(int r1, int c1, int r2, int c2, int r3, int c3) {
         winningLine[0] = r1;
         winningLine[1] = c1;
@@ -89,7 +89,7 @@ public class TicTacToe {
         winningLine[4] = r3;
         winningLine[5] = c3;
     }
-    
+
     public int[] getWinningLine() {
         return winningLine;
     }

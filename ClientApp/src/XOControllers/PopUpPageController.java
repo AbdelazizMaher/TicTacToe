@@ -19,7 +19,7 @@ public class PopUpPageController {
             if (!user1.isEmpty() && !user2.isEmpty() && !user1.equals(user2)) {               
                 popUpPage.close();
                 OfflinePage.updatePlayerLabels(user1, user2);
-                OfflinePage.playerOneLabel.setText(user1);
+                OfflinePage.playOfflineLabel.setText("Play Offline");
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Input Error");

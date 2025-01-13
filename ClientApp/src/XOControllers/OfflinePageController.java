@@ -25,7 +25,7 @@ public class OfflinePageController extends OfflinePage {
 
     private boolean isPaused = false;
     private TicTacToe xoGame;
-    private Line winningLine; 
+    private Line winningLine;
     public String player1;
     public String player2;
     private Stage stage;
@@ -52,7 +52,7 @@ public class OfflinePageController extends OfflinePage {
             recordButton.setGraphic(recImageView);
             isPaused = !isPaused;
         });
-        
+
         replayButton.setOnMouseClicked(e -> {
             resetGame();
         });
@@ -65,11 +65,12 @@ public class OfflinePageController extends OfflinePage {
 
     }
 
-    public void setOfflineToPlayerTurn() {
-        if (player1.equals("X")) {
-            playerOneLabel.setText(user1 + " turn");
+    public void setOfflineLabelToPlayerTurn() {
+        String currentPlayer = xoGame.getCurrentPlayer();
+        if (currentPlayer.equals("X")) {
+            playOfflineLabel.setText(user1 + "'s turn (X)");
         } else {
-            playerOneLabel.setText(user2 + " turn");
+            playOfflineLabel.setText(user2 + "'s turn (O)");
         }
     }
 
@@ -95,23 +96,22 @@ public class OfflinePageController extends OfflinePage {
             } else if (xoGame.isDraw()) {
             } else if (winningLine != null) {
                 resetGame();
-            } 
-            else {
+            } else {
                 xoGame.switchPlayer();
-                setOfflineToPlayerTurn();
+                setOfflineLabelToPlayerTurn();
             }
         }
     }
-    
+
     private void updateScore() {
         if (xoGame.getCurrentPlayer().equals("X")) {
             score1 += 5;
         } else {
             score2 += 5;
         }
-        scoreLabelX.setText("Scores "+score1+":"+score2);
+        scoreLabelX.setText("Scores " + score1 + ":" + score2);
     }
-    
+
     private void resetGame() {
         xoGame.resetBoard();
         for (int row = 0; row < 3; row++) {
@@ -120,11 +120,11 @@ public class OfflinePageController extends OfflinePage {
             }
         }
         if (winningLine != null) {
-        borderPane.getChildren().remove(winningLine);
-        winningLine = null;
+            borderPane.getChildren().remove(winningLine);
+            winningLine = null;
+        }
     }
-    }
-    
+
     private void drawWinningLine() {
         int[] winningLineIndices = xoGame.getWinningLine();
 
@@ -146,7 +146,5 @@ public class OfflinePageController extends OfflinePage {
 
         borderPane.getChildren().add(winningLine);
     }
-
-
 
 }
