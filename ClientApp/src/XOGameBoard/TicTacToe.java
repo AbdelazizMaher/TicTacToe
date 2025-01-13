@@ -89,8 +89,23 @@ public class TicTacToe {
         winningLine[4] = r3;
         winningLine[5] = c3;
     }
+    
+    public int[] getWinningLine() {
+        return winningLine;
+    }
 
+    public void switchPlayer() {
+        currentPlayer = currentPlayer.equals("X") ? "O" : "X";
+    }
 
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
 
+    public void resetBoard() {
+        board = new String[SIZE][SIZE];
+        currentPlayer = "X";
+        winningLine = new int[6];
+    }
 
 }
