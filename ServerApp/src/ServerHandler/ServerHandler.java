@@ -5,6 +5,8 @@
  */
 package ServerHandler;
 
+import Database.DataAccessLayer;
+import GraphHandler.GraphHandler;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,6 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
+/**
+ *
+ * @author Abdel
+ */
 public class ServerHandler extends Thread {
 
     ServerSocket serverSocket;
@@ -20,6 +26,8 @@ public class ServerHandler extends Thread {
         try {
             serverSocket = new ServerSocket(5005);
             start();
+            GraphHandler.offlineUsers = DataAccessLayer.getNumberOfUsers();
+            GraphHandler.updateGraph(GraphHandler.onlineUsers, GraphHandler.offlineUsers);
         } catch (IOException ex) {
             Logger.getLogger(ServerHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -29,7 +37,7 @@ public class ServerHandler extends Thread {
         try {
             serverSocket.close();
             UserHandler.closeAllConnections();
-            try { 
+            try {
                 stop();
                 join();
             } catch (InterruptedException ex) {
@@ -39,7 +47,7 @@ public class ServerHandler extends Thread {
             Logger.getLogger(ServerHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public boolean isConnected() {
         return !serverSocket.isClosed();
     }

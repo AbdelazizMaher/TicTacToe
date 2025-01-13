@@ -12,6 +12,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class AvailableUsersPage extends AnchorPane {
 
@@ -21,7 +23,7 @@ public class AvailableUsersPage extends AnchorPane {
     protected final ArrayList<Button> buttons;
     protected final Label label;
     protected final ScrollPane scrollPane;
-    public  ListView<VBox> listView;
+    public  static ListView<VBox> listView;
     protected final ImageView imageView;
     protected ArrayList<VBox> rows = new ArrayList<>();
     public AvailableUsersPage() {

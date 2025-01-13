@@ -5,6 +5,7 @@
  */
 package ServerControllers;
 
+import GraphHandler.GraphHandler;
 import ServerHandler.ServerHandler;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -24,24 +25,24 @@ public class GUIController extends ServerGUI {
     ServerHandler server;
 
     public GUIController(Stage stage) {
+
+        BarChart<String, Number> barChart = createBarChart();
+        GraphHandler.setBarChart(barChart);
+
         stateToggleButton.setOnAction(e -> {
             if (stateToggleButton.isSelected()) {
-                stateToggleButton.getStyleClass().removeAll("button1");
-                stateToggleButton.getStyleClass().add("button2");
+                switchToStopButton();
 
                 server = new ServerHandler();
                 server.startServer();
             } else {
-                stateToggleButton.getStyleClass().removeAll("button2");
-                stateToggleButton.getStyleClass().add("button1");
-
+                switchToPlayButton();
                 server.stopServer();
             }
         }
         );
 
         chartButton.setOnAction(e -> {
-            BarChart<String, Number> barChart = createBarChart();
             barChart.getStylesheets().add("/styles/Stylesheet.css");
 
             Dialog<Void> dialog = new Dialog<>();
@@ -52,8 +53,9 @@ public class GUIController extends ServerGUI {
         });
 
         stage.setOnCloseRequest(e -> {
-            if (server != null && server.isConnected())
+            if (server != null && server.isConnected()) {
                 server.stopServer();
+            }
         });
     }
 
@@ -65,15 +67,25 @@ public class GUIController extends ServerGUI {
 
         XYChart.Series<String, Number> onlineSeries = new XYChart.Series<>();
         onlineSeries.setName("Online Users");
-        onlineSeries.getData().add(new XYChart.Data<>("Online", 10));
+        onlineSeries.getData().add(new XYChart.Data<>("Online", GraphHandler.onlineUsers));
 
         XYChart.Series<String, Number> offlineSeries = new XYChart.Series<>();
         offlineSeries.setName("Offline Users");
-        offlineSeries.getData().add(new XYChart.Data<>("Offline", 20));
+        offlineSeries.getData().add(new XYChart.Data<>("Offline", GraphHandler.offlineUsers));
 
         BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
         barChart.getData().addAll(onlineSeries, offlineSeries);
 
         return barChart;
+    }
+
+    private void switchToPlayButton() {
+        stateToggleButton.getStyleClass().removeAll("button2");
+        stateToggleButton.getStyleClass().add("button1");
+    }
+
+    private void switchToStopButton() {
+        stateToggleButton.getStyleClass().removeAll("button1");
+        stateToggleButton.getStyleClass().add("button2");
     }
 }

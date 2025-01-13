@@ -49,6 +49,7 @@ public class ClientHandler {
         try {
             receivedText = ear.readLine();
         } catch (IOException e) {
+            System.out.println(e.getLocalizedMessage());
         }
         return receivedText;
     }
@@ -60,6 +61,7 @@ public class ClientHandler {
                 server.close();
                 mouth.close();
                 ear.close();
+                connected = false;
             } catch (IOException ex) {
                 Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
             }        
