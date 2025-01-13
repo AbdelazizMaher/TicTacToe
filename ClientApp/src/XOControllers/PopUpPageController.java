@@ -4,6 +4,7 @@ import XOGame.PopUpPage;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import XOGame.OfflinePage;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 
 public class PopUpPageController {
@@ -17,10 +18,8 @@ public class PopUpPageController {
             String user2 = PopUpPage.username2.getText().trim();
             if (!user1.isEmpty() && !user2.isEmpty() && !user1.equals(user2)) {               
                 popUpPage.close();
-                OfflinePageController offlinePage = new OfflinePageController(stage);
                 OfflinePage.updatePlayerLabels(user1, user2);
-                Scene offlineScene = new Scene(offlinePage);
-                stage.setScene(offlineScene);
+                OfflinePage.playerOneLabel.setText(user1);
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Input Error");
