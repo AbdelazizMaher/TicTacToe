@@ -78,6 +78,7 @@ public class OfflinePageController extends OfflinePage {
             for (int col = 0; col < 3; col++) {
                 final int rowButton = row;
                 final int colButton = col;
+                buttons[row][col].setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
                 buttons[row][col].setOnAction(e -> {
                     processMove(rowButton, colButton);
                 });
@@ -88,11 +89,14 @@ public class OfflinePageController extends OfflinePage {
     private void processMove(int row, int col) {
         if (xoGame.makeMove(row, col)) {
             buttons[row][col].setText(xoGame.getCurrentPlayer());
-            if (xoGame.isWinningMove(row, col)) {
+            if (xoGame.isWinningMove(row, col) && winningLine == null) {
                 drawWinningLine();
                 updateScore();
             } else if (xoGame.isDraw()) {
-            } else {
+            } else if (winningLine != null) {
+                resetGame();
+            } 
+            else {
                 xoGame.switchPlayer();
                 setOfflineToPlayerTurn();
             }
