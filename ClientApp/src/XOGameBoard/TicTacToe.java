@@ -5,6 +5,8 @@
  */
 package XOGameBoard;
 
+import java.util.Random;
+
 /**
  *
  * @author Abdel
@@ -22,52 +24,53 @@ public class TicTacToe {
         winningLine = new int[6];
     }
 
-    private void getStartingPlayer() {
+    public String[] assignXOToPlayer() {
+        String[] ret = new String[2];
 
+        Random random = new Random();
+        if (random.nextBoolean()) {
+            ret[0] = "X";
+            ret[1] = "O";
+        } else {
+            ret[0] = "O";
+            ret[1] = "X";
+        }
+        return ret;
     }
-    
+
     public boolean makeMove(int row, int col) {
-        return true;
+        if (board[row][col] == null) {
+            board[row][col] = currentPlayer;
+            return true;
+        }
+        return false;
     }
 
     public boolean isDraw() {
-        return true;
+        return false;
     }
 
-    public boolean isWinningMove() {
-        return true;
+    public boolean isWinningMove(int row, int col) {
+        return (checkRow(row) || checkCol(col) || checkDiagonal());
     }
 
     private boolean checkRow(int row) {
-        return true;
+        if (board[row][0] != null && board[row][0].equals(board[row][1]) && board[row][1].equals(board[row][2])) {
+            setWinningLine(row, 0, row, 1, row, 2);
+            return true;
+        }
+        return false;
     }
 
     private boolean checkCol(int col) {
-        return true;
+        if (board[0][col] != null && board[0][col].equals(board[1][col]) && board[1][col].equals(board[2][col])) {
+            setWinningLine(0, col, 1, col, 2, col);
+            return true;
+        }
+        return false;
     }
 
-    private boolean checkDiagonals() {
-        return true;
-    }
 
-    private void setWinningLine(int r1, int c1, int r2, int c2, int r3, int c3) {
 
-    }
-
-    public int[] getWinningLine() {
-        return winningLine;
-    }
-
-    public void switchPlayer() {
-
-    }
-
-    public String getCurrentPlayer() {
-        return currentPlayer;
-    }
-    
-    public void resetBoard() {
-    
-    }
 
 }
