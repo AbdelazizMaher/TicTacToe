@@ -80,6 +80,15 @@ public class TicTacToe {
         }
         return false;
     }
+    
+    private void setWinningLine(int r1, int c1, int r2, int c2, int r3, int c3) {
+        winningLine[0] = r1;
+        winningLine[1] = c1;
+        winningLine[2] = r2;
+        winningLine[3] = c2;
+        winningLine[4] = r3;
+        winningLine[5] = c3;
+    }
 
 
 
