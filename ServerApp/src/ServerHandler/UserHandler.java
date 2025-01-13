@@ -110,9 +110,14 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         String password = requestMsgTokens.nextToken();
 
         user = DataAccessLayer.getUser(username);
-        
+
         if (user != null && password.equals(user.getPassword())) {
-            talker.println("Signed In");
+            if (isUserAlreadySignedIn()) {
+                talker.println("Username Currently Signedin, try another one!");
+                closeConnection();
+            } else {
+                talker.println("Signed In");
+            }
         } else if (user != null && !password.equals(user.getPassword())) {
             talker.println("Invalid password!");
             closeConnection();
@@ -264,16 +269,18 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         sendAvailablePlayers();
         GraphHandler.updateGraph(--GraphHandler.onlineUsers, ++GraphHandler.offlineUsers);
     }
-    
-    private boolean isSignedIn(UserHandler user){
+
+    private boolean isUserAlreadySignedIn() {
         int count = 0;
         for (UserHandler userHandler : userVector) {
-            if (userHandler.user.getUsername().equals(user.user.getUsername()) && count<1) {
+            if (userHandler.user.getUsername().equals(user.getUsername())) {
                 count++;
-                break;
-            }     
+            }
         }
-        if(count==1){return true;}
-        else {return false;}
+        if (count >= 2) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
