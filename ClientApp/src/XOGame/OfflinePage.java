@@ -13,16 +13,23 @@ import static XOGame.PopUpPage.username1;
 import static XOGame.PopUpPage.username2;
 
 public abstract class OfflinePage extends AnchorPane {
-    private int score1;
-    private int score2;
-    private Button[][] buttons = new Button[3][3];
+    public int score1;
+    public int score2;
+    public GridPane gridPane;
+    public Button[][] buttons = new Button[3][3];
     public static String playerX = "Player1";
     public static String playerO = "Player2";
+    public static Label playerOneLabel;
+    public static boolean gameStarted;
     protected Button backButton;
     protected Button replayButton;
     protected Button recordButton;
-    static Label playerXLabel;
-    static Label playerOLabel;
+    public static Label playerXLabel;
+    public static Label playerOLabel;
+    public Label scoreLabelX;
+    public BorderPane borderPane;
+    public static String user1;
+    public static String user2;
     public OfflinePage() {
         score1 = 0;
         score2 = 0;
@@ -40,7 +47,7 @@ public abstract class OfflinePage extends AnchorPane {
         imageView.setImage(new Image(getClass().getResource("/media/xo.jpg").toExternalForm()));
 
         // Create and configure the BorderPane
-        BorderPane borderPane = new BorderPane();
+        borderPane = new BorderPane();
         borderPane.setPrefHeight(580);
         borderPane.setPrefWidth(780);
 
@@ -66,7 +73,9 @@ public abstract class OfflinePage extends AnchorPane {
         playerOneVBox.setPrefWidth(589);
         playerOneVBox.setSpacing(5);
         
-        Label playerOneLabel = new Label("Play Offline");
+        if(!gameStarted) {
+            playerOneLabel = new Label("Play Offline");
+        }        
         playerOneLabel.setPrefHeight(35);
         playerOneLabel.setPrefWidth(250);
         playerOneLabel.setTextFill(javafx.scene.paint.Color.WHITE);
@@ -131,7 +140,7 @@ public abstract class OfflinePage extends AnchorPane {
         playerXAnchorPane.getChildren().addAll(playerXLabel, playerOLabel);
 
         // GridPane
-        GridPane gridPane = new GridPane();
+        gridPane = new GridPane();
         gridPane.setMaxHeight(Double.MAX_VALUE);
         gridPane.setMaxWidth(Double.MAX_VALUE);
         gridPane.setPrefHeight(421);
@@ -159,7 +168,7 @@ public abstract class OfflinePage extends AnchorPane {
         bottomHBox.setPrefWidth(780);
         bottomHBox.setSpacing(10);
         
-        Label scoreLabelX = new Label("Scores "+score1+":"+score2);
+        scoreLabelX = new Label("Scores "+score1+":"+score2);
         scoreLabelX.setTextFill(javafx.scene.paint.Color.BLACK);
         scoreLabelX.setFont(new Font("Arial BOLD",22));
 
@@ -180,6 +189,8 @@ public abstract class OfflinePage extends AnchorPane {
     }
 
     public static void updatePlayerLabels(String player1,String player2) {
+        user1 = player1;
+        user2 = player2;
         playerXLabel.setText(player1 + " - X");
         playerOLabel.setText(player2 + " - O");
     }
