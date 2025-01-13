@@ -51,6 +51,15 @@ public class RecordController {
             Logger.getLogger(RecordController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public static void closeRecordConection(){
+        try {
+            fos.close();
+            dos.close();
+        } catch (IOException ex) {
+            Logger.getLogger(RecordController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     private static String getCurrentTime() {
         LocalDateTime now = LocalDateTime.now();
