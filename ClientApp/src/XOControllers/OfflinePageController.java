@@ -120,6 +120,28 @@ public class OfflinePageController extends OfflinePage {
         winningLine = null;
     }
     }
+    
+    private void drawWinningLine() {
+        int[] winningLineIndices = xoGame.getWinningLine();
+
+        Button btn1 = buttons[winningLineIndices[0]][winningLineIndices[1]];
+        Button btn3 = buttons[winningLineIndices[4]][winningLineIndices[5]];
+
+        Point2D point1 = btn1.localToScene(btn1.getWidth() / 2, btn1.getHeight() / 2);
+        Point2D point3 = btn3.localToScene(btn3.getWidth() / 2, btn3.getHeight() / 2);
+
+        double startX = point1.getX();
+        double startY = point1.getY();
+        double endX = point3.getX();
+        double endY = point3.getY();
+
+        winningLine = new Line(startX, startY, endX, endY);
+
+        winningLine.setStroke(Color.RED);
+        winningLine.setStrokeWidth(5);
+
+        borderPane.getChildren().add(winningLine);
+    }
 
 
 
