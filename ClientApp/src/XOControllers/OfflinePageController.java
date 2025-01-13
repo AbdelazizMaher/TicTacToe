@@ -107,6 +107,19 @@ public class OfflinePageController extends OfflinePage {
         }
         scoreLabelX.setText("Scores "+score1+":"+score2);
     }
+    
+    private void resetGame() {
+        xoGame.resetBoard();
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                buttons[row][col].setText("");
+            }
+        }
+        if (winningLine != null) {
+        borderPane.getChildren().remove(winningLine);
+        winningLine = null;
+    }
+    }
 
 
 
