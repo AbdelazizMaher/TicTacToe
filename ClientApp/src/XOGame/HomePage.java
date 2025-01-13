@@ -144,10 +144,6 @@ public abstract class HomePage extends AnchorPane {
         tictactoeLabel.setTextFill(javafx.scene.paint.Color.valueOf("#131218"));
         tictactoeLabel.setFont(new Font("Javanese Text", 18.0));
 
-        
-
-        
-        
         welcometoourtictactoeLabel.setLayoutX(91.0);
         welcometoourtictactoeLabel.setLayoutY(41.0);
         welcometoourtictactoeLabel.setText("WELCOME TO OUR TICTACTOE GAME ..!");
