@@ -69,6 +69,17 @@ public class TicTacToe {
         }
         return false;
     }
+    
+    private boolean checkDiagonal() {
+        if (board[0][0] != null && board[0][0].equals(board[1][1]) && board[1][1].equals(board[2][2])) {
+            setWinningLine(0, 0, 1, 1, 2, 2);
+            return true;
+        } else if (board[0][2] != null && board[0][2].equals(board[1][1]) && board[1][1].equals(board[2][0])) {
+            setWinningLine(0, 2, 1, 1, 2, 0);
+            return true;
+        }
+        return false;
+    }
 
 
 
