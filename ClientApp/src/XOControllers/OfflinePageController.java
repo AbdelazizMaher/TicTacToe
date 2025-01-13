@@ -5,10 +5,10 @@
  */
 package XOControllers;
 
-import XOGame.HomePage;
 import XOGame.OfflinePage;
-import XOGame.VsCompPage;
+import XOGameBoard.TicTacToe;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -19,6 +19,8 @@ import javafx.stage.Stage;
  */
 public class OfflinePageController extends OfflinePage{
     private boolean isPaused = false;
+    private TicTacToe XOgame;
+    
     public OfflinePageController(Stage stage){
         backButton.setOnMouseClicked(e -> {
             HomePageController root = new HomePageController(stage);
@@ -38,5 +40,20 @@ public class OfflinePageController extends OfflinePage{
             recordButton.setGraphic(recImageView);         
             isPaused = !isPaused;
         });
+    }
+    
+    private void processMove(int row, int col) {
+    }
+    
+    private void updateScore() {
+    
+    }
+    
+    private void resetGame() {
+    
+    }
+    
+    private void drawWinningLine() {
+    
     }
 }
