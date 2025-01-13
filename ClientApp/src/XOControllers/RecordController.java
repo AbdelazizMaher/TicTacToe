@@ -24,7 +24,7 @@ public class RecordController {
     static FileOutputStream fos;
     static DataOutputStream dos;
    
-      public static void createFile(){
+    public static void createFile(){
         String fileName = player1+"_"+player2+"_"+getCurrentTime();
         try{     
             fos = new FileOutputStream("../ClientApp/src/Record/" + fileName);        
@@ -33,6 +33,18 @@ public class RecordController {
             Logger.getLogger(RecordController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+      public static void saveMove(Integer row,Integer col,String shape){  
+        try {
+            String move = row.toString()+"#"+col.toString()+"#"+shape+"\n";       
+            dos.writeUTF(move);
+        } catch (IOException ex) {
+            Logger.getLogger(RecordController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+      
+      
   
    
     private static String getCurrentTime() {
