@@ -65,6 +65,22 @@ public class OnlinePageController extends OnlinePage{
                         drawWinningLine();
                         break;
                         
+                         case "draw":
+                        row = Integer.parseInt(responseMsgTokens.nextToken());
+                        col = Integer.parseInt(responseMsgTokens.nextToken());
+                        processMove(row, col);
+
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Draw");
+                        alert.setContentText("You're draw!!");
+                        alert.showAndWait();
+                        for (int row = 0; row < 3; row++) {
+                            for (int col = 0; col < 3; col++) {
+                                buttons[row][col].setDisable(true);
+                            }
+                        }
+                   
+                        
                    
 
                    
