@@ -14,8 +14,11 @@ import XOGame.OnlinePage;
 import XOGameBoard.TicTacToe;
 import java.util.StringTokenizer;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import XOGameBoard.TicTacToe;
 import javafx.application.Platform;
@@ -38,12 +41,13 @@ public class OnlinePageController extends OnlinePage{
     Integer col;
     Alert alert; 
     Thread thread;
-    
+    public static String userName;
+    public static String opponentName;
+    Stage stage;
     public OnlinePageController(Stage stage){
-        
-  
+        initializeGameButtonsHandlers();
         xoGame = new TicTacToe();
-
+        this.stage = stage;
        thread = new Thread(() -> {
             while (true) {
                 String serverResponse = getResponse();
@@ -54,21 +58,21 @@ public class OnlinePageController extends OnlinePage{
                     case "normalMove":
                         row = Integer.parseInt(responseMsgTokens.nextToken());
                         col = Integer.parseInt(responseMsgTokens.nextToken());
-                        processMove(row, col);
+                        drawMove(row, col);
                         break;
                         
-                         case "losingMove":
+                    case "losingMove":
                         row = Integer.parseInt(responseMsgTokens.nextToken());
                         col = Integer.parseInt(responseMsgTokens.nextToken());
-                        processMove(row, col);
+                        drawMove(row, col);
                         xoGame.isWinningMove(row, col);
                         drawWinningLine();
                         break;
                         
-                         case "draw":
+                    case "draw":
                         row = Integer.parseInt(responseMsgTokens.nextToken());
                         col = Integer.parseInt(responseMsgTokens.nextToken());
-                        processMove(row, col);
+                        drawMove(row, col);
 
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Draw");
@@ -80,7 +84,7 @@ public class OnlinePageController extends OnlinePage{
                             }
                         }
                         
-                         case "withdraw":
+                    case "withdraw":
                         showAlert("Withdraw", "Unfortunantly you opponent has left the game");
                         Scene scene = new Scene(new AvailableUserPageController(stage));
                         stage.setScene(scene);
@@ -103,25 +107,14 @@ public class OnlinePageController extends OnlinePage{
                             stage.setScene(scene1);
                         });
                         break;
-                    
-                   
-                        
-                   
-
-                   
                 }
             
             }
         });
        thread.start();
        
-      
-        
-        
-        
-        
-        
         backButton.setOnMouseClicked(e -> {
+            ClientHandler.sendRequest("withdraw");
             AvailableUserPageController availablePage = new AvailableUserPageController(stage);
             Scene scene = new Scene(availablePage);
             stage.setScene(scene);
@@ -136,14 +129,53 @@ public class OnlinePageController extends OnlinePage{
             ImageView recImageView = new ImageView(recImage);
             recImageView.setFitHeight(40);
             recImageView.setFitWidth(40);
-            recordButton.setGraphic(recImageView);         
+            recordButton.setGraphic(recImageView);
             isPaused = !isPaused;
         });
+        replayButton.setOnMouseClicked(e -> {
+            ClientHandler.sendRequest("sendInvitaion" + "#@$" + userName + "#@$");
+        });
     }
+
+    private void initializeGameButtonsHandlers() {
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                final int rowButton = row;
+                final int colButton = col;
+                buttons[row][col].setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
+                buttons[row][col].setOnAction(e -> {
+                    processMove(rowButton, colButton);
+                });
+            }
+        }
+    }
+
     private void processMove(int row, int col) {
         if (xoGame.makeMove(row, col)) {
             buttons[row][col].setText(xoGame.getCurrentPlayer());
+            if (xoGame.isWinningMove(row, col) && winningLine == null) {
+                //1-send request with the winningmove & drawWinningLine();
+                ClientHandler.sendRequest("winningMove" + "#@$" + row + "#@$" + col + "#@$");
+                updateScore();
+                Scene scene = new Scene(new WinVideoPageController(stage));
+                stage.setScene(scene);
+            } else if (xoGame.isDraw()) {
+                //2-send request game is draw;
+                ClientHandler.sendRequest("drawMove" + "#@$" + row + "#@$" + col + "#@$");
+            } else {
+                //3-send request with the normalmove 
+                ClientHandler.sendRequest("normalMove" + "#@$" + row + "#@$" + col + "#@$");
+            }
         }
+    }
+    private void drawMove(int row, int col) {
+        if (xoGame.makeMove(row, col)) {
+            buttons[row][col].setText(xoGame.getCurrentPlayer());
+        }
+    }
+
+    private void updateScore() {
+
     }
 
     private void drawWinningLine() {

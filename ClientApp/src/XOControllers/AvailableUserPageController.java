@@ -47,9 +47,9 @@ public class AvailableUserPageController extends AvailableUsersPage {
             thread = new Thread(() -> {
                 while (ClientHandler.isConnected()) {
                     String serverResponse = ClientHandler.getResponse();
-  
+
                     StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
-                    String status = responseMsgTokens.nextToken();                    
+                    String status = responseMsgTokens.nextToken();
                     switch (status) {
                         case "sendAvailablePlayers":
                             onlineList = responseMsgTokens.nextToken();
@@ -64,12 +64,20 @@ public class AvailableUserPageController extends AvailableUsersPage {
                         case "accepted":
                             Platform.runLater(() -> {
                                 showInformationAlert(stage, "your inivitation has been accepted");
-                                
+
                                 opponentName = responseMsgTokens.nextToken();
                                 setPlayersNames(userName, opponentName);
 
                                 Scene scene = new Scene(new OnlinePageController(stage));
                                 stage.setScene(scene);
+
+                                try {
+                                    thread.stop();
+                                    thread.join();
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(AvailableUserPageController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+
                             });
                             break;
                         case "declined":
