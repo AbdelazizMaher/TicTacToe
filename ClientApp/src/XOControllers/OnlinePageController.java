@@ -96,7 +96,13 @@ public class OnlinePageController extends OnlinePage{
                             //clear
                         });
                         break;
-                   
+                    case "declined":
+                        Platform.runLater(() -> {
+                            showErrorAlert(stage, "your inivitation has been declined");
+                            Scene scene1 = new Scene(new AvailableUserPageController(stage));
+                            stage.setScene(scene1);
+                        });
+                        break;
                     
                    
                         
