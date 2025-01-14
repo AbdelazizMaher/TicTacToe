@@ -7,6 +7,7 @@ package ServerGameApp;
 
 import ServerControllers.GUIController;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -27,8 +28,8 @@ public class ServerApp extends Application {
 
         scene.getStylesheets().add(getClass().getResource("/styles/Stylesheet.css").toString());
 
+
         stage.setScene(scene);
-        stage.setTitle("TicTacToe Dashboard");
         stage.show();
     }
 
