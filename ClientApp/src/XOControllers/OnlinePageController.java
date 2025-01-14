@@ -79,6 +79,13 @@ public class OnlinePageController extends OnlinePage{
                                 buttons[row][col].setDisable(true);
                             }
                         }
+                        
+                         case "withdraw":
+                        showAlert("Withdraw", "Unfortunantly you opponent has left the game");
+                        Scene scene = new Scene(new AvailableUserPageController(stage));
+                        stage.setScene(scene);
+
+                   
                    
                         
                    
