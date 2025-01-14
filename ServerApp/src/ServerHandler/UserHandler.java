@@ -212,6 +212,22 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         DataAccessLayer.updateUserScore(user.getUsername());
     }
 
+    @Override
+    public void gameDrawMove() {
+        String row = requestMsgTokens.nextToken();
+        String col = requestMsgTokens.nextToken();
+        getOpponentOutputStream(opponentName).println("draw" + "#@$" + row + "#@$" + col + "#@$");
+    }
+
+    @Override
+    public void withdraw() {
+        getOpponentOutputStream(opponentName).println("withdraw");
+    }
+
+    @Override
+    public void playAgain() {
+        getOpponentOutputStream(opponentName).println("invitation" + "#@$" + user.getUsername());
+    }
 
     @Override
     public void logout() {
