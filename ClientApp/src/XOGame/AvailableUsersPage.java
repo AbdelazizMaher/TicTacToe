@@ -23,9 +23,10 @@ public class AvailableUsersPage extends AnchorPane {
     protected final ArrayList<Button> buttons;
     protected final Label label;
     protected final ScrollPane scrollPane;
-    public  static ListView<VBox> listView;
+    public static ListView<VBox> listView;
     protected final ImageView imageView;
     protected ArrayList<VBox> rows = new ArrayList<>();
+
     public AvailableUsersPage() {
         vBox = new VBox();
         anchorPane = new AnchorPane();
@@ -79,7 +80,6 @@ public class AvailableUsersPage extends AnchorPane {
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         // Populate ListView
-  
         listView.getItems().addAll(rows);
 
         // Add ListView to ScrollPane
