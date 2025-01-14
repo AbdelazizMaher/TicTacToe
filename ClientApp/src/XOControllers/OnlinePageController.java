@@ -49,7 +49,7 @@ public class OnlinePageController extends OnlinePage{
                 String status = responseMsgTokens.nextToken();
 
                 switch (status) {
-                    case "normalMove":
+                    case "normalMove":                        
                         row = Integer.parseInt(responseMsgTokens.nextToken());
                         col = Integer.parseInt(responseMsgTokens.nextToken());
                         drawMove(row, col);
@@ -99,10 +99,15 @@ public class OnlinePageController extends OnlinePage{
                             stage.setScene(scene1);
                         });
                         break;
+                    default:
+                        disableMove();
                 }
             }
         });
+        thread.setDaemon(true);
         thread.start();
+       
+        
 
         backButton.setOnMouseClicked(e -> {
             ClientHandler.sendRequest("withdraw");
@@ -143,6 +148,7 @@ public class OnlinePageController extends OnlinePage{
     private void processMove(int row, int col) {
         if (xoGame.makeMove(row, col)) {
             buttons[row][col].setText(xoGame.getCurrentPlayer());
+            disableMove();
             if (xoGame.isWinningMove(row, col) && winningLine == null) {
                 //1-send request with the winningmove & drawWinningLine();
                 ClientHandler.sendRequest("winningMove" + "#@$" + row + "#@$" + col + "#@$");
@@ -189,8 +195,9 @@ public class OnlinePageController extends OnlinePage{
     private void drawMove(int row, int col) {
         Platform.runLater(() -> {
         if (xoGame.makeMove(row, col)) {
+            enableMove();
             buttons[row][col].setText(xoGame.getCurrentPlayer());
-            xoGame.switchPlayer();
+            xoGame.switchPlayer();         
         }
         });
     }
@@ -244,5 +251,20 @@ public class OnlinePageController extends OnlinePage{
         alert.setContentText(contentText);
         alert.showAndWait();
     }
+    private void disableMove(){
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                buttons[row][col].setDisable(true);
+            }
+        }
+    }
+    private void enableMove(){
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                buttons[row][col].setDisable(false);
+            }
+        }
+    }
+    
 
 }

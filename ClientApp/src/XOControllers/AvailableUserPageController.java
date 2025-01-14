@@ -66,7 +66,6 @@ public class AvailableUserPageController extends AvailableUsersPage {
                         case "accepted":
                             Platform.runLater(() -> {
                                 showInformationAlert(stage, "your inivitation has been accepted");
-
                                 opponentName = responseMsgTokens.nextToken();
                                 setPlayersNames(userName, opponentName);
                                 inGame = true;
@@ -123,7 +122,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
             boolean isInvitationAccepted = showRequestAlert("Game Invitation", "Player " + opponent + " has invited you to a game. Do you accept?", stage);
             inGame = isInvitationAccepted;
             if (isInvitationAccepted) {
-                setPlayersNames(userName, opponent);
+                setPlayersNames(opponent,userName);
                 sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
 
                 Scene scene = new Scene(new OnlinePageController(stage));
