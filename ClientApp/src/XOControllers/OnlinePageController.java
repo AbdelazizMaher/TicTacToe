@@ -49,10 +49,21 @@ public class OnlinePageController extends OnlinePage{
                 String serverResponse = getResponse();
                 StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
                 String status = responseMsgTokens.nextToken();
+                
+                    switch (status) {
+                    case "normalMove":
+                        row = Integer.parseInt(responseMsgTokens.nextToken());
+                        col = Integer.parseInt(responseMsgTokens.nextToken());
+                        processMove(row, col);
+                        break;
+
+                   
+                }
             
             }
         });
        thread.start();
+       
       
         
         
