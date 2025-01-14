@@ -56,6 +56,16 @@ public class OnlinePageController extends OnlinePage{
                         col = Integer.parseInt(responseMsgTokens.nextToken());
                         processMove(row, col);
                         break;
+                        
+                         case "losingMove":
+                        row = Integer.parseInt(responseMsgTokens.nextToken());
+                        col = Integer.parseInt(responseMsgTokens.nextToken());
+                        processMove(row, col);
+                        xoGame.isWinningMove(row, col);
+                        drawWinningLine();
+                        break;
+                        
+                   
 
                    
                 }
