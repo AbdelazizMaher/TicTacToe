@@ -37,7 +37,28 @@ public class OnlinePageController extends OnlinePage{
     Integer row;
     Integer col;
     Alert alert; 
+    Thread thread;
+    
     public OnlinePageController(Stage stage){
+        
+  
+        xoGame = new TicTacToe();
+
+       thread = new Thread(() -> {
+            while (true) {
+                String serverResponse = getResponse();
+                StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
+                String status = responseMsgTokens.nextToken();
+            
+            }
+        });
+       thread.start();
+      
+        
+        
+        
+        
+        
         backButton.setOnMouseClicked(e -> {
             AvailableUserPageController availablePage = new AvailableUserPageController(stage);
             Scene scene = new Scene(availablePage);
