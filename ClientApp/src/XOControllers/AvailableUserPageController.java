@@ -38,6 +38,8 @@ public class AvailableUserPageController extends AvailableUsersPage {
     static String onlineList = "";
     static String opponentName = "";
     private static Thread thread;
+    private boolean inGame;
+    public static boolean isStarting;
 
     public AvailableUserPageController(Stage stage) {
         sendRequest("sendAvailablePlayers" + "#@$");
@@ -45,7 +47,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
 
         if (thread == null || !thread.isAlive()) {
             thread = new Thread(() -> {
-                while (ClientHandler.isConnected()) {
+                while (ClientHandler.isConnected() && !inGame) {
                     String serverResponse = ClientHandler.getResponse();
 
                     StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
@@ -67,18 +69,19 @@ public class AvailableUserPageController extends AvailableUsersPage {
 
                                 opponentName = responseMsgTokens.nextToken();
                                 setPlayersNames(userName, opponentName);
-
+                                inGame = true;
+                                isStarting = true;
                                 Scene scene = new Scene(new OnlinePageController(stage));
                                 stage.setScene(scene);
-
+                            });
+                            thread.stop();
+                             {
                                 try {
-                                    thread.stop();
                                     thread.join();
                                 } catch (InterruptedException ex) {
                                     Logger.getLogger(AvailableUserPageController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
-
-                            });
+                            }
                             break;
                         case "declined":
                             Platform.runLater(() -> {
@@ -118,6 +121,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
     private void handleInvitationRequest(String opponent, Stage stage) {
         Platform.runLater(() -> {
             boolean isInvitationAccepted = showRequestAlert("Game Invitation", "Player " + opponent + " has invited you to a game. Do you accept?", stage);
+            inGame = isInvitationAccepted;
             if (isInvitationAccepted) {
                 setPlayersNames(userName, opponent);
                 sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
@@ -128,6 +132,15 @@ public class AvailableUserPageController extends AvailableUsersPage {
                 sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
             }
         });
+
+        if (inGame) {
+            try {
+                thread.stop();
+                thread.join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AvailableUserPageController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     private boolean showRequestAlert(String title, String contentMessage, Stage stage) {

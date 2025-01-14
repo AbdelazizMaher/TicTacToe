@@ -48,6 +48,7 @@ public class OnlinePageController extends OnlinePage {
         Thread thread = new Thread(() -> {
             while (true) {
                 String serverResponse = getResponse();
+                System.out.println(serverResponse);
                 StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
                 String status = responseMsgTokens.nextToken();
 
@@ -149,7 +150,7 @@ public class OnlinePageController extends OnlinePage {
 
     private void processMove(int row, int col) {
         if (xoGame.makeMove(row, col)) {
-
+            buttons[row][col].setText(xoGame.getCurrentPlayer());
             if (xoGame.isWinningMove(row, col) && winningLine == null) {
                 //1-send request with the winningmove & drawWinningLine();
                 ClientHandler.sendRequest("winningMove" + "#@$" + row + "#@$" + col + "#@$");
@@ -162,6 +163,7 @@ public class OnlinePageController extends OnlinePage {
             } else {
                 //3-send request with the normalmove 
                 ClientHandler.sendRequest("normalMove" + "#@$" + row + "#@$" + col + "#@$");
+                xoGame.switchPlayer();
             }
         }
     }
@@ -193,9 +195,12 @@ public class OnlinePageController extends OnlinePage {
     }
 
     private void drawMove(int row, int col) {
+        Platform.runLater(() -> {
         if (xoGame.makeMove(row, col)) {
             buttons[row][col].setText(xoGame.getCurrentPlayer());
+            xoGame.switchPlayer();
         }
+        });
     }
 
     private void handleInvitationRequest(String opponent, Stage stage) {
