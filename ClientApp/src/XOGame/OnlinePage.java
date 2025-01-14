@@ -19,7 +19,8 @@ public abstract class OnlinePage extends AnchorPane {
     protected Button backButton;
     protected Button replayButton;
     protected Button recordButton;
-    protected BorderPane borderPane;
+    public BorderPane borderPane;
+    
     public OnlinePage() {
         score1 = 0;
         score2 = 0;
