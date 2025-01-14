@@ -13,13 +13,14 @@ import javafx.stage.Stage;
 public abstract class OnlinePage extends AnchorPane {
     private int score1;
     private int score2;
-    public Button[][] buttons = new Button[3][3];
+    protected Button[][] buttons = new Button[3][3];
     public static String playerX = "Player1";
     public static String playerO = "Player2";
     protected Button backButton;
     protected Button replayButton;
     protected Button recordButton;
     public BorderPane borderPane;
+    
     public OnlinePage() {
         score1 = 0;
         score2 = 0;

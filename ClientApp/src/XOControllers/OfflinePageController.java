@@ -31,7 +31,6 @@ public class OfflinePageController extends OfflinePage {
     private Stage stage;
 
     public OfflinePageController(Stage stage) {
-        this.stage = stage;
         xoGame = new TicTacToe();
 
         backButton.setOnMouseClicked(e -> {
@@ -94,6 +93,7 @@ public class OfflinePageController extends OfflinePage {
                 drawWinningLine();
                 updateScore();
             } else if (xoGame.isDraw()) {
+                
             } else if (winningLine != null) {
                 resetGame();
             } else {
