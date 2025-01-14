@@ -89,6 +89,14 @@ public class OnlinePageController extends OnlinePage{
                         String opponent = responseMsgTokens.nextToken();
                         handleInvitationRequest(opponent, stage);
                         break;
+                        
+                        case "accepted":
+                        Platform.runLater(() -> {
+                            showAlert("Accepted", "your inivitation has been accepted");
+                            //clear
+                        });
+                        break;
+                   
                     
                    
                         
