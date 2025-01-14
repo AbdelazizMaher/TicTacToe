@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -24,7 +25,7 @@ public class WinVideoPageController extends WinVideoPage {
     private File file;
     private Media media;
     
-    public WinVideoPageController() {
+    public WinVideoPageController(Stage stage) {
         // Set up the video
         Media media = new Media(getClass().getResource("/media/SMILE!.mp4").toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
