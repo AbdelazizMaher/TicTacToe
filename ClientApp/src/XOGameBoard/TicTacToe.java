@@ -102,6 +102,10 @@ public class TicTacToe {
         return currentPlayer;
     }
 
+    public void setCurrentPlayer(String currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+    
     public void resetBoard() {
         board = new String[SIZE][SIZE];
         currentPlayer = "X";
