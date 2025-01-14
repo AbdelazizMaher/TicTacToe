@@ -8,17 +8,11 @@ package XOControllers;
 import ClientHandler.ClientHandler;
 import static ClientHandler.ClientHandler.getResponse;
 import static ClientHandler.ClientHandler.sendRequest;
-import static XOControllers.AvailableUserPageController.opponentName;
-import static XOGame.HomePage.userName;
 import XOGame.OnlinePage;
-import XOGameBoard.TicTacToe;
 import java.util.StringTokenizer;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import XOGameBoard.TicTacToe;
 import javafx.application.Platform;
@@ -40,27 +34,26 @@ public class OnlinePageController extends OnlinePage{
     Integer row;
     Integer col;
     Alert alert; 
-    Thread thread;
     public static String userName;
     public static String opponentName;
     Stage stage;
-    public OnlinePageController(Stage stage){
+    public OnlinePageController(Stage stage) {
+        this.stage = stage;
         initializeGameButtonsHandlers();
         xoGame = new TicTacToe();
-        this.stage = stage;
-       thread = new Thread(() -> {
+        Thread thread = new Thread(() -> {
             while (true) {
                 String serverResponse = getResponse();
+                System.out.println(serverResponse);
                 StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
                 String status = responseMsgTokens.nextToken();
-                
-                    switch (status) {
+
+                switch (status) {
                     case "normalMove":
                         row = Integer.parseInt(responseMsgTokens.nextToken());
                         col = Integer.parseInt(responseMsgTokens.nextToken());
                         drawMove(row, col);
                         break;
-                        
                     case "losingMove":
                         row = Integer.parseInt(responseMsgTokens.nextToken());
                         col = Integer.parseInt(responseMsgTokens.nextToken());
@@ -68,7 +61,6 @@ public class OnlinePageController extends OnlinePage{
                         xoGame.isWinningMove(row, col);
                         drawWinningLine();
                         break;
-                        
                     case "draw":
                         row = Integer.parseInt(responseMsgTokens.nextToken());
                         col = Integer.parseInt(responseMsgTokens.nextToken());
@@ -83,18 +75,18 @@ public class OnlinePageController extends OnlinePage{
                                 buttons[row][col].setDisable(true);
                             }
                         }
-                        
+                        break;
                     case "withdraw":
                         showAlert("Withdraw", "Unfortunantly you opponent has left the game");
                         Scene scene = new Scene(new AvailableUserPageController(stage));
                         stage.setScene(scene);
-
+                        break;
                     case "invitation":
                         String opponent = responseMsgTokens.nextToken();
                         handleInvitationRequest(opponent, stage);
                         break;
-                        
-                        case "accepted":
+
+                    case "accepted":
                         Platform.runLater(() -> {
                             showAlert("Accepted", "your inivitation has been accepted");
                             //clear
@@ -108,15 +100,13 @@ public class OnlinePageController extends OnlinePage{
                         });
                         break;
                 }
-            
             }
         });
-       thread.start();
-       
+        thread.start();
+
         backButton.setOnMouseClicked(e -> {
             ClientHandler.sendRequest("withdraw");
-            AvailableUserPageController availablePage = new AvailableUserPageController(stage);
-            Scene scene = new Scene(availablePage);
+            Scene scene = new Scene(new AvailableUserPageController(stage));
             stage.setScene(scene);
         });
         recordButton.setOnMouseClicked(e -> {
@@ -165,12 +155,8 @@ public class OnlinePageController extends OnlinePage{
             } else {
                 //3-send request with the normalmove 
                 ClientHandler.sendRequest("normalMove" + "#@$" + row + "#@$" + col + "#@$");
+                xoGame.switchPlayer();
             }
-        }
-    }
-    private void drawMove(int row, int col) {
-        if (xoGame.makeMove(row, col)) {
-            buttons[row][col].setText(xoGame.getCurrentPlayer());
         }
     }
 
@@ -200,14 +186,21 @@ public class OnlinePageController extends OnlinePage{
         borderPane.getChildren().add(winningLine);
     }
 
+    private void drawMove(int row, int col) {
+        Platform.runLater(() -> {
+        if (xoGame.makeMove(row, col)) {
+            buttons[row][col].setText(xoGame.getCurrentPlayer());
+            xoGame.switchPlayer();
+        }
+        });
+    }
+
+
     private void handleInvitationRequest(String opponent, Stage stage) {
         Platform.runLater(() -> {
             boolean isInvitationAccepted = showRequestAlert("Game Invitation", "Player " + opponent + " has invited you to a game. Do you accept?", stage);
             if (isInvitationAccepted) {
                 sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
-
-                Scene scene = new Scene(new OnlinePageController(stage));
-                stage.setScene(scene);
             } else {
                 sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
             }
