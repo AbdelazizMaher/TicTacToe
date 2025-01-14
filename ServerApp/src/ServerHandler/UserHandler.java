@@ -83,6 +83,26 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "logout":
                         logout();
                         break;
+
+                    case "winningMove":
+                        gameWinnerMove();
+                        break;
+
+                    case "drawMove":
+                        gameDrawMove();
+                        break;
+
+                    case "normalMove":
+                        sendNormalMove();
+                        break;
+
+                    case "withdraw":
+                        withdraw();
+                        break;
+
+                    case "playagain":
+                        playAgain();
+                        break;
                 }
             } catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
@@ -177,20 +197,21 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     }
 
     @Override
-    public void sendMove() {
+    public void sendNormalMove() {
+        String row = requestMsgTokens.nextToken();
+        String col = requestMsgTokens.nextToken();
+        getOpponentOutputStream(opponentName).println("normalMove" + "#@$" + row + "#@$" + col + "#@$");
+        talker.println("normalMove" + "#@$" + row + "#@$" + col + "#@$");
     }
 
     @Override
-    public void gameWinner() {
+    public void gameWinnerMove() {
+        String row = requestMsgTokens.nextToken();
+        String col = requestMsgTokens.nextToken();
+        getOpponentOutputStream(opponentName).println("losingMove" + "#@$" + row + "#@$" + col + "#@$");
+        DataAccessLayer.updateUserScore(user.getUsername());
     }
 
-    @Override
-    public void gameDraw() {
-    }
-
-    @Override
-    public void withdraw() {
-    }
 
     @Override
     public void logout() {
