@@ -5,21 +5,38 @@
  */
 package XOControllers;
 
+import ClientHandler.ClientHandler;
+import static ClientHandler.ClientHandler.getResponse;
+import static ClientHandler.ClientHandler.sendRequest;
+import static XOControllers.AvailableUserPageController.opponentName;
 import static XOGame.HomePage.userName;
 import XOGame.OnlinePage;
+import XOGameBoard.TicTacToe;
+import java.util.StringTokenizer;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import XOGameBoard.TicTacToe;
+import javafx.application.Platform;
+import javafx.geometry.Point2D;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 
 /**
  *
  * @author nerme
  */
 public class OnlinePageController extends OnlinePage{
-    private boolean isPaused = false; 
+    private boolean isPaused = false;
+    private TicTacToe xoGame;
+    private Line winningLine;
+    Integer row;
+    Integer col;
+    Alert alert; 
     public OnlinePageController(Stage stage){
         backButton.setOnMouseClicked(e -> {
             AvailableUserPageController availablePage = new AvailableUserPageController(stage);
@@ -40,6 +57,48 @@ public class OnlinePageController extends OnlinePage{
             isPaused = !isPaused;
         });
     }
+    private void processMove(int row, int col) {
+        if (xoGame.makeMove(row, col)) {
+            buttons[row][col].setText(xoGame.getCurrentPlayer());
+        }
+    }
+
+    private void drawWinningLine() {
+        int[] winningLineIndices = xoGame.getWinningLine();
+
+        Button btn1 = buttons[winningLineIndices[0]][winningLineIndices[1]];
+        Button btn3 = buttons[winningLineIndices[4]][winningLineIndices[5]];
+
+        Point2D point1 = btn1.localToScene(btn1.getWidth() / 2, btn1.getHeight() / 2);
+        Point2D point3 = btn3.localToScene(btn3.getWidth() / 2, btn3.getHeight() / 2);
+
+        double startX = point1.getX();
+        double startY = point1.getY();
+        double endX = point3.getX();
+        double endY = point3.getY();
+
+        winningLine = new Line(startX, startY, endX, endY);
+
+        winningLine.setStroke(Color.RED);
+        winningLine.setStrokeWidth(5);
+
+        borderPane.getChildren().add(winningLine);
+    }
+
+    private void handleInvitationRequest(String opponent, Stage stage) {
+        Platform.runLater(() -> {
+            boolean isInvitationAccepted = showRequestAlert("Game Invitation", "Player " + opponent + " has invited you to a game. Do you accept?", stage);
+            if (isInvitationAccepted) {
+                sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
+
+                Scene scene = new Scene(new OnlinePageController(stage));
+                stage.setScene(scene);
+            } else {
+                sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
+            }
+        });
+    }
+
     private boolean showRequestAlert(String title, String contentMessage, Stage stage) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initOwner(stage);
