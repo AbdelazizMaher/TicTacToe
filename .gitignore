@@ -1,4 +1,9 @@
 /ClientApp/build/
 /ClientApp/dist/
-/ServerApp/build/
-/ServerApp/dist/
+/ServerApp/src/media/ServerApp/build/
+/ServerApp/src/media/ServerApp/dist/
+/ServerApp/src/media/ServerApp/nbproject/private/
+/ServerApp/src/media/TicTacToe-Offline-GameBoard/ClientApp/nbproject/private/
+/ServerApp/src/media/TicTacToe-Offline-GameBoard/ServerApp/nbproject/private/
+/ServerApp/src/styles/TicTacToe-Offline-GameBoard/ClientApp/nbproject/private/
+/ServerApp/src/styles/TicTacToe-Offline-GameBoard/ServerApp/nbproject/private/
