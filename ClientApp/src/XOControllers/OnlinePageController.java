@@ -85,7 +85,11 @@ public class OnlinePageController extends OnlinePage{
                         Scene scene = new Scene(new AvailableUserPageController(stage));
                         stage.setScene(scene);
 
-                   
+                    case "invitation":
+                        String opponent = responseMsgTokens.nextToken();
+                        handleInvitationRequest(opponent, stage);
+                        break;
+                    
                    
                         
                    
