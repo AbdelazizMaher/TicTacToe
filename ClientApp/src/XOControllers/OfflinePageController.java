@@ -23,12 +23,13 @@ import javafx.stage.Stage;
  */
 public class OfflinePageController extends OfflinePage {
 
-    private boolean isPaused = false;
+    private boolean isRecording = false;
     private TicTacToe xoGame;
     private Line winningLine;
     public String player1;
     public String player2;
     private Stage stage;
+  
 
     public OfflinePageController(Stage stage) {
         xoGame = new TicTacToe();
@@ -39,8 +40,12 @@ public class OfflinePageController extends OfflinePage {
             stage.setScene(scene2);
         });
         recordButton.setOnMouseClicked(e -> {
+           // isRecording=!isRecording;
+            
+           // if(isRecording) RecordController.createFile("offline");
+            
             Image recImage;
-            if (isPaused) {
+            if (isRecording) {
                 recImage = new Image(getClass().getResourceAsStream("/media/record.png"));
             } else {
                 recImage = new Image(getClass().getResourceAsStream("/media/stop.png"));
@@ -49,7 +54,10 @@ public class OfflinePageController extends OfflinePage {
             recImageView.setFitHeight(40);
             recImageView.setFitWidth(40);
             recordButton.setGraphic(recImageView);
-            isPaused = !isPaused;
+            isRecording = !isRecording;
+            if(isRecording) RecordController.createFile("offline");
+            
+            
         });
 
         replayButton.setOnMouseClicked(e -> {
@@ -87,8 +95,14 @@ public class OfflinePageController extends OfflinePage {
     }
 
     private void processMove(int row, int col) {
+        
         if (xoGame.makeMove(row, col)) {
             buttons[row][col].setText(xoGame.getCurrentPlayer());
+            if(isRecording){ 
+               RecordController.saveMove(row, col, xoGame.getCurrentPlayer());     
+            }
+           
+            
             if (xoGame.isWinningMove(row, col) && winningLine == null) {
                 drawWinningLine();
                 updateScore();

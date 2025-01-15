@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOControllers/WinVideoPageController.java</file>
-            <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOControllers/OnlinePageController.java</file>
-            <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOControllers/AvailableUserPageController.java</file>
-            <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOGame/AvailableUsersPage.java</file>
+            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOControllers/OfflinePageController.java</file>
+            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOGameBoard/TicTacToe.java</file>
+            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOControllers/OnlinePageController.java</file>
+            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOControllers/AvailableUserPageController.java</file>
+            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOGame/OnlinePage.java</file>
         </group>
     </open-files>
 </project-private>
