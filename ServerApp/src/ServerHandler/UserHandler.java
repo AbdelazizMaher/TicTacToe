@@ -160,15 +160,17 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
     void sendListToAll(Vector<String> online) {
         for (UserHandler client : userVector) {
-            Vector<String> list = new Vector<>(online);
-            list.remove(client.user.getUsername() + "*" + client.user.getScore() + "*");
-            client.talker.println("sendAvailablePlayers#@$" + list);
+                Vector<String> list = new Vector<>(online);
+                list.remove(client.user.getUsername() + "*" + client.user.getScore() + "*");
+                client.talker.println("sendAvailablePlayers#@$" + list);
+            
         }
     }
 
     @Override
     public void sendInvitation() {
         String opponentName = requestMsgTokens.nextToken();
+        System.out.println("opp"+opponentName);
         UserHandler opponent = getOpponentHandler(opponentName);
         if (opponent != null) {
             opponent.talker.println("invitation" + "#@$" + user.getUsername());
@@ -180,8 +182,8 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void getInvitationResponse() {
         String response = requestMsgTokens.nextToken();
-
         opponentName = requestMsgTokens.nextToken();
+        
         if (response.equals("accept")) {
             isPlaying = true;
 
@@ -201,7 +203,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         String row = requestMsgTokens.nextToken();
         String col = requestMsgTokens.nextToken();
         getOpponentOutputStream(opponentName).println("normalMove" + "#@$" + row + "#@$" + col + "#@$");
-        talker.println("normalMove" + "#@$" + row + "#@$" + col + "#@$");
     }
 
     @Override
