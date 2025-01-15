@@ -6,6 +6,7 @@
 package XOControllers;
 
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -21,10 +22,20 @@ public class RecordController {
     static FileOutputStream fos;
     static DataOutputStream dos;
 
-    public static void createFile(String player1,String player2) {
+    public static void createFolderIfNotExists(String folderPath) {
+        File folder = new File(folderPath);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        } 
+    }
+
+    public static void createFile(String folderName,String player1,String player2) {  //"offline" or "onlnine" //you can write-> "online/username" to create a folder for each user 
+        String folderPath = "../ClientApp/src/Record/" + folderName + "/";
         String fileName = player1 + "_" + player2 + "_" + getCurrentTime();
+
+        createFolderIfNotExists(folderPath);
         try {
-            fos = new FileOutputStream("../ClientApp/src/Record/" + fileName);
+            fos = new FileOutputStream(folderPath + fileName);
             dos = new DataOutputStream(fos);
         } catch (IOException ex) {
             Logger.getLogger(RecordController.class.getName()).log(Level.SEVERE, null, ex);
@@ -40,16 +51,17 @@ public class RecordController {
         }
     }
 
-    public static void saveLine(Double startPoint1, Double endPoint1, Double startPoint2, Double endPoint2) {
+
+    public static void saveLine(Double startX, Double startY, Double endX, Double endY) {
         try {
-                String line = startPoint1.toString() + "#" + endPoint1.toString() + "#" + startPoint2.toString() + "#" + endPoint2.toString();
-                dos.writeUTF(line);  
+            String line = startX.toString() + "#" + startY.toString() + "#" + endX.toString() + "#" + endY.toString();
+            dos.writeUTF(line);
         } catch (IOException ex) {
             Logger.getLogger(RecordController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static void closeRecordConection(){
+
+    public static void closeRecordConection() {
         try {
             fos.close();
             dos.close();
