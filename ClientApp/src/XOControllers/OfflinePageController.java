@@ -29,7 +29,6 @@ public class OfflinePageController extends OfflinePage {
     public String player1;
     public String player2;
     private Stage stage;
-  
 
     public OfflinePageController(Stage stage) {
         xoGame = new TicTacToe();
@@ -40,24 +39,17 @@ public class OfflinePageController extends OfflinePage {
             stage.setScene(scene2);
         });
         recordButton.setOnMouseClicked(e -> {
-           // isRecording=!isRecording;
-            
-           // if(isRecording) RecordController.createFile("offline");
-            
-            Image recImage;
-            if (isRecording) {
-                recImage = new Image(getClass().getResourceAsStream("/media/record.png"));
-            } else {
-                recImage = new Image(getClass().getResourceAsStream("/media/stop.png"));
-            }
-            ImageView recImageView = new ImageView(recImage);
-            recImageView.setFitHeight(40);
-            recImageView.setFitWidth(40);
-            recordButton.setGraphic(recImageView);
             isRecording = !isRecording;
-            if(isRecording) RecordController.createFile("offline");
-            
-            
+
+            if (isRecording) {
+                changeRecordButton();
+                RecordController.player1 = user1;
+                RecordController.player2 = user2;
+                RecordController.createFile("offline");
+            } else {
+                RecordController.closeRecordConection();
+            }
+
         });
 
         replayButton.setOnMouseClicked(e -> {
@@ -95,19 +87,17 @@ public class OfflinePageController extends OfflinePage {
     }
 
     private void processMove(int row, int col) {
-        
         if (xoGame.makeMove(row, col)) {
             buttons[row][col].setText(xoGame.getCurrentPlayer());
-            if(isRecording){ 
-               RecordController.saveMove(row, col, xoGame.getCurrentPlayer());     
+            if (isRecording) {
+                RecordController.saveMove(row, col, xoGame.getCurrentPlayer());
             }
-           
-            
             if (xoGame.isWinningMove(row, col) && winningLine == null) {
                 drawWinningLine();
                 updateScore();
             } else if (xoGame.isDraw()) {
-                
+                isRecording = false;
+                changeRecordButton();
             } else if (winningLine != null) {
                 resetGame();
             } else {
@@ -153,12 +143,31 @@ public class OfflinePageController extends OfflinePage {
         double endX = point3.getX();
         double endY = point3.getY();
 
+        if (isRecording) {
+            RecordController.saveLine(startX, startY, endX, endY);
+            isRecording = false;
+            changeRecordButton();
+        }
+
         winningLine = new Line(startX, startY, endX, endY);
 
         winningLine.setStroke(Color.RED);
         winningLine.setStrokeWidth(5);
 
         borderPane.getChildren().add(winningLine);
+    }
+
+    void changeRecordButton() {
+        Image recImage;
+        if (isRecording) {
+            recImage = new Image(getClass().getResourceAsStream("/media/stop.png"));
+        } else {
+            recImage = new Image(getClass().getResourceAsStream("/media/record.png"));
+        }
+        ImageView recImageView = new ImageView(recImage);
+        recImageView.setFitHeight(40);
+        recImageView.setFitWidth(40);
+        recordButton.setGraphic(recImageView);
     }
 
 }
