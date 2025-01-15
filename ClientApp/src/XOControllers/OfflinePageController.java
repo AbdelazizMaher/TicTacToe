@@ -39,15 +39,12 @@ public class OfflinePageController extends OfflinePage {
             stage.setScene(scene2);
         });
         recordButton.setOnMouseClicked(e -> {
-            isRecording = !isRecording;
-
-            if (isRecording) {
+            if (!isRecording) { 
+                isRecording = true;
                 changeRecordButton();
                 RecordController.player1 = user1;
                 RecordController.player2 = user2;
                 RecordController.createFile("offline");
-            } else {
-                RecordController.closeRecordConection();
             }
 
         });
@@ -98,6 +95,7 @@ public class OfflinePageController extends OfflinePage {
             } else if (xoGame.isDraw()) {
                 isRecording = false;
                 changeRecordButton();
+                RecordController.closeRecordConection();
             } else if (winningLine != null) {
                 resetGame();
             } else {
@@ -147,6 +145,7 @@ public class OfflinePageController extends OfflinePage {
             RecordController.saveLine(startX, startY, endX, endY);
             isRecording = false;
             changeRecordButton();
+            RecordController.closeRecordConection();
         }
 
         winningLine = new Line(startX, startY, endX, endY);
