@@ -5,12 +5,7 @@
  */
 package XOControllers;
 
-import static ClientHandler.ClientHandler.closeConnection;
 import XOGame.HomePage;
-import XOGame.HomePage;
-import XOGame.OfflinePage;
-import XOGame.OnlinePage;
-import XOGame.VsCompPage;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -36,6 +31,10 @@ public class HomePageController extends HomePage {
                 Scene scene = new Scene(new LoginPageController(stage));
                 stage.setScene(scene);
             });
+            historyButton.setOnAction(e -> {
+                Scene scene = new Scene(new HistoryPageController(stage, HistoryPageController.OFFLINE, null));
+                stage.setScene(scene);
+        });
         }
     
         else{
@@ -50,7 +49,7 @@ public class HomePageController extends HomePage {
             });
         }
         historyButton.setOnAction(e -> {
-                Scene scene = new Scene(new HistoryPageController(stage));
+                Scene scene = new Scene(new HistoryPageController(stage, HistoryPageController.OFFLINE, userName));
                 stage.setScene(scene);
         });
 

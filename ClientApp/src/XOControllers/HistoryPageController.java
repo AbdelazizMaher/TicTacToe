@@ -6,6 +6,7 @@
 package XOControllers;
 
 import XOGame.HistoryPage;
+import java.util.Vector;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -14,15 +15,42 @@ import javafx.stage.Stage;
  * @author eman_
  */
 public class HistoryPageController extends HistoryPage {
-    public HistoryPageController(Stage stage){
+    public static final int OFFLINE = 0;
+    public static final int ONLINE = 1;
+    
+    public static int activeMode;
+    public static String activeName;
+    
+    String filePath;
+    public HistoryPageController(Stage stage, int mode, String username){
+        showRecords(mode, username);
+        
         backButton.setOnMouseClicked(e ->{
             Scene scene = new Scene(new HomePageController(stage));
             stage.setScene(scene);
         });
         
-        listView.setOnMouseClicked(e->{
-        Scene scene = new Scene(new RecordPageController(stage));
+        listView.setOnMouseClicked(e->{    
+        String selectedFile = listView.getSelectionModel().getSelectedItem().toString();
+        
+        Scene scene = new Scene(new RecordPageController(stage, filePath + selectedFile));
             stage.setScene(scene);
         });
+    }
+    
+    private void showRecords(int mode, String username) {
+        Vector<String> files = new Vector<>();
+        if (mode == OFFLINE) {
+            activeMode = OFFLINE;
+            activeName = null;
+            filePath = "../ClientApp/src/Record/" + "offline/";
+            files = RecordController.getFileNamesFromDirectory("../ClientApp/src/Record/" + "offline");
+        }else if (mode == ONLINE) {
+            activeMode = ONLINE;
+            activeName = username;
+            filePath = "../ClientApp/src/Record/" + "offline/" + username + "/";
+            files = RecordController.getFileNamesFromDirectory("../ClientApp/src/Record/" + "offline" + username);
+        }
+        listView.getItems().addAll(files);
     }
 }

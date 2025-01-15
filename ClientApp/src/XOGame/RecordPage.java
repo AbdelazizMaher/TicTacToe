@@ -11,10 +11,11 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public abstract class RecordPage extends AnchorPane {
-    private Button[][] buttons = new Button[3][3];
+    protected Button[][] buttons = new Button[3][3];
     private String playerX = "Player X";
     private String playerO = "Player O";
     protected final Button backButton;
+    protected BorderPane borderPane;
 
     public RecordPage(Stage stage) {
         // Create the AnchorPane
@@ -29,7 +30,7 @@ public abstract class RecordPage extends AnchorPane {
         imageView.setPreserveRatio(false);
 
         // Create and configure the BorderPane
-        BorderPane borderPane = new BorderPane();
+        borderPane = new BorderPane();
         borderPane.setPrefHeight(580);
         borderPane.setPrefWidth(780);
 
