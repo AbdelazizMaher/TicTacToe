@@ -12,14 +12,18 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public abstract class VsCompPage extends AnchorPane {
-    private int score1;
-    private int score2;
-    private Button[][] buttons = new Button[3][3];
-    private String playerX = "Player1";
-    private String playerO = "Computer";
+    protected int score1;
+    protected int score2;
+    protected Button[][] buttons = new Button[3][3];
+    protected String playerX = "Player1";
+    protected String playerO = "Computer";
     protected Button backButton;
     protected Button replayButton;
     protected Button recordButton;
+    protected GridPane gridPane;
+    protected BorderPane borderPane;
+    protected Label scoreLabelX;
+    
     public VsCompPage() {
         if(!userName.isEmpty()){
            playerX=userName; 
@@ -40,7 +44,7 @@ public abstract class VsCompPage extends AnchorPane {
         imageView.setImage(new Image(getClass().getResource("/media/xo.jpg").toExternalForm()));
 
         // Create and configure the BorderPane
-        BorderPane borderPane = new BorderPane();
+        borderPane = new BorderPane();
         borderPane.setPrefHeight(580);
         borderPane.setPrefWidth(780);
 
@@ -131,7 +135,8 @@ public abstract class VsCompPage extends AnchorPane {
         playerXAnchorPane.getChildren().addAll(playerXLabel, playerOLabel);
 
         // GridPane
-        GridPane gridPane = new GridPane();
+         
+        gridPane = new GridPane();
         gridPane.setMaxHeight(Double.MAX_VALUE);
         gridPane.setMaxWidth(Double.MAX_VALUE);
         gridPane.setPrefHeight(421);
@@ -159,7 +164,7 @@ public abstract class VsCompPage extends AnchorPane {
         bottomHBox.setPrefWidth(780);
         bottomHBox.setSpacing(10);
         
-        Label scoreLabelX = new Label("Scores "+score1+":"+score2);
+        scoreLabelX = new Label("Scores "+score1+":"+score2);
         scoreLabelX.setTextFill(javafx.scene.paint.Color.BLACK);
         scoreLabelX.setFont(new Font("Arial BOLD",22));
 
