@@ -39,7 +39,7 @@ public class OfflinePageController extends OfflinePage {
             stage.setScene(scene2);
         });
         recordButton.setOnMouseClicked(e -> {
-            if (!isRecording) { 
+            if (!isRecording) {
                 isRecording = true;
                 changeRecordButton();
                 RecordController.player1 = user1;
@@ -50,6 +50,7 @@ public class OfflinePageController extends OfflinePage {
         });
 
         replayButton.setOnMouseClicked(e -> {
+            stopRecording();
             resetGame();
         });
 
@@ -91,11 +92,10 @@ public class OfflinePageController extends OfflinePage {
             }
             if (xoGame.isWinningMove(row, col) && winningLine == null) {
                 drawWinningLine();
+                stopRecording();
                 updateScore();
             } else if (xoGame.isDraw()) {
-                isRecording = false;
-                changeRecordButton();
-                RecordController.closeRecordConection();
+                stopRecording();
             } else if (winningLine != null) {
                 resetGame();
             } else {
@@ -143,9 +143,6 @@ public class OfflinePageController extends OfflinePage {
 
         if (isRecording) {
             RecordController.saveLine(startX, startY, endX, endY);
-            isRecording = false;
-            changeRecordButton();
-            RecordController.closeRecordConection();
         }
 
         winningLine = new Line(startX, startY, endX, endY);
@@ -156,7 +153,7 @@ public class OfflinePageController extends OfflinePage {
         borderPane.getChildren().add(winningLine);
     }
 
-    void changeRecordButton() {
+    private void changeRecordButton() {
         Image recImage;
         if (isRecording) {
             recImage = new Image(getClass().getResourceAsStream("/media/stop.png"));
@@ -167,6 +164,14 @@ public class OfflinePageController extends OfflinePage {
         recImageView.setFitHeight(40);
         recImageView.setFitWidth(40);
         recordButton.setGraphic(recImageView);
+    }
+
+    private void stopRecording() {
+        if (isRecording) {
+            isRecording = false;
+            changeRecordButton();
+            RecordController.closeRecordConection();
+        }
     }
 
 }
