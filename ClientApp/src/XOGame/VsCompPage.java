@@ -23,7 +23,7 @@ public abstract class VsCompPage extends AnchorPane {
     protected GridPane gridPane;
     protected BorderPane borderPane;
     protected Label scoreLabelX;
-    
+    protected Label playerOneLabel;
     public VsCompPage() {
         if(!userName.isEmpty()){
            playerX=userName; 
@@ -70,7 +70,7 @@ public abstract class VsCompPage extends AnchorPane {
         playerOneVBox.setPrefWidth(589);
         playerOneVBox.setSpacing(5);
         
-        Label playerOneLabel = new Label("Player Vs Computer");
+        playerOneLabel = new Label("Player Vs Computer");
         playerOneLabel.setPrefHeight(35);
         playerOneLabel.setPrefWidth(250);
         playerOneLabel.setTextFill(javafx.scene.paint.Color.WHITE);

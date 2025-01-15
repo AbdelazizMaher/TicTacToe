@@ -11,6 +11,7 @@ import static XOGame.OfflinePage.user2;
 import XOGame.VsCompPage;
 import XOGameBoard.TicTacToe;
 import java.util.Random;
+import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -41,6 +42,7 @@ public class VsCompPageController extends VsCompPage{
                 recImage = new Image(getClass().getResourceAsStream("/media/record.png"));
             } else {
                 recImage = new Image(getClass().getResourceAsStream("/media/stop.png"));
+                RecordController.createFile(playerX,playerO);
             }
             ImageView recImageView = new ImageView(recImage);
             recImageView.setFitHeight(40);
@@ -48,6 +50,7 @@ public class VsCompPageController extends VsCompPage{
             recordButton.setGraphic(recImageView);         
             isPaused = !isPaused;
         });
+        
         replayButton.setOnMouseClicked(e -> {
             resetGame();
         });
@@ -57,12 +60,12 @@ public class VsCompPageController extends VsCompPage{
 
         initializeGameButtonsHandlers();
     }
-    public void setOfflineLabelToPlayerTurn() {
+    public void setOnlineLabelToPlayerTurn() {
         String currentPlayer = xoGame.getCurrentPlayer();
         if (currentPlayer.equals("X")) {
-            playOfflineLabel.setText(playerX + "'s turn (X)");
+            playerOneLabel.setText(playerX + "'s turn (X)");
         } else {
-            playOfflineLabel.setText(playerO + "'s turn (O)");
+            playerOneLabel.setText(playerO + "'s turn (O)");
         }
     }
     private void initializeGameButtonsHandlers() {
@@ -71,34 +74,39 @@ public class VsCompPageController extends VsCompPage{
                     final int rowButton = row;
                     final int colButton = col;
                     buttons[row][col].setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
-                if(xoGame.getCurrentPlayer().equals("X")){
                         buttons[row][col].setOnAction(e -> {
-                            processMove(rowButton, colButton);
+                           if (xoGame.getCurrentPlayer().equals("X")) {
+                                processMove(rowButton, colButton);
+                                
+                            }
+                           if (xoGame.getCurrentPlayer().equals("O")) {
+                                computerMove();
+                            } 
                         });
-                }
-                else{
-                    System.out.println("ji");
-                    computerMove();
-                }
-                
             }
         }
-            
+           
         }
     private void processMove(int row, int col) {
         if (xoGame.makeMove(row, col)) {
+            if (isPaused) {
+                RecordController.saveMove(row, col, "X");
+            }
             buttons[row][col].setText(xoGame.getCurrentPlayer());
             count++;
             if (xoGame.isWinningMove(row, col) && winningLine == null) {
                 drawWinningLine();
                 updateScore();
-            } else if (xoGame.isDraw()) {
                 
+            } else if (xoGame.isDraw()) {
+                if (isPaused) {
+                    RecordController.closeRecordConection();
+                }
             } else if (winningLine != null) {
                 resetGame();
             } else {
                 xoGame.switchPlayer();
-                setOfflineLabelToPlayerTurn();
+                setOnlineLabelToPlayerTurn();
             }
         }
     }
@@ -112,6 +120,7 @@ public class VsCompPageController extends VsCompPage{
     }
 
     private void resetGame() {
+        isPaused = false;
         xoGame.resetBoard();
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
@@ -138,7 +147,10 @@ public class VsCompPageController extends VsCompPage{
         double startY = point1.getY();
         double endX = point3.getX();
         double endY = point3.getY();
-
+        if (isPaused) {
+                RecordController.saveLine(startX,startY,endX,endY);
+                RecordController.closeRecordConection();
+        }
         winningLine = new Line(startX, startY, endX, endY);
 
         winningLine.setStroke(Color.RED);
@@ -155,6 +167,9 @@ public class VsCompPageController extends VsCompPage{
             colComp = rand.nextInt(3);
         }
         if(count<9){
+            if (isPaused) {
+                RecordController.saveMove(rowComp, colComp, "O");
+            }
             buttons[rowComp][colComp].setText(xoGame.getCurrentPlayer());
             count++;
         }
@@ -162,12 +177,14 @@ public class VsCompPageController extends VsCompPage{
                 drawWinningLine();
                 updateScore();
             } else if (xoGame.isDraw()) {
-                
+                if (isPaused) {
+                    RecordController.closeRecordConection();
+                }
             } else if (winningLine != null) {
                 resetGame();
             } else {
                 xoGame.switchPlayer();
-                setOfflineLabelToPlayerTurn();
+                setOnlineLabelToPlayerTurn();
             }
     }
 

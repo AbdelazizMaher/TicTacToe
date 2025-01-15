@@ -18,13 +18,10 @@ import java.util.logging.Logger;
  * @author eman_
  */
 public class RecordController {
-
-    static String player1;
-    static String player2;
     static FileOutputStream fos;
     static DataOutputStream dos;
 
-    public static void createFile() {
+    public static void createFile(String player1,String player2) {
         String fileName = player1 + "_" + player2 + "_" + getCurrentTime();
         try {
             fos = new FileOutputStream("../ClientApp/src/Record/" + fileName);
@@ -43,7 +40,7 @@ public class RecordController {
         }
     }
 
-    public static void saveLine(Integer startPoint1, Integer endPoint1, Integer startPoint2, Integer endPoint2) {
+    public static void saveLine(Double startPoint1, Double endPoint1, Double startPoint2, Double endPoint2) {
         try {
                 String line = startPoint1.toString() + "#" + endPoint1.toString() + "#" + startPoint2.toString() + "#" + endPoint2.toString();
                 dos.writeUTF(line);  
