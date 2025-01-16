@@ -57,17 +57,30 @@ public class OnlinePageController extends OnlinePage{
                         col = Integer.parseInt(responseMsgTokens.nextToken());
                         drawMove(row, col);
                         break;
+                    case "ormalMove":
+                        //enable
+                        enableMove();
+                        row = Integer.parseInt(responseMsgTokens.nextToken());
+                        col = Integer.parseInt(responseMsgTokens.nextToken());
+                        drawMove(row, col);
+                        break;
                     case "losingMove":
-                        Platform.runLater(() -> {
+                        
                             enableMove();
                             row = Integer.parseInt(responseMsgTokens.nextToken());
                             col = Integer.parseInt(responseMsgTokens.nextToken());
+                            
                             drawMove(row, col);
+                            for (int row = 0; row < 3; row++) {
+                                for (int col = 0; col < 3; col++) {
+                                    System.out.println(buttons[row][col]);
+                                }
+                            }
                             xoGame.isWinningMove(row, col);
                             System.out.println(xoGame.getWinningLine());
                             drawWinningLine();
                             disableMove();
-                        });
+                        
                         break;
                     case "draw":
                         row = Integer.parseInt(responseMsgTokens.nextToken());
@@ -192,6 +205,7 @@ public class OnlinePageController extends OnlinePage{
     }
 
     private void drawWinningLine() {
+Platform.runLater(() -> {
         int[] winningLineIndices = xoGame.getWinningLine();
 
         Button btn1 = buttons[winningLineIndices[0]][winningLineIndices[1]];
@@ -211,6 +225,7 @@ public class OnlinePageController extends OnlinePage{
         winningLine.setStrokeWidth(5);
 
         borderPane.getChildren().add(winningLine);
+        });
     }
 
     private void drawMove(int row, int col) {
@@ -298,6 +313,5 @@ public class OnlinePageController extends OnlinePage{
             }
         }
     }
-    
-
+   
 }
