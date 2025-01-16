@@ -30,7 +30,7 @@ public class ClientHandler {
 
     public static boolean startConnection(String info) {
         try {
-            server = new Socket("10.191.241.195", 5005);
+            server = new Socket("127.0.0.1", 5005);
             ear = new DataInputStream(server.getInputStream());
             mouth = new PrintStream(server.getOutputStream());
             sendRequest(info);

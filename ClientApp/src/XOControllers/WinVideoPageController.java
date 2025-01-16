@@ -1,12 +1,9 @@
 package XOControllers;
 
 import XOGame.WinVideoPage;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -20,37 +17,45 @@ import javafx.stage.StageStyle;
  */
 public class WinVideoPageController extends WinVideoPage {
 
-    private final Stage mainStage; // Reference to the main stage
-    private final Stage videoStage; // New stage for the video
+    private final Stage mainStage; 
+    private final Stage videoStage; 
     private final Media media;
     private final MediaPlayer mediaPlayer;
 
     public WinVideoPageController(Stage mainStage) {
         this.mainStage = mainStage;
 
-        // Set up the video media and media player
         media = new Media(getClass().getResource("/media/SMILE!.mp4").toExternalForm());
         mediaPlayer = new MediaPlayer(media);
 
-        // Create a new stage for the video
-        videoStage = new Stage(StageStyle.UNDECORATED); // Optional: customize stage style
+        videoStage = new Stage(StageStyle.DECORATED); 
         MediaView mediaView = new MediaView(mediaPlayer);
-        Scene videoScene = new Scene(this, 800, 600); // Adjust dimensions as needed
+
+        StackPane videoRoot = new StackPane(mediaView);
+        Scene videoScene = new Scene(videoRoot, 800, 600); // Adjust dimensions as needed
         videoStage.setScene(videoScene);
 
-        // Set up media player
         mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setOnEndOfMedia(this::returnToMainStage);
 
-        // Listen for the end of the video
-        mediaPlayer.setOnEndOfMedia(() -> {
-            videoStage.close(); // Close the video stage
-            Platform.runLater(() -> mainStage.show()); // Show the main stage
+        videoStage.setOnCloseRequest(event -> returnToMainStage());
+    }
+
+    public void playVideo() {
+        Platform.runLater(() -> {
+            System.out.println("Playing video. Hiding the main stage.");
+            mainStage.hide(); 
+            videoStage.show(); 
         });
     }
 
-    // Show the video
-    public void playVideo() {
-        mainStage.hide(); // Hide the main stage
-        videoStage.show(); // Show the video stage
+    
+    private void returnToMainStage() {
+        Platform.runLater(() -> {
+            System.out.println("Returning to the main stage.");
+            videoStage.close(); 
+            mainStage.show(); 
+            mainStage.toFront(); 
+        });
     }
 }
