@@ -29,7 +29,8 @@ public class RecordController {
         } 
     }
 
-    public static void createFile(String folderName,String player1,String player2) {  //"offline" or "onlnine" //you can write-> "online/username" to create a folder for each user 
+    public static void createFile(String folderName) {  //"offline" or "onlnine" //you can write-> "online/username" to create a folder for each user 
+        String player1="";String player2="";
         String folderPath = "../ClientApp/src/Record/" + folderName + "/";
         String fileName = player1 + "_" + player2 + "_" + getCurrentTime();
 
