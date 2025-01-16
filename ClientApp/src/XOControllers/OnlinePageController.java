@@ -78,7 +78,8 @@ public class OnlinePageController extends OnlinePage {
                             xoGame.isWinningMove(row, col);
                             drawWinningLine();
                             disableMove();
-                            
+                            LoseVideoPageController videoController = new LoseVideoPageController(stage);
+                            videoController.playVideo();
                         });
                         break;
                     case "draw":
