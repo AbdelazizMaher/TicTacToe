@@ -38,7 +38,6 @@ public class VsCompPageController extends VsCompPage{
                 recImage = new Image(getClass().getResourceAsStream("/media/record.png"));
             } else {
                 recImage = new Image(getClass().getResourceAsStream("/media/stop.png"));
-                //RecordController.createFile("comp",playerX,playerO);
             }
             ImageView recImageView = new ImageView(recImage);
             recImageView.setFitHeight(40);

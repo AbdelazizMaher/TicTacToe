@@ -41,8 +41,6 @@ public class OfflinePageController extends OfflinePage {
             if (!isRecording) {
                 isRecording = true;
                 changeRecordButton();
-                RecordController.player1 = user1;
-                RecordController.player2 = user2;
                 RecordController.createFile("offline");
             }
 

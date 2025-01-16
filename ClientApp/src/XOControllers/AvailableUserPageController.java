@@ -49,7 +49,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
             thread = new Thread(() -> {
                 while (ClientHandler.isConnected() && !inGame) {
                     String serverResponse = ClientHandler.getResponse();
-
+                    System.out.println("ffffff"+serverResponse);
                     StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
                     String status = responseMsgTokens.nextToken();
                     switch (status) {
