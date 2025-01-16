@@ -78,6 +78,7 @@ public class OnlinePageController extends OnlinePage {
                             xoGame.isWinningMove(row, col);
                             drawWinningLine();
                             disableMove();
+                            
                         });
                         break;
                     case "draw":
@@ -183,8 +184,8 @@ public class OnlinePageController extends OnlinePage {
                 drawWinningLine();
                 updateScore();
                 disableMove();
-//                Scene scene = new Scene(new WinVideoPageController(stage));
-//                stage.setScene(scene);
+                WinVideoPageController videoController = new WinVideoPageController(stage);
+                videoController.playVideo();
             } else if (xoGame.isDraw()) {
                 //2-send request game is draw;
                 ClientHandler.sendRequest("drawMove" + "#@$" + row + "#@$" + col + "#@$");
@@ -221,6 +222,7 @@ public class OnlinePageController extends OnlinePage {
         winningLine.setStrokeWidth(5);
 
         borderPane.getChildren().add(winningLine);
+
     }
 
     private void drawMove(int row, int col) {
