@@ -38,6 +38,7 @@ public class OnlinePageController extends OnlinePage{
     public static String opponentName;
     Stage stage;
     static boolean again = false;
+    static boolean logOut = false;
     public OnlinePageController(Stage stage) {
         this.stage = stage;
         initializeGameButtonsHandlers();
@@ -46,28 +47,32 @@ public class OnlinePageController extends OnlinePage{
             while (true) {
                 String serverResponse = getResponse();
                 System.out.println(serverResponse);
+                System.out.println("Hiiiiiiiii");
                 StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
                 String status = responseMsgTokens.nextToken();
-
+                
                 switch (status) {
                     case "normalMove":
                         //enable
+                        Platform.runLater(() -> {
                         enableMove();
                         row = Integer.parseInt(responseMsgTokens.nextToken());
                         col = Integer.parseInt(responseMsgTokens.nextToken());
                         drawMove(row, col);
+                        });
                         break;
+
                     case "losingMove":
-                        Platform.runLater(() -> {
+                            Platform.runLater(() -> {
                             enableMove();
                             row = Integer.parseInt(responseMsgTokens.nextToken());
                             col = Integer.parseInt(responseMsgTokens.nextToken());
                             drawMove(row, col);
                             xoGame.isWinningMove(row, col);
-                            System.out.println(xoGame.getWinningLine());
                             drawWinningLine();
                             disableMove();
-                        });
+                            });
+                        
                         break;
                     case "draw":
                         row = Integer.parseInt(responseMsgTokens.nextToken());
@@ -123,6 +128,7 @@ public class OnlinePageController extends OnlinePage{
         
 
         backButton.setOnMouseClicked(e -> {
+            logOut=true;
             ClientHandler.sendRequest("withdraw");
             Scene scene = new Scene(new AvailableUserPageController(stage));
             stage.setScene(scene);
@@ -192,6 +198,7 @@ public class OnlinePageController extends OnlinePage{
     }
 
     private void drawWinningLine() {
+        
         int[] winningLineIndices = xoGame.getWinningLine();
 
         Button btn1 = buttons[winningLineIndices[0]][winningLineIndices[1]];
@@ -211,15 +218,16 @@ public class OnlinePageController extends OnlinePage{
         winningLine.setStrokeWidth(5);
 
         borderPane.getChildren().add(winningLine);
+        
     }
 
     private void drawMove(int row, int col) {
-        Platform.runLater(() -> {
+        
         if (xoGame.makeMove(row, col)) {
             buttons[row][col].setText(xoGame.getCurrentPlayer());
             xoGame.switchPlayer(); 
         }
-        });
+        
     }
 
 
