@@ -36,7 +36,7 @@ import javafx.scene.text.Font;
 public class AvailableUserPageController extends AvailableUsersPage {
 
     static String onlineList = "";
-    static String opponentName = "";
+
     private static Thread thread;
     private boolean inGame;
     public static boolean isStarting;
@@ -60,15 +60,15 @@ public class AvailableUserPageController extends AvailableUsersPage {
                             }
                             break;
                         case "invitation":
-                            String opponent = responseMsgTokens.nextToken();
-                            handleInvitationRequest(opponent, stage);
+                            OnlinePageController.opponentName = responseMsgTokens.nextToken();
+                            handleInvitationRequest(OnlinePageController.opponentName, stage);
                             break;
                         case "accepted":
                             Platform.runLater(() -> {
+                                
                                 showInformationAlert(stage, "your inivitation has been accepted");
-
-                                opponentName = responseMsgTokens.nextToken();
-                                setPlayersNames(userName, opponentName);
+                                OnlinePageController.opponentName = responseMsgTokens.nextToken();
+                                setPlayersNames(userName, OnlinePageController.opponentName);
                                 inGame = true;
                                 isStarting = true;
                                 Scene scene = new Scene(new OnlinePageController(stage));
@@ -123,7 +123,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
             boolean isInvitationAccepted = showRequestAlert("Game Invitation", "Player " + opponent + " has invited you to a game. Do you accept?", stage);
             inGame = isInvitationAccepted;
             if (isInvitationAccepted) {
-                setPlayersNames(userName, opponent);
+                setPlayersNames(opponent,userName);
                 sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
 
                 Scene scene = new Scene(new OnlinePageController(stage));

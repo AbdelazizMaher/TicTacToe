@@ -22,7 +22,6 @@ import java.util.logging.Logger;
  * @author eman_
  */
 public class RecordController {
-
     static String player1;
     static String player2;
     static FileOutputStream fos;
@@ -61,6 +60,7 @@ public class RecordController {
             Logger.getLogger(RecordController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 
     public static void saveLine(Double startX, Double startY, Double endX, Double endY) {
         try {
