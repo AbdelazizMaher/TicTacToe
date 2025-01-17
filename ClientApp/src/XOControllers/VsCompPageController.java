@@ -21,40 +21,37 @@ import javafx.stage.Stage;
  *
  * @author nerme
  */
-public class VsCompPageController extends VsCompPage{
-    private boolean isPaused = false;
+public class VsCompPageController extends VsCompPage {
+
+    private boolean isRecording = false;
     private TicTacToe xoGame;
     private Line winningLine;
     int count;
-    public VsCompPageController(Stage stage){
+
+    public VsCompPageController(Stage stage) {
         xoGame = new TicTacToe();
         backButton.setOnMouseClicked(e -> {
             Scene scene2 = new Scene(new DifficultyLevelController(stage));
-            stage.setScene(scene2); 
+            stage.setScene(scene2);
         });
         recordButton.setOnMouseClicked(e -> {
-            Image recImage;
-            if (isPaused) {
-                recImage = new Image(getClass().getResourceAsStream("/media/record.png"));
-            } else {
-                recImage = new Image(getClass().getResourceAsStream("/media/stop.png"));
+            if (!isRecording) {
+                isRecording = true;
+                changeRecordButton();
+                RecordController.setPlayersName("player", "computer");
+                RecordController.createFile("offline");
             }
-            ImageView recImageView = new ImageView(recImage);
-            recImageView.setFitHeight(40);
-            recImageView.setFitWidth(40);
-            recordButton.setGraphic(recImageView);         
-            isPaused = !isPaused;
         });
-        
+
         replayButton.setOnMouseClicked(e -> {
             resetGame();
         });
 
         String[] players = xoGame.assignXOToPlayer();
 
-
         initializeGameButtonsHandlers();
     }
+
     public void setOnlineLabelToPlayerTurn() {
         String currentPlayer = xoGame.getCurrentPlayer();
         if (currentPlayer.equals("X")) {
@@ -63,28 +60,30 @@ public class VsCompPageController extends VsCompPage{
             playerOneLabel.setText(playerO + "'s turn (O)");
         }
     }
+
     private void initializeGameButtonsHandlers() {
-            for (int row = 0; row < 3; row++) {
-                for (int col = 0; col < 3; col++) {
-                    final int rowButton = row;
-                    final int colButton = col;
-                    buttons[row][col].setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
-                        buttons[row][col].setOnAction(e -> {
-                           if (xoGame.getCurrentPlayer().equals("X")) {
-                                processMove(rowButton, colButton);
-                                
-                            }
-                           if (xoGame.getCurrentPlayer().equals("O")) {
-                                computerMove();
-                            } 
-                        });
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                final int rowButton = row;
+                final int colButton = col;
+                buttons[row][col].setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
+                buttons[row][col].setOnAction(e -> {
+                    if (xoGame.getCurrentPlayer().equals("X")) {
+                        processMove(rowButton, colButton);
+
+                    }
+                    if (xoGame.getCurrentPlayer().equals("O")) {
+                        computerMove();
+                    }
+                });
             }
         }
-           
-        }
+
+    }
+
     private void processMove(int row, int col) {
         if (xoGame.makeMove(row, col)) {
-            if (isPaused) {
+            if (isRecording) {
                 RecordController.saveMove(row, col, "X");
             }
             buttons[row][col].setText(xoGame.getCurrentPlayer());
@@ -92,11 +91,9 @@ public class VsCompPageController extends VsCompPage{
             if (xoGame.isWinningMove(row, col) && winningLine == null) {
                 drawWinningLine();
                 updateScore();
-                
+                stopRecording();
             } else if (xoGame.isDraw()) {
-                if (isPaused) {
-                    RecordController.closeRecordConection();
-                }
+                stopRecording();
             } else if (winningLine != null) {
                 resetGame();
             } else {
@@ -105,6 +102,7 @@ public class VsCompPageController extends VsCompPage{
             }
         }
     }
+
     private void updateScore() {
         if (xoGame.getCurrentPlayer().equals("X")) {
             score1 += 5;
@@ -115,7 +113,7 @@ public class VsCompPageController extends VsCompPage{
     }
 
     private void resetGame() {
-        isPaused = false;
+        isRecording = false;
         xoGame.resetBoard();
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
@@ -142,10 +140,10 @@ public class VsCompPageController extends VsCompPage{
         double startY = point1.getY();
         double endX = point3.getX();
         double endY = point3.getY();
-        if (isPaused) {
-                RecordController.saveLine(startX,startY,endX,endY);
-                RecordController.closeRecordConection();
+        if (isRecording) {
+            RecordController.saveLine(startX, startY, endX, endY);
         }
+
         winningLine = new Line(startX, startY, endX, endY);
 
         winningLine.setStroke(Color.RED);
@@ -153,34 +151,56 @@ public class VsCompPageController extends VsCompPage{
 
         borderPane.getChildren().add(winningLine);
     }
-    void computerMove(){
+
+    void computerMove() {
         Random rand = new Random();
         int rowComp = rand.nextInt(3);
         int colComp = rand.nextInt(3);
-        while(!xoGame.makeMove(rowComp, colComp)&&count<9){
+        while (!xoGame.makeMove(rowComp, colComp) && count < 9) {
             rowComp = rand.nextInt(3);
             colComp = rand.nextInt(3);
         }
-        if(count<9){
-            if (isPaused) {
+        if (count < 9) {
+            if (isRecording) {
                 RecordController.saveMove(rowComp, colComp, "O");
             }
             buttons[rowComp][colComp].setText(xoGame.getCurrentPlayer());
             count++;
         }
         if (xoGame.isWinningMove(rowComp, rowComp) && winningLine == null) {
-                drawWinningLine();
-                updateScore();
-            } else if (xoGame.isDraw()) {
-                if (isPaused) {
-                    RecordController.closeRecordConection();
-                }
-            } else if (winningLine != null) {
-                resetGame();
-            } else {
-                xoGame.switchPlayer();
-                setOnlineLabelToPlayerTurn();
+            drawWinningLine();
+            updateScore();
+        } else if (xoGame.isDraw()) {
+            if (isRecording) {
+                RecordController.closeRecordConection();
             }
+        } else if (winningLine != null) {
+            resetGame();
+        } else {
+            xoGame.switchPlayer();
+            setOnlineLabelToPlayerTurn();
+        }
+    }
+
+    private void changeRecordButton() {
+        Image recImage;
+        if (isRecording) {
+            recImage = new Image(getClass().getResourceAsStream("/media/stop.png"));
+        } else {
+            recImage = new Image(getClass().getResourceAsStream("/media/record.png"));
+        }
+        ImageView recImageView = new ImageView(recImage);
+        recImageView.setFitHeight(40);
+        recImageView.setFitWidth(40);
+        recordButton.setGraphic(recImageView);
+    }
+
+    private void stopRecording() {
+        if (isRecording) {
+            isRecording = false;
+            changeRecordButton();
+            RecordController.closeRecordConection();
+        }
     }
 
 }
