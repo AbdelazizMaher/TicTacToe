@@ -41,6 +41,7 @@ public class OnlinePageController extends OnlinePage {
     static boolean again = false;
     static boolean logOut = false;
     Thread thread;
+
     public OnlinePageController(Stage stage) {
         this.stage = stage;
         initializeGameButtonsHandlers();
@@ -78,17 +79,15 @@ public class OnlinePageController extends OnlinePage {
                     case "draw":
                         row = Integer.parseInt(responseMsgTokens.nextToken());
                         col = Integer.parseInt(responseMsgTokens.nextToken());
-                        drawMove(row, col);
-
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Draw");
-                        alert.setContentText("You're draw!!");
-                        alert.showAndWait();
-                        for (int row = 0; row < 3; row++) {
-                            for (int col = 0; col < 3; col++) {
-                                buttons[row][col].setDisable(true);
+                        Platform.runLater(() -> {
+                            drawMove(row, col);
+                            showDrawAlert(stage, "Game Draw");
+                            for (int row = 0; row < 3; row++) {
+                                for (int col = 0; col < 3; col++) {
+                                    buttons[row][col].setDisable(true);
+                                }
                             }
-                        }
+                        });
                         break;
                     case "withdraw":
                         Platform.runLater(() -> {
@@ -142,9 +141,9 @@ public class OnlinePageController extends OnlinePage {
                 isRecording = true;
                 changeRecordButton();
                 RecordController.setPlayersName(HomePageController.userName, OnlinePageController.opponentName);
-                if(AvailableUserPageController.isStarting) {
+                if (AvailableUserPageController.isStarting) {
                     RecordController.setPlayersShapes("X", "O");
-                }else {
+                } else {
                     RecordController.setPlayersShapes("O", "X");
                 }
                 AvailableUserPageController.isStarting = false;
@@ -194,6 +193,7 @@ public class OnlinePageController extends OnlinePage {
                 //2-send request game is draw;
                 ClientHandler.sendRequest("drawMove" + "#@$" + row + "#@$" + col + "#@$");
                 stopRecording();
+                setBoardForDraw();
             } else {
                 //3-send request with the normalmove 
                 ClientHandler.sendRequest("normalMove" + "#@$" + row + "#@$" + col + "#@$");
@@ -296,6 +296,14 @@ public class OnlinePageController extends OnlinePage {
         alert.showAndWait();
     }
 
+    private void showDrawAlert(Stage stage, String contentText) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initOwner(stage);
+        alert.setTitle("Draw");
+        alert.setContentText(contentText);
+        alert.showAndWait();
+    }
+
     protected void disableMove() {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
@@ -314,13 +322,14 @@ public class OnlinePageController extends OnlinePage {
 
     private void clearBoard() {
         isRecording = false;
-        winningLine = new Line();
         xoGame = new TicTacToe();
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 buttons[row][col].setText("");
             }
         }
+        borderPane.getChildren().remove(winningLine);
+        winningLine = null;
     }
 
     private void changeRecordButton() {
@@ -347,6 +356,17 @@ public class OnlinePageController extends OnlinePage {
     private void showWinningVideo() {
         WinVideoPageController videoController = new WinVideoPageController(stage);
         videoController.playVideo();
+    }
+
+    private void setBoardForDraw() {
+        Platform.runLater(() -> {
+            showDrawAlert(stage, "Game Draw");
+            for (int row = 0; row < 3; row++) {
+                for (int col = 0; col < 3; col++) {
+                    buttons[row][col].setDisable(true);
+                }
+            }
+        });
     }
 
 }
