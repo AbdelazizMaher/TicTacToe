@@ -49,7 +49,7 @@ public class HomePageController extends HomePage {
             });
         }
         historyButton.setOnAction(e -> {
-                Scene scene = new Scene(new HistoryPageController(stage, HistoryPageController.OFFLINE, userName));
+                Scene scene = new Scene(new HistoryPageController(stage, HistoryPageController.ONLINE, userName));
                 stage.setScene(scene);
         });
 
