@@ -40,16 +40,15 @@ public class OnlinePageController extends OnlinePage {
     Stage stage;
     static boolean again = false;
     static boolean logOut = false;
-
+    Thread thread;
     public OnlinePageController(Stage stage) {
         this.stage = stage;
         initializeGameButtonsHandlers();
         xoGame = new TicTacToe();
-        Thread thread = new Thread(() -> {
+        thread = new Thread(() -> {
             while (true) {
                 String serverResponse = getResponse();
-                System.out.println(serverResponse);
-                System.out.println("Hiiiiiiiii");
+                System.out.println("resp " + serverResponse);
                 StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
                 String status = responseMsgTokens.nextToken();
 
@@ -68,13 +67,7 @@ public class OnlinePageController extends OnlinePage {
                             enableMove();
                             row = Integer.parseInt(responseMsgTokens.nextToken());
                             col = Integer.parseInt(responseMsgTokens.nextToken());
-
                             drawMove(row, col);
-                            for (int row = 0; row < 3; row++) {
-                                for (int col = 0; col < 3; col++) {
-                                    System.out.println(buttons[row][col]);
-                                }
-                            }
                             xoGame.isWinningMove(row, col);
                             drawWinningLine();
                             disableMove();
@@ -99,6 +92,7 @@ public class OnlinePageController extends OnlinePage {
                         break;
                     case "withdraw":
                         Platform.runLater(() -> {
+                            thread.stop();
                             showAlert("Withdraw", "Unfortunantly you opponent has left the game");
                             Scene scene = new Scene(new AvailableUserPageController(stage));
                             stage.setScene(scene);
@@ -138,6 +132,7 @@ public class OnlinePageController extends OnlinePage {
         backButton.setOnMouseClicked(e -> {
             logOut = true;
             ClientHandler.sendRequest("withdraw");
+            thread.stop();
             Scene scene = new Scene(new AvailableUserPageController(stage));
             stage.setScene(scene);
         });
@@ -287,6 +282,7 @@ public class OnlinePageController extends OnlinePage {
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initOwner(stage);
         alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();

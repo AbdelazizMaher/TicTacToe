@@ -222,6 +222,8 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
     @Override
     public void withdraw() {
+        isPlaying=false;
+        getOpponentHandler(opponentName).isPlaying=false;
         getOpponentOutputStream(opponentName).println("withdraw");
     }
 
