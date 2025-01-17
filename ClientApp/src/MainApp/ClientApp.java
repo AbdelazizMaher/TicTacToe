@@ -23,7 +23,6 @@ import javafx.util.Duration;
 public class ClientApp extends Application {
 
     HomePageController root;
-    public static boolean isSplashScreenLoaded = false;
     
     @Override
     public void start(Stage stage) throws Exception {
