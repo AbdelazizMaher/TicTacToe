@@ -63,6 +63,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
                                 
                                 showInformationAlert(stage, "your inivitation has been accepted");
                                 OnlinePageController.opponentName = responseMsgTokens.nextToken();
+                                setPlayersNames(userName,OnlinePageController.opponentName);
                                 inGame = true;
                                 isStarting = true;
                                 Scene scene = new Scene(new OnlinePageController(stage));
