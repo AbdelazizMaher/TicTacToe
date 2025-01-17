@@ -5,15 +5,12 @@
  */
 package XOControllers;
 
-import static ClientHandler.ClientHandler.getResponse;
 import ClientHandler.ClientHandler;
 import static ClientHandler.ClientHandler.sendRequest;
 import XOGame.AvailableUsersPage;
 import static XOGame.HomePage.userName;
 import static XOGame.OnlinePage.playerO;
 import static XOGame.OnlinePage.playerX;
-import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadMXBean;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,8 +21,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -49,7 +44,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
             thread = new Thread(() -> {
                 while (ClientHandler.isConnected() && !inGame) {
                     String serverResponse = ClientHandler.getResponse();
-                    System.out.println("ffffff"+serverResponse);
+                    System.out.println("response"+serverResponse);
                     StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
                     String status = responseMsgTokens.nextToken();
                     switch (status) {
@@ -68,7 +63,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
                                 
                                 showInformationAlert(stage, "your inivitation has been accepted");
                                 OnlinePageController.opponentName = responseMsgTokens.nextToken();
-                                setPlayersNames(userName, OnlinePageController.opponentName);
+                                setPlayersNames(userName,OnlinePageController.opponentName);
                                 inGame = true;
                                 isStarting = true;
                                 Scene scene = new Scene(new OnlinePageController(stage));
@@ -125,7 +120,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
             if (isInvitationAccepted) {
                 setPlayersNames(opponent,userName);
                 sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
-
+                isStarting = true;
                 Scene scene = new Scene(new OnlinePageController(stage));
                 stage.setScene(scene);
             } else {

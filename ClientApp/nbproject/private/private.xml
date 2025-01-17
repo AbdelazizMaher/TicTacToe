@@ -3,10 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOControllers/WinVideoPageController.java</file>
             <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOControllers/OnlinePageController.java</file>
             <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/ClientHandler/ClientHandler.java</file>
             <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOControllers/LoseVideoPageController.java</file>
+=======
+            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/PopUpLogOutController.java</file>
+            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/ClientHandler/ClientHandler.java</file>
+            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/HomePageController.java</file>
+>>>>>>> 6f45638e368f39fdf816811e7c4c9a173c9b15aa
         </group>
     </open-files>
 </project-private>
