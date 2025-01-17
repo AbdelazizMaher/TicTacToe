@@ -32,13 +32,16 @@ public class LoseVideoPageController extends WinVideoPage {
         MediaView mediaView = new MediaView(mediaPlayer);
 
         StackPane videoRoot = new StackPane(mediaView);
-        Scene videoScene = new Scene(videoRoot, 800, 600); // Adjust dimensions as needed
+        Scene videoScene = new Scene(videoRoot, 800, 600);
         videoStage.setScene(videoScene);
 
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setOnEndOfMedia(this::returnToMainStage);
 
-        videoStage.setOnCloseRequest(event -> returnToMainStage());
+        videoStage.setOnCloseRequest(event -> {
+            mediaPlayer.stop(); 
+            returnToMainStage();
+        });
     }
 
     public void playVideo() {
@@ -49,13 +52,13 @@ public class LoseVideoPageController extends WinVideoPage {
         });
     }
 
-    // Method to handle returning to the main stage
     private void returnToMainStage() {
         Platform.runLater(() -> {
             System.out.println("Returning to the main stage.");
-            videoStage.close(); // Close the video stage
-            mainStage.show(); // Show the main stage
-            mainStage.toFront(); // Bring the main stage to the front
+            mediaPlayer.stop();
+            videoStage.close(); 
+            mainStage.show(); 
+            mainStage.toFront(); 
         });
     }
 }
