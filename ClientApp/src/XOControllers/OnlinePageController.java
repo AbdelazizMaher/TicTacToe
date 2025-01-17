@@ -147,6 +147,12 @@ public class OnlinePageController extends OnlinePage {
                 isRecording = true;
                 changeRecordButton();
                 RecordController.setPlayersName(HomePageController.userName, OnlinePageController.opponentName);
+                if(AvailableUserPageController.isStarting) {
+                    RecordController.setPlayersShapes("X", "O");
+                }else {
+                    RecordController.setPlayersShapes("O", "X");
+                }
+                AvailableUserPageController.isStarting = false;
                 RecordController.createFile("online/" + HomePageController.userName);
             }
         });

@@ -22,8 +22,13 @@ import java.util.logging.Logger;
  * @author eman_
  */
 public class RecordController {
+
     static String player1;
+    static String player1Shape;
+    
     static String player2;
+    static String player2Shape;
+    
     static FileOutputStream fos;
     static DataOutputStream dos;
 
@@ -34,14 +39,9 @@ public class RecordController {
         }
     }
 
-    public static void setPlayersName(String player1, String player2) {
-        RecordController.player1 = player1;
-        RecordController.player2 = player2;
-    }
-
     public static void createFile(String folderName) {  //"offline" or "onlnine" //you can write-> "online/username" to create a folder for each user 
         String folderPath = "../ClientApp/src/Record/" + folderName + "/";
-        String fileName = player1 + "_" + player2 + "_" + getCurrentTime();
+        String fileName = player1 + "#" + player1Shape + "_" + player2 + "#" + player2Shape + "_" + getCurrentTime();
 
         createFolderIfNotExists(folderPath);
         try {
@@ -51,7 +51,7 @@ public class RecordController {
             Logger.getLogger(RecordController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public static void saveMove(Integer row, Integer col, String shape) {
         try {
             String move = "move" + "#" + row.toString() + "#" + col.toString() + "#" + shape + "\n";
@@ -60,7 +60,6 @@ public class RecordController {
             Logger.getLogger(RecordController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 
     public static void saveLine(Double startX, Double startY, Double endX, Double endY) {
         try {
@@ -116,6 +115,24 @@ public class RecordController {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
         return now.format(formatter);
+    }
+
+    public static void setPlayersShapes(String player1Shape, String player2Shape) {
+        RecordController.player1Shape = player1Shape;
+        RecordController.player2Shape = player2Shape;
+    }
+    
+    public static void setPlayersName(String player1, String player2) {
+        RecordController.player1 = player1;
+        RecordController.player2 = player2;
+    }
+
+    public static String getPlayer1() {
+        return player1;
+    }
+
+    public static String getPlayer2() {
+        return player2;
     }
 
 }

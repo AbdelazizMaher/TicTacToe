@@ -39,6 +39,7 @@ public class VsCompPageController extends VsCompPage {
                 isRecording = true;
                 changeRecordButton();
                 RecordController.setPlayersName("player", "computer");
+                RecordController.setPlayersShapes("X", "O");
                 RecordController.createFile("offline");
             }
         });
