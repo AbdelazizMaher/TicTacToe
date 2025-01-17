@@ -29,7 +29,7 @@ import javafx.scene.shape.Line;
  */
 public class OnlinePageController extends OnlinePage {
 
-    private boolean isPaused = false;
+    private boolean isRecording = false;
     private TicTacToe xoGame;
     private Line winningLine;
     Integer row;
@@ -98,9 +98,11 @@ public class OnlinePageController extends OnlinePage {
                         }
                         break;
                     case "withdraw":
-                        showAlert("Withdraw", "Unfortunantly you opponent has left the game");
-                        Scene scene = new Scene(new AvailableUserPageController(stage));
-                        stage.setScene(scene);
+                        Platform.runLater(() -> {
+                            showAlert("Withdraw", "Unfortunantly you opponent has left the game");
+                            Scene scene = new Scene(new AvailableUserPageController(stage));
+                            stage.setScene(scene);
+                        });
                         break;
                     case "invitation":
                         String opponent = responseMsgTokens.nextToken();
@@ -139,20 +141,24 @@ public class OnlinePageController extends OnlinePage {
             Scene scene = new Scene(new AvailableUserPageController(stage));
             stage.setScene(scene);
         });
+
         recordButton.setOnMouseClicked(e -> {
-            Image recImage;
-            if (isPaused) {
-                recImage = new Image(getClass().getResourceAsStream("/media/record.png"));
-            } else {
-                recImage = new Image(getClass().getResourceAsStream("/media/stop.png"));
+            if (!isRecording) {
+                isRecording = true;
+                changeRecordButton();
+                RecordController.setPlayersName(HomePageController.userName, OnlinePageController.opponentName);
+                if(AvailableUserPageController.isStarting) {
+                    RecordController.setPlayersShapes("X", "O");
+                }else {
+                    RecordController.setPlayersShapes("O", "X");
+                }
+                AvailableUserPageController.isStarting = false;
+                RecordController.createFile("online/" + HomePageController.userName);
             }
-            ImageView recImageView = new ImageView(recImage);
-            recImageView.setFitHeight(40);
-            recImageView.setFitWidth(40);
-            recordButton.setGraphic(recImageView);
-            isPaused = !isPaused;
         });
+
         replayButton.setOnMouseClicked(e -> {
+            stopRecording();
             ClientHandler.sendRequest("sendInvitaion" + "#@$" + opponentName + "#@$");
         });
     }
@@ -177,19 +183,22 @@ public class OnlinePageController extends OnlinePage {
     private void processMove(int row, int col) {
         if (xoGame.makeMove(row, col)) {
             buttons[row][col].setText(xoGame.getCurrentPlayer());
+            if (isRecording) {
+                RecordController.saveMove(row, col, xoGame.getCurrentPlayer());
+            }
             disableMove();
             if (xoGame.isWinningMove(row, col) && winningLine == null) {
                 //1-send request with the winningmove & drawWinningLine();
                 ClientHandler.sendRequest("winningMove" + "#@$" + row + "#@$" + col + "#@$");
-                System.out.println(xoGame.getWinningLine());
                 drawWinningLine();
+                stopRecording();
                 updateScore();
                 disableMove();
-                WinVideoPageController videoController = new WinVideoPageController(stage);
-                videoController.playVideo();
+                showWinningVideo();
             } else if (xoGame.isDraw()) {
                 //2-send request game is draw;
                 ClientHandler.sendRequest("drawMove" + "#@$" + row + "#@$" + col + "#@$");
+                stopRecording();
             } else {
                 //3-send request with the normalmove 
                 ClientHandler.sendRequest("normalMove" + "#@$" + row + "#@$" + col + "#@$");
@@ -217,6 +226,9 @@ public class OnlinePageController extends OnlinePage {
         double endX = point3.getX();
         double endY = point3.getY();
 
+        if (isRecording) {
+            RecordController.saveLine(startX, startY, endX, endY);
+        }
         winningLine = new Line(startX, startY, endX, endY);
 
         winningLine.setStroke(Color.RED);
@@ -229,6 +241,9 @@ public class OnlinePageController extends OnlinePage {
     private void drawMove(int row, int col) {
         if (xoGame.makeMove(row, col)) {
             buttons[row][col].setText(xoGame.getCurrentPlayer());
+            if (isRecording) {
+                RecordController.saveMove(row, col, xoGame.getCurrentPlayer());
+            }
             xoGame.switchPlayer();
         }
     }
@@ -302,7 +317,7 @@ public class OnlinePageController extends OnlinePage {
     }
 
     private void clearBoard() {
-        isPaused = false;
+        isRecording = false;
         winningLine = new Line();
         xoGame = new TicTacToe();
         for (int row = 0; row < 3; row++) {
@@ -310,6 +325,32 @@ public class OnlinePageController extends OnlinePage {
                 buttons[row][col].setText("");
             }
         }
+    }
+
+    private void changeRecordButton() {
+        Image recImage;
+        if (isRecording) {
+            recImage = new Image(getClass().getResourceAsStream("/media/stop.png"));
+        } else {
+            recImage = new Image(getClass().getResourceAsStream("/media/record.png"));
+        }
+        ImageView recImageView = new ImageView(recImage);
+        recImageView.setFitHeight(40);
+        recImageView.setFitWidth(40);
+        recordButton.setGraphic(recImageView);
+    }
+
+    private void stopRecording() {
+        if (isRecording) {
+            isRecording = false;
+            changeRecordButton();
+            RecordController.closeRecordConection();
+        }
+    }
+
+    private void showWinningVideo() {
+        WinVideoPageController videoController = new WinVideoPageController(stage);
+        videoController.playVideo();
     }
 
 }

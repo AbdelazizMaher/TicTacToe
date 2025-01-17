@@ -7,7 +7,6 @@ package XOControllers;
 
 import XOGame.OfflinePage;
 import XOGameBoard.TicTacToe;
-import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -42,6 +41,8 @@ public class OfflinePageController extends OfflinePage {
             if (!isRecording) {
                 isRecording = true;
                 changeRecordButton();
+                RecordController.setPlayersName(user1, user2);
+                RecordController.setPlayersShapes("X", "O");
                 RecordController.createFile("offline");
             }
 

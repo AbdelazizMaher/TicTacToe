@@ -11,10 +11,15 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public abstract class RecordPage extends AnchorPane {
-    private Button[][] buttons = new Button[3][3];
+    protected Button[][] buttons = new Button[3][3];
     private String playerX = "Player X";
     private String playerO = "Player O";
+    protected Label playerXLabel;
+    protected Label playerOLabel;
     protected final Button backButton;
+    protected final Button rewatchButton;
+    protected final Button stopButton;
+    protected BorderPane borderPane;
 
     public RecordPage(Stage stage) {
         // Create the AnchorPane
@@ -29,7 +34,7 @@ public abstract class RecordPage extends AnchorPane {
         imageView.setPreserveRatio(false);
 
         // Create and configure the BorderPane
-        BorderPane borderPane = new BorderPane();
+        borderPane = new BorderPane();
         borderPane.setPrefHeight(580);
         borderPane.setPrefWidth(780);
 
@@ -75,7 +80,7 @@ public abstract class RecordPage extends AnchorPane {
         bottomHBox.setAlignment(javafx.geometry.Pos.CENTER);
         bottomHBox.setSpacing(10);
         
-        Button stopButton = new Button();
+        stopButton = new Button();
         stopButton.setMaxWidth(Double.MAX_VALUE);
         stopButton.setMinWidth(Double.MIN_VALUE);
         stopButton.setPrefHeight(38);
@@ -87,7 +92,7 @@ public abstract class RecordPage extends AnchorPane {
         stopImageView.setFitWidth(40);
         stopButton.setGraphic(stopImageView);
         
-        Button rewatchButton = new Button();
+        rewatchButton = new Button();
         rewatchButton.setMaxWidth(Double.MAX_VALUE);
         rewatchButton.setMinWidth(Double.MIN_VALUE);
         rewatchButton.setPrefHeight(38);
@@ -112,13 +117,13 @@ public abstract class RecordPage extends AnchorPane {
         playerXAnchorPane.setPrefWidth(780);
 
         // Player X Label
-        Label playerXLabel = new Label(playerX + " - X");
+        playerXLabel = new Label(playerX + " - X");
         playerXLabel.setTextFill(javafx.scene.paint.Color.BLACK);
         playerXLabel.setFont(new Font("Arial BOLD", 22));
         AnchorPane.setLeftAnchor(playerXLabel, 10.0); // Fixed position from the left
         AnchorPane.setTopAnchor(playerXLabel, 10.0);
         // Player O Label
-        Label playerOLabel = new Label(playerO + " - O");
+        playerOLabel = new Label(playerO + " - O");
         playerOLabel.setFont(new Font("Arial BOLD", 22));
         playerOLabel.setTextFill(javafx.scene.paint.Color.BLACK);
         AnchorPane.setRightAnchor(playerOLabel, 10.0); // Fixed position from the right
