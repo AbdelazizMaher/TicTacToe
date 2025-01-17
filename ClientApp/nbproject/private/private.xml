@@ -3,18 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/RecordController.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOGame/OfflinePage.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/OnlinePageController.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/OfflinePageController.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOGameBoard/TicTacToe.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/RecordController.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/LoginPageController.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/VsCompPageController.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/OnlinePageController.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOGame/VsCompPage.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/ClientHandler/ClientHandler.java</file>
-
+            <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOControllers/WinVideoPageController.java</file>
+            <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOControllers/OnlinePageController.java</file>
+            <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/ClientHandler/ClientHandler.java</file>
+            <file>file:/D:/TicTacToe%20Project/TicTacToe/ClientApp/src/XOControllers/LoseVideoPageController.java</file>
         </group>
     </open-files>
 </project-private>
