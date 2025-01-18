@@ -183,88 +183,7 @@ public class VsCompPageController extends VsCompPage {
         }
     }
 
-    
-//    private void computerHardMove() {
-//    int bestScore = Integer.MIN_VALUE;
-//    int bestRow = -1;
-//    int bestCol = -1;
-//
-//    // Iterate through all possible moves
-//    for (int row = 0; row < 3; row++) {
-//        for (int col = 0; col < 3; col++) {
-//            if (xoGame.makeMove(row, col)) { // Simulate move
-//                int score = minimax(0, false,row,col); // Call minimax with depth 0, opponent's turn
-//                xoGame.resetBoard(); // Undo move
-//                if (score > bestScore) {
-//                    bestScore = score;
-//                    bestRow = row;
-//                    bestCol = col;
-//                }
-//            }
-//        }
-//    }
-//
-//    // Make the best move
-//    if (bestRow != -1 && bestCol != -1) {
-//        xoGame.makeMove(bestRow, bestCol);
-//        buttons[bestRow][bestCol].setText(xoGame.getCurrentPlayer());
-//        count++;
-//
-//        if (xoGame.isWinningMove(bestRow, bestCol)) {
-//            drawWinningLine();
-//            updateScore();
-//        } else if (xoGame.isDraw()) {
-//            stopRecording();
-//        } else {
-//            xoGame.switchPlayer();
-//            setOnlineLabelToPlayerTurn();
-//        }
-//    }
-//}
-//
-//    
-//   private int minimax(int depth, boolean isMaximizing,int r,int c) {
-//    // Check for terminal states
-//    if (xoGame.isWinningMove(r, c)) { // Replace with actual winning detection
-//        return (xoGame.getCurrentPlayer().equals("O") ? 10 - depth : depth - 10);
-//    }
-//    if (xoGame.isDraw()) {
-//        return 0;
-//    }
-//
-//    if (isMaximizing) { // Maximizing for "O"
-//        int bestScore = Integer.MIN_VALUE;
-//        for (int row = 0; row < 3; row++) {
-//            for (int col = 0; col < 3; col++) {
-//                if (xoGame.makeMove(row, col)) { // Simulate move
-//                    int score = minimax(depth + 1, false,row,col);
-//                    xoGame.resetBoard(); // Undo move
-//                    bestScore = Math.max(bestScore, score);
-//                }
-//            }
-//        }
-//        return bestScore;
-//    } else { // Minimizing for "X"
-//        int bestScore = Integer.MAX_VALUE;
-//        for (int row = 0; row < 3; row++) {
-//            for (int col = 0; col < 3; col++) {
-//                if (xoGame.makeMove(row, col)) { // Simulate move
-//                    int score = minimax(depth + 1, true,row,col);
-//                    xoGame.resetBoard(); // Undo move
-//                    bestScore = Math.min(bestScore, score);
-//                }
-//            }
-//        }
-//        return bestScore;
-//    }
-//}
-
-    
-    
-    
-    
-    
-    
+       
     private int minimax(int depth, boolean isMaximizing,int r,int c) {
         if (xoGame.isWinningMove(r, c)) {
             return isMaximizing ? -10 : 10;
@@ -308,7 +227,6 @@ public class VsCompPageController extends VsCompPage {
 
                     int moveVal = minimax(0, false,row,col);
 
-                    
                     xoGame.board[row][col] = null;
                     if (moveVal > bestVal) {
                         bestRow = row;
@@ -341,11 +259,6 @@ public class VsCompPageController extends VsCompPage {
             setOnlineLabelToPlayerTurn();
         }
     }
-    
-    
-    
-   
-
     
     private void changeRecordButton() {
         Image recImage;
