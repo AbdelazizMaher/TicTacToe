@@ -47,7 +47,7 @@ public class OnlinePageController extends OnlinePage {
     static boolean again = false;
     boolean gameEnd;
     Thread thread;
-    boolean exit;
+    static boolean exit;
     public OnlinePageController(Stage stage) {
         this.stage = stage;
         initializeGameButtonsHandlers();
@@ -125,6 +125,7 @@ public class OnlinePageController extends OnlinePage {
                             showAlert("Accepted", "your inivitation has been accepted");
                             again = true;
                             gameEnd = false;
+                            isRecording = false;
                             initializeGameButtonsHandlers();
                         });
                         break;
@@ -147,6 +148,7 @@ public class OnlinePageController extends OnlinePage {
         thread.start();
 
         backButton.setOnMouseClicked(e -> {
+            isRecording = false;
             exit = true;
             if (!gameEnd) {
                 ClientHandler.sendRequest("withdraw");
@@ -300,6 +302,7 @@ public class OnlinePageController extends OnlinePage {
                 disableMove();
                 again = true;
                 gameEnd = false;
+                isRecording = false;
             } else {                
                 sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
                 sendRequest("updateScore#@$"+userName+"#@$"+score1+"#@$"+opponent+"#@$"+score2);

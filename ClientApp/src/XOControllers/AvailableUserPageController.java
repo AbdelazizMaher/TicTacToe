@@ -64,7 +64,8 @@ public class AvailableUserPageController extends AvailableUsersPage {
                             break;
                         case "accepted":
                             Platform.runLater(() -> {
-
+                                OnlinePageController.exit = false;
+                                OnlinePageController.again=false;
                                 showInformationAlert(stage, "your inivitation has been accepted");
                                 OnlinePageController.opponentName = responseMsgTokens.nextToken();
                                 setPlayersNames(userName, OnlinePageController.opponentName);
@@ -128,6 +129,8 @@ public class AvailableUserPageController extends AvailableUsersPage {
                 setPlayersNames(opponent, userName);
                 sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
                 //isStarting = true;
+                OnlinePageController.exit = false;
+                OnlinePageController.again=false;
                 Scene scene = new Scene(new OnlinePageController(stage));
                 stage.setScene(scene);
             } else {
