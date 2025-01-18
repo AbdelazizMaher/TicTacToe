@@ -54,7 +54,7 @@ public class OnlinePageController extends OnlinePage {
         xoGame = new TicTacToe();
         if(AvailableUserPageController.isStarting) {
             startMoveTimer();
-            System.out.println("here");
+            
         }
         
         thread = new Thread(() -> {
@@ -120,6 +120,7 @@ public class OnlinePageController extends OnlinePage {
                             startMoveTimer();
                             enableMove();
                             showAlert("Accepted", "your inivitation has been accepted");
+                            updatePlayerLabels(HomePageController.userName, "O", OnlinePageController.opponentName, "X");
                             again = true;
                             initializeGameButtonsHandlers();
                         });
@@ -265,6 +266,7 @@ public class OnlinePageController extends OnlinePage {
             boolean isInvitationAccepted = showRequestAlert("Game Invitation", "Player " + opponent + " has invited you to a game. Do you accept?", stage);
             if (isInvitationAccepted) {
                 sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
+                updatePlayerLabels(HomePageController.userName, "X", OnlinePageController.opponentName, "O");
                 clearBoard();
                 disableMove();
                 again = true;
