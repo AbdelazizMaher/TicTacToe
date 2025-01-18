@@ -106,6 +106,7 @@ public class OnlinePageController extends OnlinePage {
                         Platform.runLater(() -> {
                             gameEnd = true;
                             showAlert("Withdraw", "Unfortunantly you opponent has left the game");
+                            stopMoveTimer();
                             Scene scene = new Scene(new AvailableUserPageController(stage));
                             stage.setScene(scene);
                         });
@@ -149,6 +150,7 @@ public class OnlinePageController extends OnlinePage {
                 ClientHandler.sendRequest("withdraw");
             }
             gameEnd = true;
+            stopMoveTimer();
             Scene scene = new Scene(new AvailableUserPageController(stage));
             stage.setScene(scene);
         });
@@ -169,6 +171,7 @@ public class OnlinePageController extends OnlinePage {
         });
 
         replayButton.setOnMouseClicked(e -> {
+            stopMoveTimer();
             stopRecording();
             ClientHandler.sendRequest("sendInvitaion" + "#@$" + opponentName + "#@$");
         });

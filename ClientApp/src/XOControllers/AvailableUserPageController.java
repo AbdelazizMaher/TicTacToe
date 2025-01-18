@@ -95,6 +95,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
                              case "score":
                             OnlinePageController.score1 = Integer.parseInt(responseMsgTokens.nextToken());
                             OnlinePageController.score2 = Integer.parseInt(responseMsgTokens.nextToken());
+                            break;
                     }
                 }
             });

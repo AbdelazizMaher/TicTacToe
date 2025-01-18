@@ -235,8 +235,8 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             Integer opponentScore = opponent.user.getScore();
 
             try {
-                talker.writeUTF("score" + "#@$" + opponentScore.toString() + "#@$" + userScore.toString());
-                opponent.talker.writeUTF("score" + "#@$" + opponentScore.toString() + "#@$" + userScore.toString());
+                //talker.writeUTF("score" + "#@$" + opponentScore.toString() + "#@$" + userScore.toString());
+                //opponent.talker.writeUTF("score" + "#@$" + opponentScore.toString() + "#@$" + userScore.toString());
                 getOpponentOutputStream(opponentName).writeUTF("accepted" + "#@$" + user.getUsername());
             } catch (IOException ex) {
                 Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -282,7 +282,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void gameDrawMove() {
         String row = requestMsgTokens.nextToken();
         String col = requestMsgTokens.nextToken();
-        
+
         isPlaying = false;
         getOpponentHandler(opponentName).isPlaying = false;
         try {
