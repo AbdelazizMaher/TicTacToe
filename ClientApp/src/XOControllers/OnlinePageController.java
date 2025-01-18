@@ -66,7 +66,6 @@ public class OnlinePageController extends OnlinePage {
 
                 switch (status) {
                     case "normalMove":
-                        //enable
                         Platform.runLater(() -> {
                             enableMove();
                             row = Integer.parseInt(responseMsgTokens.nextToken());
@@ -87,6 +86,7 @@ public class OnlinePageController extends OnlinePage {
                             disableMove();
                             LoseVideoPageController videoController = new LoseVideoPageController(stage);
                             videoController.playVideo();
+                            gameEnd = true;
                         });
                         break;
                     case "draw":
@@ -170,7 +170,12 @@ public class OnlinePageController extends OnlinePage {
 
         replayButton.setOnMouseClicked(e -> {
             stopRecording();
-            ClientHandler.sendRequest("sendInvitaion" + "#@$" + opponentName + "#@$");
+            if(gameEnd){
+                ClientHandler.sendRequest("sendInvitaion" + "#@$" + opponentName + "#@$");
+            }
+            else{
+                showAlert("error","You must complete the game first");
+            }
         });
     }
 
@@ -207,6 +212,7 @@ public class OnlinePageController extends OnlinePage {
                 updateScore();
                 disableMove();
                 showWinningVideo();
+                gameEnd = true;
             } else if (xoGame.isDraw()) {
                 //2-send request game is draw;
                 ClientHandler.sendRequest("drawMove" + "#@$" + row + "#@$" + col + "#@$");
