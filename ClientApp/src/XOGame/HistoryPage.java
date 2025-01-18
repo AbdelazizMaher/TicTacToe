@@ -63,7 +63,7 @@ public abstract class HistoryPage extends AnchorPane {
         listView.setPrefHeight(580.0);
         listView.setPrefWidth(780.0);
         scrollPane.setContent(listView);
-        
+
         imageView.setFitHeight(404.0);
         imageView.setFitWidth(395.0);
         imageView.setLayoutX(373.0);

@@ -52,9 +52,7 @@ public abstract class LoginPage extends AnchorPane {
         setPrefWidth(780.0);
         getStyleClass().add("bodybg");
         getStylesheets().add("/styles/Stylesheet.css");
-        
-        
-       
+
         backButton.setPrefSize(60, 41);
         Image backImage = new Image(getClass().getResourceAsStream("/media/back2.png"));
         ImageView backImageView = new ImageView(backImage);
@@ -87,7 +85,7 @@ public abstract class LoginPage extends AnchorPane {
         passwordTextField.setPrefWidth(220.0);
         passwordTextField.setPromptText("Password");
         passwordTextField.setStyle("-fx-background-radius: 20; -fx-border-radius: 20;");
-        
+
         loginButton.setLayoutX(109.0);
         loginButton.setLayoutY(243.0);
         loginButton.setMnemonicParsing(false);
@@ -150,7 +148,7 @@ public abstract class LoginPage extends AnchorPane {
         imageView1.setPickOnBounds(true);
         imageView1.setImage(new Image(getClass().getResource("/media/xomini.jpg").toExternalForm()));
 
-        getChildren().addAll(imageView,backButton);
+        getChildren().addAll(imageView, backButton);
         anchorPane.getChildren().add(usernameTextField);
         anchorPane.getChildren().add(passwordTextField);
         anchorPane.getChildren().add(loginButton);

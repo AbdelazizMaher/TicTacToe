@@ -93,9 +93,10 @@ public class AvailableUserPageController extends AvailableUsersPage {
                                 showErrorAlert(stage, "Failed to connect to client");
                             });
                             break;
-                             case "score":
+                        case "score":
                             OnlinePageController.score1 = Integer.parseInt(responseMsgTokens.nextToken());
                             OnlinePageController.score2 = Integer.parseInt(responseMsgTokens.nextToken());
+                            break;
                     }
                 }
             });
