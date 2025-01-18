@@ -5,7 +5,6 @@
  */
 package MainApp;
 
-
 import XOControllers.HomePageController;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
@@ -23,10 +22,10 @@ import javafx.util.Duration;
 public class ClientApp extends Application {
 
     HomePageController root;
-    
+
     @Override
     public void start(Stage stage) throws Exception {
-         
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/SplashScreen.fxml"));
         Parent splashRoot = loader.load();
 
@@ -39,14 +38,13 @@ public class ClientApp extends Application {
         fadeIn.setToValue(1.0);
         fadeIn.play();
 
-        
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
         pause.setOnFinished(event -> {
             FadeTransition fadeOut = new FadeTransition(Duration.seconds(1), splashRoot);
             fadeOut.setFromValue(1.0);
             fadeOut.setToValue(0.0);
             fadeOut.setOnFinished(fadeOutEvent -> {
-                
+
                 try {
                     root = new HomePageController(stage);
                     Scene mainScene = new Scene(root);
@@ -60,8 +58,6 @@ public class ClientApp extends Application {
 
         pause.play();
     }
-
-
 
     /**
      * @param args the command line arguments

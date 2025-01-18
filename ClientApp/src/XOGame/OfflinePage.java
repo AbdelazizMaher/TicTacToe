@@ -35,24 +35,20 @@ public abstract class OfflinePage extends AnchorPane {
         score1 = 0;
         score2 = 0;
 
-        // Create the AnchorPane
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefHeight(200);
         anchorPane.setPrefWidth(320);
 
-        // Create and configure the ImageView
         ImageView imageView = new ImageView();
         imageView.setFitHeight(580);
         imageView.setFitWidth(780);
         imageView.setPreserveRatio(false);
         imageView.setImage(new Image(getClass().getResource("/media/xo.jpg").toExternalForm()));
 
-        // Create and configure the BorderPane
         borderPane = new BorderPane();
         borderPane.setPrefHeight(580);
         borderPane.setPrefWidth(780);
 
-        // Top Section
         BorderPane topSection = new BorderPane();
         HBox topHBox = new HBox();
         topHBox.setPrefHeight(32);
@@ -113,32 +109,26 @@ public abstract class OfflinePage extends AnchorPane {
         topHBox.getChildren().addAll(backButton, playerOneVBox, hBox);
         topSection.setTop(topHBox);
 
-        // Center Section
         VBox centerVBox = new VBox();
         centerVBox.setAlignment(javafx.geometry.Pos.CENTER);
         centerVBox.setSpacing(10);
 
-        // Player X and Score Labels
         AnchorPane playerXAnchorPane = new AnchorPane();
         playerXAnchorPane.setPrefHeight(50);
         playerXAnchorPane.setPrefWidth(780);
 
-        // Player X Label
         playerXLabel = new Label(playerX + " - X");
         playerXLabel.setTextFill(javafx.scene.paint.Color.BLACK);
         playerXLabel.setFont(new Font("Arial BOLD", 22));
         AnchorPane.setLeftAnchor(playerXLabel, 10.0); // Fixed position from the left
 
-        // Player O Label
         playerOLabel = new Label(playerO + " - O");
         playerOLabel.setFont(new Font("Arial BOLD", 22));
         playerOLabel.setTextFill(javafx.scene.paint.Color.BLACK);
         AnchorPane.setRightAnchor(playerOLabel, 10.0); // Fixed position from the right
 
-        // Add labels to AnchorPane
         playerXAnchorPane.getChildren().addAll(playerXLabel, playerOLabel);
 
-        // GridPane
         gridPane = new GridPane();
         gridPane.setMaxHeight(Double.MAX_VALUE);
         gridPane.setMaxWidth(Double.MAX_VALUE);
@@ -160,7 +150,6 @@ public abstract class OfflinePage extends AnchorPane {
         }
         centerVBox.getChildren().addAll(playerXAnchorPane, gridPane);
 
-        // Bottom Section
         HBox bottomHBox = new HBox();
         bottomHBox.setAlignment(javafx.geometry.Pos.CENTER);
         bottomHBox.setPrefHeight(21);
@@ -178,7 +167,6 @@ public abstract class OfflinePage extends AnchorPane {
         borderPane.setCenter(centerVBox);
         borderPane.setBottom(bottomHBox);
 
-        // Set the background image and add the BorderPane to the AnchorPane
         anchorPane.getChildren().addAll(imageView, borderPane);
 
         anchorPane.setPrefSize(780, 580);

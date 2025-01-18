@@ -40,10 +40,10 @@ public abstract class HomePage extends AnchorPane {
     protected final DropShadow dropShadow0;
     protected final Label label1;
     protected final DropShadow dropShadow1;
-    
-    public static String userName="";
+
+    public static String userName = "";
     protected final Label logedinUserNameLabel;
-    
+
     public HomePage() {
 
         imageView = new ImageView();
@@ -149,9 +149,7 @@ public abstract class HomePage extends AnchorPane {
         welcometoourtictactoeLabel.setText("WELCOME TO OUR TICTACTOE GAME ..!");
         welcometoourtictactoeLabel.setTextFill(javafx.scene.paint.Color.valueOf("#131218"));
         welcometoourtictactoeLabel.setFont(new Font("Arial Bold", 16.0));
-        
-        
-        
+
         getChildren().add(imageView);
         anchorPane.getChildren().add(imageView0);
         anchorPane.getChildren().add(imageView1);
@@ -162,9 +160,8 @@ public abstract class HomePage extends AnchorPane {
         getChildren().add(anchorPane);
         getChildren().add(tictactoeLabel);
         getChildren().add(welcometoourtictactoeLabel);
-        
-        
-        if(userName.isEmpty()){
+
+        if (userName.isEmpty()) {
             historyButton.setLayoutX(577.0);
             historyButton.setLayoutY(15.0);
             historyButton.setMnemonicParsing(false);
@@ -175,7 +172,7 @@ public abstract class HomePage extends AnchorPane {
             historyButton.setTextFill(javafx.scene.paint.Color.WHITE);
             historyButton.setFont(new Font("Arial Bold", 12.0));
             getChildren().add(historyButton);
-            
+
             signupButton.setLayoutX(633.0);
             signupButton.setLayoutY(15.0);
             signupButton.setMnemonicParsing(false);
@@ -186,7 +183,7 @@ public abstract class HomePage extends AnchorPane {
             signupButton.setTextFill(javafx.scene.paint.Color.WHITE);
             signupButton.setFont(new Font("Arial Bold", 12.0));
             getChildren().add(signupButton);
-            
+
             AnchorPane.setLeftAnchor(loginButton, 691.0);
             loginButton.setLayoutX(691.0);
             loginButton.setLayoutY(15.0);
@@ -198,7 +195,7 @@ public abstract class HomePage extends AnchorPane {
             loginButton.setTextFill(javafx.scene.paint.Color.WHITE);
             loginButton.setFont(new Font("Arial Bold", 12.0));
             getChildren().add(loginButton);
-            
+
             imageView2.setFitHeight(75.0);
             imageView2.setFitWidth(50.0);
             imageView2.setLayoutX(732.0);
@@ -207,19 +204,18 @@ public abstract class HomePage extends AnchorPane {
             imageView2.setPreserveRatio(true);
             imageView2.setImage(new Image(getClass().getResource("/media/avatar.png").toExternalForm()));
             getChildren().add(imageView2);
-        }
-        else{
+        } else {
             logedinUserNameLabel.setText("Hi, " + userName);
             logedinUserNameLabel.setTextFill(javafx.scene.paint.Color.valueOf("#131218"));
-            logedinUserNameLabel.setFont(new Font("Javanese Text", 16.0));            
+            logedinUserNameLabel.setFont(new Font("Javanese Text", 16.0));
             logedinUserNameLabel.setWrapText(false);
             logedinUserNameLabel.setMaxWidth(100);
             HBox hbox = new HBox(0);
-            hbox.getChildren().add(logedinUserNameLabel);  
+            hbox.getChildren().add(logedinUserNameLabel);
             hbox.setLayoutX(540.0);
-            hbox.setLayoutY(6.0);    
+            hbox.setLayoutY(6.0);
             getChildren().add(hbox);
-             
+
             historyButton.setLayoutX(633.0);
             historyButton.setLayoutY(15.0);
             historyButton.setMnemonicParsing(false);
@@ -230,7 +226,7 @@ public abstract class HomePage extends AnchorPane {
             historyButton.setTextFill(javafx.scene.paint.Color.WHITE);
             historyButton.setFont(new Font("Arial Bold", 12.0));
             getChildren().add(historyButton);
-            
+
             logoutButton.setLayoutX(691.0);
             logoutButton.setLayoutY(15.0);
             logoutButton.setMnemonicParsing(false);
@@ -241,7 +237,7 @@ public abstract class HomePage extends AnchorPane {
             logoutButton.setTextFill(javafx.scene.paint.Color.WHITE);
             logoutButton.setFont(new Font("Arial Bold", 12.0));
             getChildren().add(logoutButton);
-            
+
             imageView2.setFitHeight(50.0);
             imageView2.setFitWidth(50.0);
             imageView2.setLayoutX(745.0);
