@@ -248,6 +248,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             } catch (IOException ex) {
                 Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
+            sendAvailablePlayers();
         }
     }
 
@@ -266,6 +267,9 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void gameWinnerMove() {
         String row = requestMsgTokens.nextToken();
         String col = requestMsgTokens.nextToken();
+
+        isPlaying = false;
+        getOpponentHandler(opponentName).isPlaying = false;
         try {
             getOpponentOutputStream(opponentName).writeUTF("losingMove" + "#@$" + row + "#@$" + col + "#@$");
         } catch (IOException ex) {
@@ -278,6 +282,9 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void gameDrawMove() {
         String row = requestMsgTokens.nextToken();
         String col = requestMsgTokens.nextToken();
+        
+        isPlaying = false;
+        getOpponentHandler(opponentName).isPlaying = false;
         try {
             getOpponentOutputStream(opponentName).writeUTF("draw" + "#@$" + row + "#@$" + col + "#@$");
         } catch (IOException ex) {
