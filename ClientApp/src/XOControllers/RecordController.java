@@ -25,10 +25,10 @@ public class RecordController {
 
     static String player1;
     static String player1Shape;
-    
+
     static String player2;
     static String player2Shape;
-    
+
     static FileOutputStream fos;
     static DataOutputStream dos;
 
@@ -51,7 +51,7 @@ public class RecordController {
             Logger.getLogger(RecordController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public static void saveMove(Integer row, Integer col, String shape) {
         try {
             String move = "move" + "#" + row.toString() + "#" + col.toString() + "#" + shape + "\n";
@@ -121,7 +121,7 @@ public class RecordController {
         RecordController.player1Shape = player1Shape;
         RecordController.player2Shape = player2Shape;
     }
-    
+
     public static void setPlayersName(String player1, String player2) {
         RecordController.player1 = player1;
         RecordController.player2 = player2;

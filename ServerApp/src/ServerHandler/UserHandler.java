@@ -240,7 +240,9 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             Integer opponentScore = opponent.user.getScore();
 
             try {
+
                 getOpponentOutputStream(opponentName).writeUTF("accepted" + "#@$" + user.getUsername() + "#@$" + opponentScore.toString() + "#@$" + userScore.toString());
+
             } catch (IOException ex) {
                 Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -1,4 +1,4 @@
-  /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -24,36 +24,35 @@ public class LoginPageController extends LoginPage {
         loginButton.setOnAction(e -> {
             String name = usernameTextField.getText().trim();
             String pass = passwordTextField.getText().trim();
-            String info = "signIn#@$"+name+"#@$"+pass+"#@$";
-            if(!name.isEmpty() && !pass.isEmpty()){
-                if(ClientHandler.startConnection(info)){
-                    Thread thread = new Thread(()->{
+            String info = "signIn#@$" + name + "#@$" + pass + "#@$";
+            if (!name.isEmpty() && !pass.isEmpty()) {
+                if (ClientHandler.startConnection(info)) {
+                    Thread thread = new Thread(() -> {
                         String message = ClientHandler.getResponse();
-                        if(message.equals("Signed In")){
-                                HomePage.userName = name;
-                                Platform.runLater(()->{
-                                    Scene scene = new Scene(new AvailableUserPageController(stage));
-                                    stage.setScene(scene);
-                                });
-                            }
-                            else{
-                                Platform.runLater(()->{
-                                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                                    alert.setTitle("Server Error");
-                                    alert.setHeaderText(null);
-                                    alert.setContentText(message); 
-                                    alert.showAndWait();
-                                });                                 
-                            }  
+                        if (message.equals("Signed In")) {
+                            HomePage.userName = name;
+                            Platform.runLater(() -> {
+                                Scene scene = new Scene(new AvailableUserPageController(stage));
+                                stage.setScene(scene);
+                            });
+                        } else {
+                            Platform.runLater(() -> {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Server Error");
+                                alert.setHeaderText(null);
+                                alert.setContentText(message);
+                                alert.showAndWait();
+                            });
+                        }
                     });
                     thread.setDaemon(true);
                     thread.start();
-                }else{
-                    showAlert("Server Error","server is out");
-                }}
-                else{
-                   showAlert("SignIn Error","All fields can't be empty");     
+                } else {
+                    showAlert("Server Error", "server is out");
                 }
+            } else {
+                showAlert("SignIn Error", "All fields can't be empty");
+            }
         });
 
         backButton.setOnMouseClicked(e -> {
@@ -67,7 +66,7 @@ public class LoginPageController extends LoginPage {
         });
 
     }
-    
+
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

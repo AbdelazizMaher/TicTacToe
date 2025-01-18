@@ -52,11 +52,10 @@ public class OnlinePageController extends OnlinePage {
         initializeGameButtonsHandlers();
         initializeMoveTimer();
         xoGame = new TicTacToe();
-        if(AvailableUserPageController.isStarting) {
+        if (AvailableUserPageController.isStarting) {
             startMoveTimer();
-            System.out.println("here");
         }
-        
+
         thread = new Thread(() -> {
             while (!gameEnd) {
                 String serverResponse = getResponse();
@@ -66,7 +65,6 @@ public class OnlinePageController extends OnlinePage {
 
                 switch (status) {
                     case "normalMove":
-                        //enable
                         Platform.runLater(() -> {
                             enableMove();
                             row = Integer.parseInt(responseMsgTokens.nextToken());
@@ -87,6 +85,7 @@ public class OnlinePageController extends OnlinePage {
                             disableMove();
                             LoseVideoPageController videoController = new LoseVideoPageController(stage);
                             videoController.playVideo();
+                            gameEnd = true;
                         });
                         break;
                     case "draw":
@@ -106,6 +105,7 @@ public class OnlinePageController extends OnlinePage {
                         Platform.runLater(() -> {
                             gameEnd = true;
                             showAlert("Withdraw", "Unfortunantly you opponent has left the game");
+                            stopMoveTimer();
                             Scene scene = new Scene(new AvailableUserPageController(stage));
                             stage.setScene(scene);
                         });
@@ -149,6 +149,7 @@ public class OnlinePageController extends OnlinePage {
                 ClientHandler.sendRequest("withdraw");
             }
             gameEnd = true;
+            stopMoveTimer();
             Scene scene = new Scene(new AvailableUserPageController(stage));
             stage.setScene(scene);
         });
@@ -169,8 +170,13 @@ public class OnlinePageController extends OnlinePage {
         });
 
         replayButton.setOnMouseClicked(e -> {
+            stopMoveTimer();
             stopRecording();
-            ClientHandler.sendRequest("sendInvitaion" + "#@$" + opponentName + "#@$");
+            if (gameEnd) {
+                ClientHandler.sendRequest("sendInvitaion" + "#@$" + opponentName + "#@$");
+            } else {
+                showAlert("error", "You must complete the game first");
+            }
         });
     }
 
@@ -200,20 +206,18 @@ public class OnlinePageController extends OnlinePage {
             stopMoveTimer();
             disableMove();
             if (xoGame.isWinningMove(row, col) && winningLine == null) {
-                //1-send request with the winningmove & drawWinningLine();
                 ClientHandler.sendRequest("winningMove" + "#@$" + row + "#@$" + col + "#@$");
                 drawWinningLine();
                 stopRecording();
                 updateScore();
                 disableMove();
                 showWinningVideo();
+                gameEnd = true;
             } else if (xoGame.isDraw()) {
-                //2-send request game is draw;
                 ClientHandler.sendRequest("drawMove" + "#@$" + row + "#@$" + col + "#@$");
                 stopRecording();
                 setBoardForDraw();
             } else {
-                //3-send request with the normalmove 
                 ClientHandler.sendRequest("normalMove" + "#@$" + row + "#@$" + col + "#@$");
                 xoGame.switchPlayer();
                 disableMove();
@@ -226,7 +230,7 @@ public class OnlinePageController extends OnlinePage {
             score1 += 5;
         } else {
             score2 += 5;
-    }
+        }
         scoreLabelX.setText("Scores " + score1 + ":" + score2);
     }
 
@@ -312,7 +316,7 @@ public class OnlinePageController extends OnlinePage {
         alert.setContentText(content);
         alert.showAndWait();
     }
-    
+
     private void showTimeoutAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initOwner(stage);

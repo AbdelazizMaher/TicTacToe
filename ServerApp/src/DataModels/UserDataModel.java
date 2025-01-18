@@ -10,6 +10,7 @@ package DataModels;
  * @author Abdel
  */
 public class UserDataModel {
+
     String username;
     String password;
     int score;
@@ -46,5 +47,5 @@ public class UserDataModel {
     public int getScore() {
         return score;
     }
-    
+
 }
