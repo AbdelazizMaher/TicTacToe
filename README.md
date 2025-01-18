@@ -1,26 +1,26 @@
 # Tic-Tac-Toe
 
 ## Overview
-The **Tic-Tac-Toe** game is a network-based application that allows players to enjoy the classic game in various modes. It supports single-player mode against an AI, local multiplayer on the same machine, and online multiplayer against other players. The game also features an elegant user interface, game recording for replay, bonus videos for winners, and score storage. The server application manages connections and data exchange among users, providing a seamless gaming experience.
+The **`Tic-Tac-Toe`** game is a network-based application that allows players to enjoy the classic game in various modes. It supports `single-player mode` against computer, `local multiplayer` on the same machine, and `online multiplayer` against other players. The game also features an elegant user interface, game recording for replay, videos for winners and losers. The server application manages connections and data exchange among users.
 
 ## Contributors
 - Abdelaziz Maher
-- Adham Mohamed 
+- Adham Mohamed
 - Eman Mahmoud
 - Nermeen Mohamed
 
 ## Features
-- Single-player mode (play against computer)
-- Local multiplayer (two players on the same machine)
-- Online multiplayer (play against others online)
-- List of online/available users
-- Request and accept/refuse to play
-- Elegant user interface
-- Game recording and replay
-- Bonus videos for winning players
-- Player score storage
-- User registration and login
-- Server with simple GUI, start/stop service, and user activity graphs
+- **`Single-player mode`**: Play against a computer opponent.
+- **`Local multiplayer`**: Two players can play on the same machine.
+- **`Online multiplayer`**: Play against other players online.
+- **`List of online/available users`**: Display a list of users who are online and available to play.
+- **`Request and accept/refuse to play`**: Send and respond to game invitations.
+- **`Elegant user interface`**: A visually appealing and user-friendly interface.
+- **`Game recording and replay`**: Record games and replay them later.
+- **`Bonus videos for winning players`**: Play bonus videos for winners.
+- **`Player score storage`**: Keep track of player scores.
+- **`User registration and login`**: Allow users to register and log in to the server.
+- **`Server with simple GUI`**: A server application with start/stop service and user activity graphs.
 
 ## Requirements
 - Java Development Kit (JDK)
@@ -57,71 +57,93 @@ The **Tic-Tac-Toe** game is a network-based application that allows players to e
 ## Server Application Structure
 
 ### Overview
-The **ServerApp** is responsible for managing connections, streams, and data exchange among users. It provides a simple graphical user interface (GUI) with start/stop buttons to control the service and graphs that show the number of active users, both online and offline.
+The **`ServerApp`** is responsible for managing connections, streams, and data exchange among users. It provides a `simple graphical user interface (GUI)` with start/stop buttons to control the service and graphs that show the number of active users, both online and offline.
 
-### Folders and Files
+### Packages and Files
 
-**1. `src` Folder:**
-- Contains all source code files for the server application.
+#### DataModels Package
+- **`ServerRequestInterface.java`**: Interface for server requests such as sign-up, sign-in, sending moves, and ending connections.
+- **`UserDataModel.java`**: Data model for user information, including username, password, and score.
 
-**2. `main` Folder:**
-- **ServerMain.java**: The entry point of the server application, responsible for initializing and starting the server.
-- **Server.java**: Core server logic, including listening for client connections and broadcasting messages.
+#### Database Package
+- **`DataAccessLayer.java`**: Provides methods for interacting with the database, including adding users, retrieving user information, counting the number of users, and updating user scores.
 
-**3. `gui` Folder:**
-- **ServerGUI.java**: Handles the graphical user interface for the server, including start/stop buttons and user activity graphs.
+#### GraphHandler Package
+- **`GraphHandler.java`**: Manages the bar chart for displaying the number of online and offline users, including methods for setting the chart and updating the graph.
 
-**4. `handler` Folder:**
-- **ClientHandler.java**: Manages individual client connections, handling communication and data exchange.
+#### ServerControllers Package
+- **`GUIController.java`**: Manages the server's graphical user interface, including start/stop buttons and user statistics charts.
 
-**5. `resources` Folder:**
-- Contains resource files such as configuration files, images, and other assets used by the server application.
+#### ServerGameApp Package
+- **`ServerApp.java`**: Main class for the server application, responsible for initializing and starting the server.
+- **`ServerGUI.java`**: Defines the graphical user interface layout and elements for the server application.
 
-### Classes and Their Responsibilities
-- **ServerMain**: Initializes the server application and sets up the main components.
-- **ServerGUI**: Provides the user interface for server administrators, displaying active users and allowing control over the server.
-- **ClientHandler**: Manages communication with connected clients, processing requests, and sending responses.
-- **Server**: Handles the core server functionality, including accepting client connections and managing broadcasts.
+#### ServerHandler Package
+- **`ServerHandler.java`**: Manages the server operations, including starting and stopping the server, accepting client connections, and updating user statistics.
+- **`UserHandler.java`**: Handles individual client connections, managing communication, processing client requests, and updating user data.
+
+#### media Package
+- Contains image files used by the server application.
+
+#### styles Package
+- **`Stylesheet.css`**: Defines the CSS styles for the server application's user interface.
 
 ## Client Application Structure
 
 ### Overview
-The **ClientApp** is responsible for the user interface and game logic for the Tic-Tac-Toe game. It allows players to play in single-player mode, local multiplayer mode, and online multiplayer mode. The client application manages the game's state, user interactions, and communication with the server.
+The **`ClientApp`** is responsible for the user interface and game logic for the Tic-Tac-Toe game. It allows players to play in single-player mode, local multiplayer mode, and online multiplayer mode. The client application manages the game's state, user interactions, and communication with the server.
 
-### Folders and Files
+### Packages and Files
 
-**1. `src` Folder:**
-- Contains all source code files for the client application.
+#### ClientHandler Package
+- **`ClientHandler.java`**: Handles the client-side logic for connecting to the server, sending requests, receiving responses, and managing communication.
 
-**2. `main` Folder:**
-- **ClientMain.java**: The entry point of the client application, responsible for initializing and starting the client.
-- **Client.java**: Manages the connection to the server and handles communication.
+### FXML Package
+- Purpose: Generates the UI components for the `XOGame` package.
 
-**3. `controller` Folder:**
-- **OnlinePageController.java**: Manages the online game logic, including initializing components, handling server responses, and controlling game flow.
-- **SinglePlayerController.java**: Manages the single-player game logic, including interaction with the AI.
-- **LocalMultiPlayerController.java**: Manages the local multiplayer game logic.
+### MainApp Package
+- **`ClientApp.java`**: The entry point of the client application, responsible for initializing and starting the client.
 
-**4. `model` Folder:**
-- **TicTacToe.java**: Encapsulates the core game logic for Tic-Tac-Toe.
-- **Player.java**: Represents a player in the game, including their attributes and actions.
-- **Move.java**: Represents a move in the game, including its properties and methods.
+### XOControllers Package
+- **`AvailableUserPageController.java`**: Handles the logic for the available users page.
+- **`DifficultyLevelController.java`**: Manages the selection of difficulty levels.
+- **`HistoryPageController.java`**: Manages the history page.
+- **`HomePageController.java`**: Handles the logic for the home page.
+- **`IncomingInvitationController.java`**: Manages incoming game invitations.
+- **`LoginPageController.java`**: Manages the login page.
+- **`LoseVideoPageController.java`**: Handles the logic for the lose video page.
+- **`OfflinePageController.java`**: Manages the offline game mode.
+- **`OnlinePageController.java`**: Manages the online game mode.
+- **`PopUpLogOutController.java`**: Manages the pop-up for logging out.
+- **`PopUpPageController.java`**: Handles various pop-up dialogs.
+- **`RecordController.java`**: Manages game recording.
+- **`RecordPageController.java`**: Handles the logic for the record page.
+- **`SignupPageController.java`**: Manages the signup page.
+- **`VsCompPageController.java`**: Manages the versus computer game mode.
+- **`WinVideoPageController.java`**: Handles the logic for the win video page.
 
-**5. `view` Folder:**
-- **MainView.java**: Handles the main user interface components and layout.
-- **GameView.java**: Manages the game-specific UI elements and interactions.
+### XOGame Package
+- **`AvailableUsersPage.java`**: Handles the available users functionality.
+- **`DifficultyLevel.java`**: Manages the difficulty level selection.
+- **`FXMLDocumentBase.java`**: General document handling.
+- **`HistoryPage.java`**: Manages the history page.
+- **`HomePage.java`**: Handles the home page functionality.
+- **`LoginPage.java`**: Manages the login page.
+- **`LoseVideoPage.java`**: Handles the lose video functionality.
+- **`OfflinePage.java`**: Manages the offline game mode.
+- **`OnlinePage.java`**: Manages the online game mode.
+- **`PopUpLogOut.java`**: Manages the logout pop-up.
+- **`PopUpPage.java`**: Handles various pop-up dialogs.
+- **`RecordPage.java`**: Manages the record page.
+- **`SignupPage.java`**: Manages the signup page.
+- **`VsCompPage.java`**: Manages the versus computer game mode.
+- **`WinVideoPage.java`**: Handles the win video functionality.
 
-**6. `resources` Folder:**
-- Contains resource files such as images, configuration files, and other assets used by the client application.
+### XOGameBoard Package
+- **`TicTacToe.java`**: Encapsulates the core game logic for Tic-Tac-Toe.
 
-### Classes and Their Responsibilities
-- **ClientMain**: Initializes the client application and sets up the main components.
-- **Client**: Manages the connection to the server and handles communication.
-- **OnlinePageController**: Manages the online game logic, including initializing components, handling server responses, and controlling game flow.
-- **SinglePlayerController**: Manages the single-player game logic, including interaction with the AI.
-- **LocalMultiPlayerController**: Manages the local multiplayer game logic.
-- **TicTacToe**: Encapsulates the core game logic for Tic-Tac-Toe.
-- **Player**: Represents a player in the game, including their attributes and actions.
-- **Move**: Represents a move in the game, including its properties and methods.
-- **MainView**: Handles the main user interface components and layout.
-- **GameView**: Manages the game-specific UI elements and interactions.
+### media Package
+- Contains image, audio,video files used by the client application.
+
+### styles Package
+- **`Stylesheet.css`**: Defines the CSS styles for the client application's user interface.
