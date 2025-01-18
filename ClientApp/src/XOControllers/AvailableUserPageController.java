@@ -36,14 +36,14 @@ public class AvailableUserPageController extends AvailableUsersPage {
 
     static String onlineList = "";
 
-    private static Thread thread;
+    protected static Thread thread;
     protected static boolean inGame;
     public static boolean isStarting;
+    private Button sendButton;
 
     public AvailableUserPageController(Stage stage) {
         sendRequest("sendAvailablePlayers" + "#@$");
         backButtonEvent(stage);
-
         if (thread == null || !thread.isAlive()) {
             thread = new Thread(() -> {
                 while (!inGame) {
@@ -77,6 +77,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
                                 isStarting = true;
                                 Scene scene = new Scene(new OnlinePageController(stage));
                                 stage.setScene(scene);
+                                sendButton.setDisable(false);
                             });
                             thread.stop();
                              {
@@ -94,6 +95,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
                                 isStarting = false;
                                 playerX = null;
                                 playerO = null;
+                                sendButton.setDisable(false);
                             });
                             break;
                         case "Error":
@@ -114,6 +116,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
     }
 
     private void handleClickedButtonInvitation(Button button, String player) {
+        sendButton = button;
         button.setOnAction(e -> {
             inGame = false;
             isStarting = false;
@@ -121,6 +124,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
             playerO = null;
             //updateBoardState(false);
             ClientHandler.sendRequest("sendInvitaion" + "#@$" + player + "#@$");
+            button.setDisable(true);
         });
     }
 

@@ -75,7 +75,7 @@ public class ClientHandler {
     public static boolean isConnected() {
         return connected;
     }
-
+    
     public static void setConnected(boolean connected) {
         ClientHandler.connected = connected;
     }
