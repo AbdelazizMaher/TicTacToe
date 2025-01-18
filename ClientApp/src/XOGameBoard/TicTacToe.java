@@ -47,7 +47,14 @@ public class TicTacToe {
     }
 
     public boolean isDraw() {
-        return false;
+        for (int row = 0; row < SIZE; row++) {
+            for (int col = 0; col < SIZE; col++) {
+                if (board[row][col] == null) {
+                    return false;
+                }
+            }          
+        }
+        return true;
     }
 
     public boolean isWinningMove(int row, int col) {
@@ -105,7 +112,7 @@ public class TicTacToe {
     public void setCurrentPlayer(String currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
-    
+
     public void resetBoard() {
         board = new String[SIZE][SIZE];
         currentPlayer = "X";

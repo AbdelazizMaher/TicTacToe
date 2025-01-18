@@ -23,6 +23,10 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+import javafx.application.Platform;
 
 /**
  *
@@ -44,7 +48,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
             thread = new Thread(() -> {
                 while (ClientHandler.isConnected() && !inGame) {
                     String serverResponse = ClientHandler.getResponse();
-                    System.out.println("response"+serverResponse);
+                    System.out.println("response" + serverResponse);
                     StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
                     String status = responseMsgTokens.nextToken();
                     switch (status) {
@@ -60,9 +64,10 @@ public class AvailableUserPageController extends AvailableUsersPage {
                             break;
                         case "accepted":
                             Platform.runLater(() -> {
-                                
+
                                 showInformationAlert(stage, "your inivitation has been accepted");
                                 OnlinePageController.opponentName = responseMsgTokens.nextToken();
+                                setPlayersNames(userName, OnlinePageController.opponentName);
                                 inGame = true;
                                 isStarting = true;
                                 Scene scene = new Scene(new OnlinePageController(stage));
@@ -117,9 +122,9 @@ public class AvailableUserPageController extends AvailableUsersPage {
             boolean isInvitationAccepted = showRequestAlert("Game Invitation", "Player " + opponent + " has invited you to a game. Do you accept?", stage);
             inGame = isInvitationAccepted;
             if (isInvitationAccepted) {
-                setPlayersNames(opponent,userName);
+                setPlayersNames(opponent, userName);
                 sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
-                isStarting = true;
+                //isStarting = true;
                 Scene scene = new Scene(new OnlinePageController(stage));
                 stage.setScene(scene);
             } else {
@@ -149,13 +154,27 @@ public class AvailableUserPageController extends AvailableUsersPage {
         alert.getButtonTypes().setAll(acceptButton, declineButton);
 
         final Boolean[] retVal = {false};
+        final boolean[] responseReceived = {false};
+
+        Timeline timeout = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
+            if (!responseReceived[0]) {
+                alert.setResult(declineButton);
+                alert.hide();
+            }
+        }));
+        timeout.setCycleCount(1);
+        timeout.play();
+
         alert.showAndWait().ifPresent(response -> {
+            responseReceived[0] = true;
             if (response == acceptButton) {
                 retVal[0] = true;
             } else if (response == declineButton) {
                 retVal[0] = false;
             }
         });
+
+        timeout.stop();
 
         return retVal[0];
     }

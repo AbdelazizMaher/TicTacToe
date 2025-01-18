@@ -15,6 +15,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import XOGameBoard.TicTacToe;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
@@ -22,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.util.Duration;
 
 /**
  *
@@ -31,6 +34,7 @@ public class OnlinePageController extends OnlinePage {
 
     private boolean isRecording = false;
     private TicTacToe xoGame;
+    private Timeline moveTimer;
     private Line winningLine;
     Integer row;
     Integer col;
@@ -40,13 +44,21 @@ public class OnlinePageController extends OnlinePage {
     Stage stage;
     static boolean again = false;
     static boolean logOut = false;
+    boolean gameEnd;
     Thread thread;
+
     public OnlinePageController(Stage stage) {
         this.stage = stage;
         initializeGameButtonsHandlers();
+        initializeMoveTimer();
         xoGame = new TicTacToe();
+        if(AvailableUserPageController.isStarting) {
+            startMoveTimer();
+            System.out.println("here");
+        }
+        
         thread = new Thread(() -> {
-            while (true) {
+            while (!gameEnd) {
                 String serverResponse = getResponse();
                 System.out.println("resp " + serverResponse);
                 StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
@@ -60,6 +72,7 @@ public class OnlinePageController extends OnlinePage {
                             row = Integer.parseInt(responseMsgTokens.nextToken());
                             col = Integer.parseInt(responseMsgTokens.nextToken());
                             drawMove(row, col);
+                            startMoveTimer();
                         });
                         break;
                     case "losingMove":
@@ -78,21 +91,19 @@ public class OnlinePageController extends OnlinePage {
                     case "draw":
                         row = Integer.parseInt(responseMsgTokens.nextToken());
                         col = Integer.parseInt(responseMsgTokens.nextToken());
-                        drawMove(row, col);
-
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Draw");
-                        alert.setContentText("You're draw!!");
-                        alert.showAndWait();
-                        for (int row = 0; row < 3; row++) {
-                            for (int col = 0; col < 3; col++) {
-                                buttons[row][col].setDisable(true);
+                        Platform.runLater(() -> {
+                            drawMove(row, col);
+                            showDrawAlert(stage, "Game Draw");
+                            for (int row = 0; row < 3; row++) {
+                                for (int col = 0; col < 3; col++) {
+                                    buttons[row][col].setDisable(true);
+                                }
                             }
-                        }
+                        });
                         break;
                     case "withdraw":
                         Platform.runLater(() -> {
-                            thread.stop();
+                            gameEnd = true;
                             showAlert("Withdraw", "Unfortunantly you opponent has left the game");
                             Scene scene = new Scene(new AvailableUserPageController(stage));
                             stage.setScene(scene);
@@ -106,6 +117,7 @@ public class OnlinePageController extends OnlinePage {
                     case "accepted":
                         Platform.runLater(() -> {
                             clearBoard();
+                            startMoveTimer();
                             enableMove();
                             showAlert("Accepted", "your inivitation has been accepted");
                             again = true;
@@ -114,6 +126,7 @@ public class OnlinePageController extends OnlinePage {
                         break;
                     case "declined":
                         Platform.runLater(() -> {
+                            gameEnd = true;
                             showErrorAlert(stage, "your inivitation has been declined");
                             Scene scene1 = new Scene(new AvailableUserPageController(stage));
                             stage.setScene(scene1);
@@ -131,8 +144,10 @@ public class OnlinePageController extends OnlinePage {
 
         backButton.setOnMouseClicked(e -> {
             logOut = true;
-            ClientHandler.sendRequest("withdraw");
-            thread.stop();
+            if (!gameEnd) {
+                ClientHandler.sendRequest("withdraw");
+            }
+            gameEnd = true;
             Scene scene = new Scene(new AvailableUserPageController(stage));
             stage.setScene(scene);
         });
@@ -142,9 +157,9 @@ public class OnlinePageController extends OnlinePage {
                 isRecording = true;
                 changeRecordButton();
                 RecordController.setPlayersName(HomePageController.userName, OnlinePageController.opponentName);
-                if(AvailableUserPageController.isStarting) {
+                if (AvailableUserPageController.isStarting) {
                     RecordController.setPlayersShapes("X", "O");
-                }else {
+                } else {
                     RecordController.setPlayersShapes("O", "X");
                 }
                 AvailableUserPageController.isStarting = false;
@@ -181,6 +196,7 @@ public class OnlinePageController extends OnlinePage {
             if (isRecording) {
                 RecordController.saveMove(row, col, xoGame.getCurrentPlayer());
             }
+            stopMoveTimer();
             disableMove();
             if (xoGame.isWinningMove(row, col) && winningLine == null) {
                 //1-send request with the winningmove & drawWinningLine();
@@ -194,6 +210,7 @@ public class OnlinePageController extends OnlinePage {
                 //2-send request game is draw;
                 ClientHandler.sendRequest("drawMove" + "#@$" + row + "#@$" + col + "#@$");
                 stopRecording();
+                setBoardForDraw();
             } else {
                 //3-send request with the normalmove 
                 ClientHandler.sendRequest("normalMove" + "#@$" + row + "#@$" + col + "#@$");
@@ -253,6 +270,8 @@ public class OnlinePageController extends OnlinePage {
                 again = true;
             } else {
                 sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
+                Scene scene1 = new Scene(new AvailableUserPageController(stage));
+                stage.setScene(scene1);
             }
         });
     }
@@ -287,11 +306,26 @@ public class OnlinePageController extends OnlinePage {
         alert.setContentText(content);
         alert.showAndWait();
     }
+    
+    private void showTimeoutAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initOwner(stage);
+        alert.setTitle(title);
+        alert.setContentText(content);
+    }
 
     private void showErrorAlert(Stage stage, String contentText) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initOwner(stage);
         alert.setTitle("Error");
+        alert.setContentText(contentText);
+        alert.showAndWait();
+    }
+
+    private void showDrawAlert(Stage stage, String contentText) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initOwner(stage);
+        alert.setTitle("Draw");
         alert.setContentText(contentText);
         alert.showAndWait();
     }
@@ -314,13 +348,14 @@ public class OnlinePageController extends OnlinePage {
 
     private void clearBoard() {
         isRecording = false;
-        winningLine = new Line();
         xoGame = new TicTacToe();
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 buttons[row][col].setText("");
             }
         }
+        borderPane.getChildren().remove(winningLine);
+        winningLine = null;
     }
 
     private void changeRecordButton() {
@@ -349,4 +384,38 @@ public class OnlinePageController extends OnlinePage {
         videoController.playVideo();
     }
 
+    private void setBoardForDraw() {
+        Platform.runLater(() -> {
+            showDrawAlert(stage, "Game Draw");
+            for (int row = 0; row < 3; row++) {
+                for (int col = 0; col < 3; col++) {
+                    buttons[row][col].setDisable(true);
+                }
+            }
+        });
+    }
+
+    private void initializeMoveTimer() {
+        moveTimer = new Timeline();
+        moveTimer.getKeyFrames().add(new KeyFrame(Duration.seconds(15), e -> {
+            Platform.runLater(() -> {
+                showTimeoutAlert("Timeout", "You took too long to make a move. You have withdrawn from the game.");
+                ClientHandler.sendRequest("withdraw");
+                gameEnd = true;
+                Scene scene = new Scene(new AvailableUserPageController(stage));
+                stage.setScene(scene);
+            });
+        }));
+        moveTimer.setCycleCount(1);
+    }
+
+    private void startMoveTimer() {
+        moveTimer.playFromStart();
+    }
+
+    private void stopMoveTimer() {
+        if (moveTimer != null) {
+            moveTimer.stop();
+        }
+    }
 }
