@@ -11,8 +11,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public abstract class OnlinePage extends AnchorPane {
-    private int score1;
-    private int score2;
+   static  public int score1;
+    static public int score2;
     protected Button[][] buttons = new Button[3][3];
     public static String playerX = "Player1";
     public static String playerO = "Player2";
@@ -20,9 +20,10 @@ public abstract class OnlinePage extends AnchorPane {
     protected Button replayButton;
     protected Button recordButton;
     protected BorderPane borderPane;
+    protected Label scoreLabelX;
     public OnlinePage() {
-        score1 = 0;
-        score2 = 0;
+//        score1 = 0;
+//        score2 = 0;
 
         // Create the AnchorPane
         AnchorPane anchorPane = new AnchorPane();
@@ -156,7 +157,7 @@ public abstract class OnlinePage extends AnchorPane {
         bottomHBox.setPrefWidth(780);
         bottomHBox.setSpacing(10);
         
-        Label scoreLabelX = new Label("Scores "+score1+":"+score2);
+        scoreLabelX = new Label("Scores "+score1+":"+score2);
         scoreLabelX.setTextFill(javafx.scene.paint.Color.BLACK);
         scoreLabelX.setFont(new Font("Arial BOLD",22));
 

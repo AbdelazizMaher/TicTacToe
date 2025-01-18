@@ -68,6 +68,7 @@ public class OnlinePageController extends OnlinePage {
                             enableMove();
                             row = Integer.parseInt(responseMsgTokens.nextToken());
                             col = Integer.parseInt(responseMsgTokens.nextToken());
+                            updateScore();
                             drawMove(row, col);
                             xoGame.isWinningMove(row, col);
                             drawWinningLine();
@@ -203,8 +204,13 @@ public class OnlinePageController extends OnlinePage {
         }
     }
 
-    private void updateScore() {
-
+   private void updateScore() {
+        if (xoGame.getCurrentPlayer().equals("X")) {
+            score1 += 5;
+        } else {
+            score2 += 5;
+        }
+        scoreLabelX.setText("Scores " + score1 + ":" + score2);
     }
 
     private void drawWinningLine() {
