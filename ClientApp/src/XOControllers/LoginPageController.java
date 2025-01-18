@@ -6,6 +6,7 @@
 package XOControllers;
 
 import ClientHandler.ClientHandler;
+import static XOControllers.AvailableUserPageController.inGame;
 import XOGame.HomePage;
 import XOGame.LoginPage;
 import javafx.application.Platform;
@@ -32,6 +33,7 @@ public class LoginPageController extends LoginPage {
                         if (message.equals("Signed In")) {
                             HomePage.userName = name;
                             Platform.runLater(() -> {
+                                inGame=false;
                                 Scene scene = new Scene(new AvailableUserPageController(stage));
                                 stage.setScene(scene);
                             });
