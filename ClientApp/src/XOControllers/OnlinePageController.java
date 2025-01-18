@@ -15,6 +15,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import XOGameBoard.TicTacToe;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -43,10 +45,9 @@ public class OnlinePageController extends OnlinePage {
     public static String opponentName;
     Stage stage;
     static boolean again = false;
-    static boolean logOut = false;
     boolean gameEnd;
     Thread thread;
-
+    boolean exit;
     public OnlinePageController(Stage stage) {
         this.stage = stage;
         initializeGameButtonsHandlers();
@@ -55,11 +56,9 @@ public class OnlinePageController extends OnlinePage {
         if (AvailableUserPageController.isStarting) {
             startMoveTimer();
         }
-
         thread = new Thread(() -> {
-            while (true) {
+            while (!exit) {
                 String serverResponse = getResponse();
-                System.out.println("resp " + serverResponse);
                 StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
                 String status = responseMsgTokens.nextToken();
 
@@ -102,10 +101,14 @@ public class OnlinePageController extends OnlinePage {
                                     buttons[row][col].setDisable(true);
                                 }
                             }
+                            gameEnd = true;
                         });
                         break;
                     case "withdraw":
                         Platform.runLater(() -> {
+                            exit = true;
+                            AvailableUserPageController.inGame =false;
+                            ClientHandler.sendRequest("exit"); 
                             gameEnd = true;
                             showAlert("Withdraw", "Unfortunantly you opponent has left the game");
                             stopMoveTimer();
@@ -149,15 +152,22 @@ public class OnlinePageController extends OnlinePage {
         thread.start();
 
         backButton.setOnMouseClicked(e -> {
-            logOut = true;
-            thread.stop();
+            exit = true;
             if (!gameEnd) {
                 ClientHandler.sendRequest("withdraw");
-            }
+            }    
+            AvailableUserPageController.inGame =false;
+            ClientHandler.sendRequest("exit");            
             gameEnd = true;
             stopMoveTimer();
             Scene scene = new Scene(new AvailableUserPageController(stage));
             stage.setScene(scene);
+            try {
+                thread.stop();
+                thread.join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AvailableUserPageController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
 
         recordButton.setOnMouseClicked(e -> {
@@ -183,6 +193,8 @@ public class OnlinePageController extends OnlinePage {
             } else {
                 showAlert("error", "You must complete the game first");
             }
+            sendRequest("updateScore#@$"+userName+"#@$"+score1+"#@$"+opponentName+"#@$"+score2);
+
         });
     }
 
@@ -192,18 +204,14 @@ public class OnlinePageController extends OnlinePage {
                 final int rowButton = row;
                 final int colButton = col;
                 buttons[row][col].setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
-                 disableMove();
-                buttons[row][col].setOnAction(e -> {
-                    
+                disableMove();
+                buttons[row][col].setOnAction(e -> {                    
                     processMove(rowButton, colButton);
-                   
-
                 });
                 if (!again) {
                     disableMove();
                 }
-                 if (again) {
-
+                if(again){
                     enableMove();
                 }
             }
@@ -284,6 +292,7 @@ public class OnlinePageController extends OnlinePage {
 
     private void drawMove(int row, int col) {
         if (xoGame.makeMove(row, col)) {
+            
             buttons[row][col].setText(xoGame.getCurrentPlayer());
             if (isRecording) {
                 RecordController.saveMove(row, col, xoGame.getCurrentPlayer());
@@ -305,6 +314,7 @@ public class OnlinePageController extends OnlinePage {
                 gameEnd = false;
             } else {
                 sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
+                sendRequest("updateScore#@$"+userName+"#@$"+score1+"#@$"+opponent+"#@$"+score2);
                 Scene scene1 = new Scene(new AvailableUserPageController(stage));
                 stage.setScene(scene1);
             }

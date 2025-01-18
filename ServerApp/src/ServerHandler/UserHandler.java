@@ -104,6 +104,9 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "playagain":
                         playAgain();
                         break;
+                    case "exit":
+                        exitGame();
+                        break;
                 }
             } catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
@@ -199,7 +202,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void sendInvitation() {
         String opponentName = requestMsgTokens.nextToken();
-        System.out.println("opp" + opponentName);
         UserHandler opponent = getOpponentHandler(opponentName);
         if (opponent != null) {
             try {
@@ -231,12 +233,9 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             user.setScore(DataAccessLayer.getUserScore(user.getUsername()));
             opponent.user.setScore(DataAccessLayer.getUserScore(opponent.user.getUsername()));
 
-            Integer userScore = user.getScore();
-            Integer opponentScore = opponent.user.getScore();
 
             try {
-                //talker.writeUTF("score" + "#@$" + opponentScore.toString() + "#@$" + userScore.toString());
-                //opponent.talker.writeUTF("score" + "#@$" + opponentScore.toString() + "#@$" + userScore.toString());
+
                 getOpponentOutputStream(opponentName).writeUTF("accepted" + "#@$" + user.getUsername());
             } catch (IOException ex) {
                 Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -275,7 +274,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         } catch (IOException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        DataAccessLayer.updateUserScore(user.getUsername());
     }
 
     @Override
@@ -311,7 +309,12 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    public void exitGame() {
+        isPlaying = false;
+        getOpponentHandler(opponentName).isPlaying = false;
+    }
+    
     @Override
     public void logout() {
         closeConnection();
