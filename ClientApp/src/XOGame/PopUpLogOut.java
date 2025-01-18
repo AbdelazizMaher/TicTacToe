@@ -17,6 +17,7 @@ import javafx.stage.Stage;
  * @author nerme
  */
 public class PopUpLogOut {
+
     public Stage popupStage;
     public Hyperlink yesLink;
     public Hyperlink noUpLink;
@@ -43,6 +44,3 @@ public class PopUpLogOut {
         this.popupStage.showAndWait();
     }
 }
-
-
-

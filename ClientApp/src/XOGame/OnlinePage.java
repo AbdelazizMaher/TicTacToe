@@ -11,7 +11,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public abstract class OnlinePage extends AnchorPane {
-   static  public int score1;
+
+    static public int score1;
     static public int score2;
     protected Button[][] buttons = new Button[3][3];
     public static String playerX = "Player1";
@@ -21,34 +22,29 @@ public abstract class OnlinePage extends AnchorPane {
     protected Button recordButton;
     protected BorderPane borderPane;
     protected Label scoreLabelX;
-    public OnlinePage() {
-//        score1 = 0;
-//        score2 = 0;
 
-        // Create the AnchorPane
+    public OnlinePage() {
+
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefHeight(200);
         anchorPane.setPrefWidth(320);
 
-        // Create and configure the ImageView
         ImageView imageView = new ImageView();
         imageView.setFitHeight(580);
         imageView.setFitWidth(780);
         imageView.setPreserveRatio(false);
         imageView.setImage(new Image(getClass().getResource("/media/xo.jpg").toExternalForm()));
 
-        // Create and configure the BorderPane
         borderPane = new BorderPane();
         borderPane.setPrefHeight(580);
         borderPane.setPrefWidth(780);
 
-        // Top Section
         BorderPane topSection = new BorderPane();
         HBox topHBox = new HBox();
         topHBox.setPrefHeight(32);
         topHBox.setPrefWidth(780);
         topHBox.setStyle("-fx-background-color: black;");
-        
+
         backButton = new Button();
         backButton.setPrefSize(60, 41);
         Image backImage = new Image(getClass().getResourceAsStream("/media/back2.png"));
@@ -57,13 +53,13 @@ public abstract class OnlinePage extends AnchorPane {
         backImageView.setFitWidth(40);
         backButton.setGraphic(backImageView);
         backButton.setStyle("-fx-background-color: transparent;");
-        
+
         VBox playerOneVBox = new VBox();
         playerOneVBox.setAlignment(javafx.geometry.Pos.CENTER);
         playerOneVBox.setPrefHeight(48);
         playerOneVBox.setPrefWidth(589);
         playerOneVBox.setSpacing(5);
-        
+
         Label playerOneLabel = new Label("Play Online");
         playerOneLabel.setPrefHeight(35);
         playerOneLabel.setPrefWidth(250);
@@ -83,7 +79,7 @@ public abstract class OnlinePage extends AnchorPane {
         replayImageView.setFitHeight(40);
         replayImageView.setFitWidth(40);
         replayButton.setGraphic(replayImageView);
-        
+
         recordButton = new Button();
         recordButton.setMaxWidth(Double.MAX_VALUE);
         recordButton.setStyle(" -fx-font-size: 20px;");
@@ -94,41 +90,35 @@ public abstract class OnlinePage extends AnchorPane {
         recImageView.setFitHeight(40);
         recImageView.setFitWidth(40);
         recordButton.setGraphic(recImageView);
-        
-        HBox hBox = new HBox(10);  
-        hBox.setAlignment(Pos.CENTER); 
-        
-        hBox.getChildren().addAll(replayButton,recordButton);
+
+        HBox hBox = new HBox(10);
+        hBox.setAlignment(Pos.CENTER);
+
+        hBox.getChildren().addAll(replayButton, recordButton);
 
         topHBox.getChildren().addAll(backButton, playerOneVBox, hBox);
         topSection.setTop(topHBox);
 
-        // Center Section
         VBox centerVBox = new VBox();
         centerVBox.setAlignment(javafx.geometry.Pos.CENTER);
         centerVBox.setSpacing(10);
 
-        // Player X and Score Labels
         AnchorPane playerXAnchorPane = new AnchorPane();
         playerXAnchorPane.setPrefHeight(50);
         playerXAnchorPane.setPrefWidth(780);
 
-        // Player X Label
         Label playerXLabel = new Label(playerX + " - X");
         playerXLabel.setTextFill(javafx.scene.paint.Color.BLACK);
         playerXLabel.setFont(new Font("Arial BOLD", 22));
         AnchorPane.setLeftAnchor(playerXLabel, 10.0); // Fixed position from the left
 
-        // Player O Label
         Label playerOLabel = new Label(playerO + " - O");
         playerOLabel.setFont(new Font("Arial BOLD", 22));
         playerOLabel.setTextFill(javafx.scene.paint.Color.BLACK);
         AnchorPane.setRightAnchor(playerOLabel, 10.0); // Fixed position from the right
 
-        // Add labels to AnchorPane
         playerXAnchorPane.getChildren().addAll(playerXLabel, playerOLabel);
 
-        // GridPane
         GridPane gridPane = new GridPane();
         gridPane.setMaxHeight(Double.MAX_VALUE);
         gridPane.setMaxWidth(Double.MAX_VALUE);
@@ -149,26 +139,24 @@ public abstract class OnlinePage extends AnchorPane {
             }
         }
         centerVBox.getChildren().addAll(playerXAnchorPane, gridPane);
-        
-        // Bottom Section
+
         HBox bottomHBox = new HBox();
         bottomHBox.setAlignment(javafx.geometry.Pos.CENTER);
         bottomHBox.setPrefHeight(21);
         bottomHBox.setPrefWidth(780);
         bottomHBox.setSpacing(10);
-        
-        scoreLabelX = new Label("Scores "+score1+":"+score2);
+
+        scoreLabelX = new Label("Scores " + score1 + ":" + score2);
         scoreLabelX.setTextFill(javafx.scene.paint.Color.BLACK);
-        scoreLabelX.setFont(new Font("Arial BOLD",22));
+        scoreLabelX.setFont(new Font("Arial BOLD", 22));
 
         HBox.setMargin(scoreLabelX, new Insets(0, 20, 0, 0));
         bottomHBox.getChildren().addAll(scoreLabelX);
-       
+
         borderPane.setTop(topSection);
         borderPane.setCenter(centerVBox);
         borderPane.setBottom(bottomHBox);
 
-        // Set the background image and add the BorderPane to the AnchorPane
         anchorPane.getChildren().addAll(imageView, borderPane);
 
         anchorPane.setPrefSize(780, 580);

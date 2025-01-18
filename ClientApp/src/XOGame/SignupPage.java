@@ -58,7 +58,7 @@ public abstract class SignupPage extends AnchorPane {
         imageView.setFitHeight(580.0);
         imageView.setFitWidth(780.0);
         imageView.setPreserveRatio(false);
-        
+
         backButton.setPrefSize(60, 41);
         Image backImage = new Image(getClass().getResourceAsStream("/media/back2.png"));
         ImageView backImageView = new ImageView(backImage);
@@ -157,7 +157,7 @@ public abstract class SignupPage extends AnchorPane {
         imageView1.setPickOnBounds(true);
         imageView1.setImage(new Image(getClass().getResource("/media/xomini.jpg").toExternalForm()));
 
-       getChildren().addAll(imageView,backButton);
+        getChildren().addAll(imageView, backButton);
         anchorPane.getChildren().add(usernameTextField);
         anchorPane.getChildren().add(passwordTextField);
         anchorPane.getChildren().add(confirmPasswordTextField);
