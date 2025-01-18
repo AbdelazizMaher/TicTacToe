@@ -95,9 +95,8 @@ public class DataAccessLayer {
     public static boolean updateUserScore(String username,int score) {
         PreparedStatement statment;
         try {
-            statment = connection.prepareStatement("UPDATE USERS SET SCORE = ? WHERE USERNAME = ?");
-            statment.setInt(1,score);
-            statment.setString(2, username);
+            statment = connection.prepareStatement("UPDATE USERS SET SCORE = SCORE+5 WHERE USERNAME = ?");
+            statment.setString(1, username);
             int rowsUpdated = statment.executeUpdate();
             return rowsUpdated > 0;
         } catch (SQLException ex) {

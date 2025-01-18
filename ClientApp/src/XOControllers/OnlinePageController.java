@@ -15,6 +15,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import XOGameBoard.TicTacToe;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -43,10 +45,9 @@ public class OnlinePageController extends OnlinePage {
     public static String opponentName;
     Stage stage;
     static boolean again = false;
-    static boolean logOut = false;
     boolean gameEnd;
     Thread thread;
-
+    boolean exit;
     public OnlinePageController(Stage stage) {
         this.stage = stage;
         initializeGameButtonsHandlers();
@@ -54,15 +55,10 @@ public class OnlinePageController extends OnlinePage {
         xoGame = new TicTacToe();
         if(AvailableUserPageController.isStarting) {
             startMoveTimer();
-            System.out.println("here");
         }
-        System.out.println("b"+gameEnd);
         thread = new Thread(() -> {
-            System.out.println("v"+gameEnd);
-            while (true) {
-                System.out.println("w"+gameEnd);
+            while (!exit) {
                 String serverResponse = getResponse();
-                System.out.println("resp " + serverResponse);
                 StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
                 String status = responseMsgTokens.nextToken();
 
@@ -107,6 +103,9 @@ public class OnlinePageController extends OnlinePage {
                         break;
                     case "withdraw":
                         Platform.runLater(() -> {
+                            exit = true;
+                            AvailableUserPageController.inGame =false;
+                            ClientHandler.sendRequest("exit"); 
                             gameEnd = true;
                             showAlert("Withdraw", "Unfortunantly you opponent has left the game");
                             Scene scene = new Scene(new AvailableUserPageController(stage));
@@ -148,14 +147,21 @@ public class OnlinePageController extends OnlinePage {
         thread.start();
 
         backButton.setOnMouseClicked(e -> {
-            logOut = true;
-            thread.stop();
+            exit = true;
             if (!gameEnd) {
                 ClientHandler.sendRequest("withdraw");
-            }
+            }    
+            AvailableUserPageController.inGame =false;
+            ClientHandler.sendRequest("exit");            
             gameEnd = true;
             Scene scene = new Scene(new AvailableUserPageController(stage));
             stage.setScene(scene);
+            try {
+                thread.stop();
+                thread.join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AvailableUserPageController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
 
         recordButton.setOnMouseClicked(e -> {
@@ -209,7 +215,6 @@ public class OnlinePageController extends OnlinePage {
 
     private void processMove(int row, int col) {
         if (xoGame.makeMove(row, col)) {
-            System.out.println("con"+buttons[row][col].getText());
             buttons[row][col].setText(xoGame.getCurrentPlayer());
             if (isRecording) {
                 RecordController.saveMove(row, col, xoGame.getCurrentPlayer());
@@ -234,7 +239,6 @@ public class OnlinePageController extends OnlinePage {
             } else {
                 //3-send request with the normalmove 
                 ClientHandler.sendRequest("normalMove" + "#@$" + row + "#@$" + col + "#@$");
-                System.out.println("normalMove" + "#@$" + row + "#@$" + col + "#@$");
                 xoGame.switchPlayer();
                 disableMove();
             }
@@ -296,7 +300,6 @@ public class OnlinePageController extends OnlinePage {
                 disableMove();
                 again = true;
                 gameEnd = false;
-                System.out.println(gameEnd);
             } else {                
                 sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
                 sendRequest("updateScore#@$"+userName+"#@$"+score1+"#@$"+opponent+"#@$"+score2);

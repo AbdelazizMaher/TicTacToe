@@ -104,8 +104,9 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "playagain":
                         playAgain();
                         break;
-                    case "updateScore":
-                        updateScore();
+                    case "exit":
+                        exitGame();
+                        break;
                 }
             } catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
@@ -179,7 +180,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         Vector<String> online = new Vector<String>();
         for (UserHandler player : userVector) {
             if (!player.isPlaying && player.user != null) {
-                System.out.println("sp"+player.user.getScore());
                 online.add(player.user.getUsername() + "*" + player.user.getScore() + "*");
             }
         }
@@ -202,7 +202,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void sendInvitation() {
         String opponentName = requestMsgTokens.nextToken();
-        System.out.println("opp" + opponentName);
         UserHandler opponent = getOpponentHandler(opponentName);
         if (opponent != null) {
             try {
@@ -310,7 +309,12 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    public void exitGame() {
+        isPlaying = false;
+        getOpponentHandler(opponentName).isPlaying = false;
+    }
+    
     @Override
     public void logout() {
         closeConnection();
@@ -400,23 +404,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             return true;
         } else {
             return false;
-        }
-    }
-    public void updateScore(){
-        String name1 = requestMsgTokens.nextToken();
-        Integer score1 =Integer.parseInt(requestMsgTokens.nextToken());
-        String name2 = requestMsgTokens.nextToken();
-        Integer score2 =Integer.parseInt(requestMsgTokens.nextToken());
-        
-        for (UserHandler userHandler : userVector) {
-            if (userHandler.user.getUsername().equals(name1)) {
-                userHandler.user.setScore(score1);
-                DataAccessLayer.updateUserScore(name1,score1);
-            }
-            if (userHandler.user.getUsername().equals(name2)) {
-                userHandler.user.setScore(score2);
-                DataAccessLayer.updateUserScore(name2,score2);
-            }
         }
     }
 }
