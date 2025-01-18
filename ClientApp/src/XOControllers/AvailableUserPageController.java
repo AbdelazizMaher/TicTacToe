@@ -59,11 +59,15 @@ public class AvailableUserPageController extends AvailableUsersPage {
                             }
                             break;
                         case "invitation":
+                            inGame = false;
+                            isStarting = false;
+                            playerX = null;
+                            playerO = null;
                             OnlinePageController.opponentName = responseMsgTokens.nextToken();
                             handleInvitationRequest(OnlinePageController.opponentName, stage);
                             break;
                         case "accepted":
-                            Platform.runLater(() -> {
+                            Platform.runLater(() -> {    
                                 OnlinePageController.exit = false;
                                 OnlinePageController.again=false;
                                 showInformationAlert(stage, "your inivitation has been accepted");
@@ -86,6 +90,10 @@ public class AvailableUserPageController extends AvailableUsersPage {
                         case "declined":
                             Platform.runLater(() -> {
                                 showErrorAlert(stage, "your inivitation has been declined");
+                                inGame = false;
+                                isStarting = false;
+                                playerX = null;
+                                playerO = null;
                             });
                             break;
                         case "Error":
@@ -107,6 +115,11 @@ public class AvailableUserPageController extends AvailableUsersPage {
 
     private void handleClickedButtonInvitation(Button button, String player) {
         button.setOnAction(e -> {
+            inGame = false;
+            isStarting = false;
+            playerX = null;
+            playerO = null;
+            //updateBoardState(false);
             ClientHandler.sendRequest("sendInvitaion" + "#@$" + player + "#@$");
         });
     }
@@ -135,6 +148,10 @@ public class AvailableUserPageController extends AvailableUsersPage {
                 Scene scene = new Scene(new OnlinePageController(stage));
                 stage.setScene(scene);
             } else {
+                inGame = false;
+                isStarting = false;
+                playerX = null;
+                playerO = null;
                 sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
             }
         });
