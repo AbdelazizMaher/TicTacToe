@@ -21,7 +21,10 @@ public abstract class OnlinePage extends AnchorPane {
     protected Button replayButton;
     protected Button recordButton;
     protected BorderPane borderPane;
-    protected Label scoreLabelX;
+    static Label playerXLabel;
+    static Label playerOLabel;
+
+    static public Label scoreLabelX;
 
     public OnlinePage() {
 
@@ -107,12 +110,15 @@ public abstract class OnlinePage extends AnchorPane {
         playerXAnchorPane.setPrefHeight(50);
         playerXAnchorPane.setPrefWidth(780);
 
-        Label playerXLabel = new Label(playerX + " - X");
+
+        // Player X Label
+        playerXLabel = new Label(playerX + " - X");
         playerXLabel.setTextFill(javafx.scene.paint.Color.BLACK);
         playerXLabel.setFont(new Font("Arial BOLD", 22));
         AnchorPane.setLeftAnchor(playerXLabel, 10.0); // Fixed position from the left
 
-        Label playerOLabel = new Label(playerO + " - O");
+        // Player O Label
+        playerOLabel = new Label(playerO + " - O");
         playerOLabel.setFont(new Font("Arial BOLD", 22));
         playerOLabel.setTextFill(javafx.scene.paint.Color.BLACK);
         AnchorPane.setRightAnchor(playerOLabel, 10.0); // Fixed position from the right
@@ -164,4 +170,13 @@ public abstract class OnlinePage extends AnchorPane {
         setPrefSize(780, 580);
         getChildren().add(anchorPane);
     }
+
+    
+    public static void updatePlayerLabels(String player1 , String player1Shape,int scoreX,String  player2, String player2Shape,int scoreO) {
+        scoreLabelX.setText("Scores " + scoreX + ":" + scoreO);
+        playerXLabel.setText(player1 + " -" + player1Shape);
+        playerOLabel.setText(player2 + " -" + player2Shape);
+    }
 }
+
+

@@ -104,6 +104,9 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "playagain":
                         playAgain();
                         break;
+                    case "exit":
+                        exitGame();
+                        break;
                 }
             } catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
@@ -199,16 +202,15 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     @Override
     public void sendInvitation() {
         String opponentName = requestMsgTokens.nextToken();
-        System.out.println("opp" + opponentName);
         UserHandler opponent = getOpponentHandler(opponentName);
-   
-            user.setScore(DataAccessLayer.getUserScore(user.getUsername()));
-            opponent.user.setScore(DataAccessLayer.getUserScore(opponent.user.getUsername()));
-            Integer userScore = user.getScore();
-            Integer opponentScore = opponent.user.getScore();
+
+        user.setScore(DataAccessLayer.getUserScore(user.getUsername()));
+        opponent.user.setScore(DataAccessLayer.getUserScore(opponent.user.getUsername()));
+        Integer userScore = user.getScore();
+        Integer opponentScore = opponent.user.getScore();
         if (opponent != null) {
             try {
-                opponent.talker.writeUTF("invitation" + "#@$" + user.getUsername() + "#@$" + userScore.toString()+ "#@$" + opponentScore.toString());
+                opponent.talker.writeUTF("invitation" + "#@$" + user.getUsername() + "#@$" + userScore.toString() + "#@$" + opponentScore.toString());
             } catch (IOException ex) {
                 Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -235,7 +237,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
             user.setScore(DataAccessLayer.getUserScore(user.getUsername()));
             opponent.user.setScore(DataAccessLayer.getUserScore(opponent.user.getUsername()));
-
             Integer userScore = user.getScore();
             Integer opponentScore = opponent.user.getScore();
 
@@ -280,7 +281,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         } catch (IOException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        DataAccessLayer.updateUserScore(user.getUsername());
     }
 
     @Override
@@ -315,6 +315,11 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         } catch (IOException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void exitGame() {
+        isPlaying = false;
+        getOpponentHandler(opponentName).isPlaying = false;
     }
 
     @Override

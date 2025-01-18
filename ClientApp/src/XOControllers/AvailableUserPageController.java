@@ -37,7 +37,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
     static String onlineList = "";
 
     private static Thread thread;
-    private boolean inGame;
+    protected static boolean inGame;
     public static boolean isStarting;
     int uScore;
     int oscore;
@@ -48,7 +48,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
 
         if (thread == null || !thread.isAlive()) {
             thread = new Thread(() -> {
-                while (ClientHandler.isConnected() && !inGame) {
+                while (!inGame) {
                     String serverResponse = ClientHandler.getResponse();
                     System.out.println("response" + serverResponse);
                     StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
