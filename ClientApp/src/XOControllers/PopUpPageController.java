@@ -16,7 +16,7 @@ public class PopUpPageController {
         popUpPage.okButton.setOnAction(e -> {
             String user1 = PopUpPage.username1.getText().trim();
             String user2 = PopUpPage.username2.getText().trim();
-            if (!user1.isEmpty() && !user2.isEmpty() && !user1.equals(user2)) {               
+            if (!user1.isEmpty() && !user2.isEmpty() && !user1.equals(user2)) {
                 popUpPage.close();
                 OfflinePage.updatePlayerLabels(user1, user2);
                 OfflinePage.playOfflineLabel.setText("Play Offline");
@@ -28,7 +28,7 @@ public class PopUpPageController {
                     alert.setContentText("Both usernames must be different.");
                 } else {
                     alert.setContentText("Both usernames must be entered.");
-                }                
+                }
                 alert.showAndWait();
             }
         });

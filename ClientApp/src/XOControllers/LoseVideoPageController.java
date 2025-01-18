@@ -17,8 +17,8 @@ import javafx.stage.StageStyle;
  */
 public class LoseVideoPageController extends WinVideoPage {
 
-    private final Stage mainStage; 
-    private final Stage videoStage; 
+    private final Stage mainStage;
+    private final Stage videoStage;
     private final Media media;
     private final MediaPlayer mediaPlayer;
 
@@ -28,7 +28,7 @@ public class LoseVideoPageController extends WinVideoPage {
         media = new Media(getClass().getResource("/media/KILL!.mp4").toExternalForm());
         mediaPlayer = new MediaPlayer(media);
 
-        videoStage = new Stage(StageStyle.DECORATED); 
+        videoStage = new Stage(StageStyle.DECORATED);
         MediaView mediaView = new MediaView(mediaPlayer);
 
         StackPane videoRoot = new StackPane(mediaView);
@@ -39,7 +39,7 @@ public class LoseVideoPageController extends WinVideoPage {
         mediaPlayer.setOnEndOfMedia(this::returnToMainStage);
 
         videoStage.setOnCloseRequest(event -> {
-            mediaPlayer.stop(); 
+            mediaPlayer.stop();
             returnToMainStage();
         });
     }
@@ -47,8 +47,8 @@ public class LoseVideoPageController extends WinVideoPage {
     public void playVideo() {
         Platform.runLater(() -> {
             System.out.println("Playing video. Hiding the main stage.");
-            mainStage.hide(); 
-            videoStage.show(); 
+            mainStage.hide();
+            videoStage.show();
         });
     }
 
@@ -56,9 +56,9 @@ public class LoseVideoPageController extends WinVideoPage {
         Platform.runLater(() -> {
             System.out.println("Returning to the main stage.");
             mediaPlayer.stop();
-            videoStage.close(); 
-            mainStage.show(); 
-            mainStage.toFront(); 
+            videoStage.close();
+            mainStage.show();
+            mainStage.toFront();
         });
     }
 }

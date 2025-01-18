@@ -282,7 +282,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void gameDrawMove() {
         String row = requestMsgTokens.nextToken();
         String col = requestMsgTokens.nextToken();
-        
+
         isPlaying = false;
         getOpponentHandler(opponentName).isPlaying = false;
         try {
