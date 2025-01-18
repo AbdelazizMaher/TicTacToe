@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
-=======
- * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
->>>>>>> 9af520dac9fb14ba1cd2b034a929f4c03b4ce6ad
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
@@ -175,36 +171,22 @@ var dtjava = function() {
         var edge = false;
         var noActiveX = false;
         edge = (navigator.userAgent.match(/Edge/i) != null);
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> 9af520dac9fb14ba1cd2b034a929f4c03b4ce6ad
         // If IE and Windows 8 or Windows 8.1 then check for Metro mode
         if(ie && navigator.userAgent.match(/Windows NT 6\.[23]/i) != null) {
             try {
                 // try to create a known ActiveX object
                 new ActiveXObject("htmlfile");
             } catch(e) {
-<<<<<<< HEAD
 		// ActiveX is disabled or not supported.
                 noActiveX = true;
             }
-=======
-		// ActiveX is disabled or not supported. 
-                noActiveX = true;
-            } 
->>>>>>> 9af520dac9fb14ba1cd2b034a929f4c03b4ce6ad
         }
 
         if(edge || noActiveX) {
             ie = false;
 	}
 
-<<<<<<< HEAD
-=======
-	var noPluginWebBrowser = edge || chrome || noActiveX;
->>>>>>> 9af520dac9fb14ba1cd2b034a929f4c03b4ce6ad
 
         //we are not required to detect everything and can leave values null as
         // long as we later treat them accordingly.
@@ -225,11 +207,7 @@ var dtjava = function() {
         // trim() is not supported by IE10 and before
         if(typeof String.prototype.trim !== 'function') {
            String.prototype.trim = function() {
-<<<<<<< HEAD
                return this.replace(/^\s+|\s+$/g, '');
-=======
-               return this.replace(/^\s+|\s+$/g, ''); 
->>>>>>> 9af520dac9fb14ba1cd2b034a929f4c03b4ce6ad
            }
         }
 
@@ -268,11 +246,7 @@ var dtjava = function() {
                 if (m.indexOf("application/x-java-applet;version") != -1 && m.indexOf('=') != -1) {
                     var v = m.substring(m.indexOf('=') + 1);
                     // Use the existing version comparison mechanism to ensure that
-<<<<<<< HEAD
                     // the latest JRE is selected ( "versionA"<="VersionB" equals to
-=======
-                    // the latest JRE is selected ( "versionA"<="VersionB" equals to 
->>>>>>> 9af520dac9fb14ba1cd2b034a929f4c03b4ce6ad
                     // versionCheck("versionA+","versionB") returns "true")
                     if(jre == null || versionCheck(jre + "+", v)){
 			jre = v;
@@ -288,16 +262,12 @@ var dtjava = function() {
                 }
             }
         }
-<<<<<<< HEAD
 
        var firefox = (navigator.userAgent.match(/Firefox/i) != null);
 
        var noPluginWebBrowser = edge || chrome || noActiveX || (firefox && (jre == null));
 
 
-=======
-		
->>>>>>> 9af520dac9fb14ba1cd2b034a929f4c03b4ce6ad
         return {haveDom:dom, wk:webkit, ie:ie, win:windows,
                 linux:linux, mac:mac, op: opera, chrome:chrome, edge:edge,
                 jre:jre, deploy:deploy, fx:fx, noPluginWebBrowser:noPluginWebBrowser,
@@ -306,28 +276,17 @@ var dtjava = function() {
 
    function showMessageBox() {
         var message = 'Java Plug-in is not supported by this browser. <a href="https://java.com/dt-redirect">More info</a>';
-<<<<<<< HEAD
         var mbStyle = 'background-color: #ffffce;text-align: left;border: solid 1px #f0c000; padding: 1.65em 1.65em .75em 0.5em; font-family: Helvetica, Arial, sans-serif; font-size: 75%; bottom:0; left:0; right:0; position:fixed; margin:auto; opacity:0.9; width:400px;';
         var messageStyle = "border: .85px; margin:-2.2em 0 0.55em 2.5em;";
         var closeButtonStyle = "margin-left:10px;font-weight:bold;float:right;font-size:22px;line-height:20px;cursor:pointer;color:red;"
         var messageBox = '<span style="'+ closeButtonStyle +'" onclick="this.parentElement.style.display=\'none\';">&times;</span><img src="https://java.com/js/alert_16.png"><div style="'+ messageStyle +'"><p>'+ message + '</p>';
-=======
-        var mbStyle = 'background-color: #ffffce;text-align: left;border: solid 1px #f0c000; padding: 1.65em 1.65em .75em 0.5em; font-family: Helvetica, Arial, sans-serif; font-size: 75%; top:5;left:5;position:absolute; opacity:0.9; width:600px;';
-        var messageStyle = "border: .85px; margin:-2.2em 0 0.55em 2.5em;";
-
-        var messageBox = '<img src="https://java.com/js/alert_16.png"><div style="'+ messageStyle +'"><p>'+ message + '</p>';
->>>>>>> 9af520dac9fb14ba1cd2b034a929f4c03b4ce6ad
 
 
         var divTag = document.createElement("div");
         divTag.id = "messagebox";
         divTag.setAttribute('style', mbStyle);
         divTag.innerHTML = messageBox;
-<<<<<<< HEAD
         document.body.appendChild(divTag);
-=======
-        document.body.appendChild(divTag);              
->>>>>>> 9af520dac9fb14ba1cd2b034a929f4c03b4ce6ad
 
     }
     //partially derived from swfobject.js
@@ -435,11 +394,7 @@ var dtjava = function() {
             installNativePlugin();
         }
     }
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 9af520dac9fb14ba1cd2b034a929f4c03b4ce6ad
    function getAbsoluteUrl(jnlp){
         var absoluteUrl;
         if(isAbsoluteUrl(jnlp)) {
@@ -456,11 +411,7 @@ var dtjava = function() {
     function launchWithJnlpProtocol(jnlp) {
         document.location="jnlp:"+ getAbsoluteUrl(jnlp);
     }
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> 9af520dac9fb14ba1cd2b034a929f4c03b4ce6ad
 
     function isAbsoluteUrl(url){
        var protocols = ["http://", "https://", "file://"];
@@ -2796,11 +2747,7 @@ var dtjava = function() {
             }
         }
         if (notNull(platform.jvmargs)) {
-<<<<<<< HEAD
             sparams["java_arguments"] = listToString(platform.jvmargs);
-=======
-            sparams["java_arguments"] = platform.jvmargs;
->>>>>>> 9af520dac9fb14ba1cd2b034a929f4c03b4ce6ad
         }
 
         //prepare parameters first
