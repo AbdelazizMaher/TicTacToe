@@ -56,9 +56,11 @@ public class OnlinePageController extends OnlinePage {
             startMoveTimer();
             System.out.println("here");
         }
-        
+        System.out.println("b"+gameEnd);
         thread = new Thread(() -> {
-            while (!gameEnd) {
+            System.out.println("v"+gameEnd);
+            while (true) {
+                System.out.println("w"+gameEnd);
                 String serverResponse = getResponse();
                 System.out.println("resp " + serverResponse);
                 StringTokenizer responseMsgTokens = new StringTokenizer(serverResponse, "#@$");
@@ -100,6 +102,7 @@ public class OnlinePageController extends OnlinePage {
                                     buttons[row][col].setDisable(true);
                                 }
                             }
+                            gameEnd = true;
                         });
                         break;
                     case "withdraw":
@@ -122,6 +125,7 @@ public class OnlinePageController extends OnlinePage {
                             enableMove();
                             showAlert("Accepted", "your inivitation has been accepted");
                             again = true;
+                            gameEnd = false;
                             initializeGameButtonsHandlers();
                         });
                         break;
@@ -145,6 +149,7 @@ public class OnlinePageController extends OnlinePage {
 
         backButton.setOnMouseClicked(e -> {
             logOut = true;
+            thread.stop();
             if (!gameEnd) {
                 ClientHandler.sendRequest("withdraw");
             }
@@ -176,6 +181,8 @@ public class OnlinePageController extends OnlinePage {
             else{
                 showAlert("error","You must complete the game first");
             }
+            sendRequest("updateScore#@$"+userName+"#@$"+score1+"#@$"+opponentName+"#@$"+score2);
+
         });
     }
 
@@ -185,12 +192,16 @@ public class OnlinePageController extends OnlinePage {
                 final int rowButton = row;
                 final int colButton = col;
                 buttons[row][col].setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
-                buttons[row][col].setOnAction(e -> {
+                disableMove();
+                buttons[row][col].setOnAction(e -> {                    
                     processMove(rowButton, colButton);
-                    disableMove();
+                    
                 });
                 if (!again) {
                     disableMove();
+                }
+                if(again){
+                    enableMove();
                 }
             }
         }
@@ -198,6 +209,7 @@ public class OnlinePageController extends OnlinePage {
 
     private void processMove(int row, int col) {
         if (xoGame.makeMove(row, col)) {
+            System.out.println("con"+buttons[row][col].getText());
             buttons[row][col].setText(xoGame.getCurrentPlayer());
             if (isRecording) {
                 RecordController.saveMove(row, col, xoGame.getCurrentPlayer());
@@ -218,9 +230,11 @@ public class OnlinePageController extends OnlinePage {
                 ClientHandler.sendRequest("drawMove" + "#@$" + row + "#@$" + col + "#@$");
                 stopRecording();
                 setBoardForDraw();
+                gameEnd = true;
             } else {
                 //3-send request with the normalmove 
                 ClientHandler.sendRequest("normalMove" + "#@$" + row + "#@$" + col + "#@$");
+                System.out.println("normalMove" + "#@$" + row + "#@$" + col + "#@$");
                 xoGame.switchPlayer();
                 disableMove();
             }
@@ -264,6 +278,7 @@ public class OnlinePageController extends OnlinePage {
 
     private void drawMove(int row, int col) {
         if (xoGame.makeMove(row, col)) {
+            
             buttons[row][col].setText(xoGame.getCurrentPlayer());
             if (isRecording) {
                 RecordController.saveMove(row, col, xoGame.getCurrentPlayer());
@@ -280,8 +295,11 @@ public class OnlinePageController extends OnlinePage {
                 clearBoard();
                 disableMove();
                 again = true;
-            } else {
+                gameEnd = false;
+                System.out.println(gameEnd);
+            } else {                
                 sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
+                sendRequest("updateScore#@$"+userName+"#@$"+score1+"#@$"+opponent+"#@$"+score2);
                 Scene scene1 = new Scene(new AvailableUserPageController(stage));
                 stage.setScene(scene1);
             }

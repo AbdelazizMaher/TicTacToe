@@ -69,7 +69,8 @@ public class DataAccessLayer {
 
             rs = statment.executeQuery();
             if (rs.next()) {
-                return new UserDataModel(rs.getString("USERNAME"), rs.getString("PASSWORD"), rs.getInt("SCORE"));
+                System.out.println("s"+ rs.getInt("SCORE"));
+                return new UserDataModel(rs.getString("USERNAME"), rs.getString("PASSWORD"), rs.getInt("SCORE")); 
             }
         } catch (SQLException ex) {
             System.out.println(ex.getLocalizedMessage());
@@ -91,11 +92,12 @@ public class DataAccessLayer {
         return -1;
     }
 
-    public static boolean updateUserScore(String username) {
+    public static boolean updateUserScore(String username,int score) {
         PreparedStatement statment;
         try {
-            statment = connection.prepareStatement("UPDATE USERS SET SCORE = SCORE + 5 WHERE USERNAME = ?");
-            statment.setString(1, username);
+            statment = connection.prepareStatement("UPDATE USERS SET SCORE = ? WHERE USERNAME = ?");
+            statment.setInt(1,score);
+            statment.setString(2, username);
             int rowsUpdated = statment.executeUpdate();
             return rowsUpdated > 0;
         } catch (SQLException ex) {

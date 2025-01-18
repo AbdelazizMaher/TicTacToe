@@ -104,6 +104,8 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "playagain":
                         playAgain();
                         break;
+                    case "updateScore":
+                        updateScore();
                 }
             } catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
@@ -177,6 +179,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         Vector<String> online = new Vector<String>();
         for (UserHandler player : userVector) {
             if (!player.isPlaying && player.user != null) {
+                System.out.println("sp"+player.user.getScore());
                 online.add(player.user.getUsername() + "*" + player.user.getScore() + "*");
             }
         }
@@ -231,12 +234,9 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             user.setScore(DataAccessLayer.getUserScore(user.getUsername()));
             opponent.user.setScore(DataAccessLayer.getUserScore(opponent.user.getUsername()));
 
-            Integer userScore = user.getScore();
-            Integer opponentScore = opponent.user.getScore();
 
             try {
-                //talker.writeUTF("score" + "#@$" + opponentScore.toString() + "#@$" + userScore.toString());
-                //opponent.talker.writeUTF("score" + "#@$" + opponentScore.toString() + "#@$" + userScore.toString());
+
                 getOpponentOutputStream(opponentName).writeUTF("accepted" + "#@$" + user.getUsername());
             } catch (IOException ex) {
                 Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -275,7 +275,6 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         } catch (IOException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        DataAccessLayer.updateUserScore(user.getUsername());
     }
 
     @Override
@@ -401,6 +400,23 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             return true;
         } else {
             return false;
+        }
+    }
+    public void updateScore(){
+        String name1 = requestMsgTokens.nextToken();
+        Integer score1 =Integer.parseInt(requestMsgTokens.nextToken());
+        String name2 = requestMsgTokens.nextToken();
+        Integer score2 =Integer.parseInt(requestMsgTokens.nextToken());
+        
+        for (UserHandler userHandler : userVector) {
+            if (userHandler.user.getUsername().equals(name1)) {
+                userHandler.user.setScore(score1);
+                DataAccessLayer.updateUserScore(name1,score1);
+            }
+            if (userHandler.user.getUsername().equals(name2)) {
+                userHandler.user.setScore(score2);
+                DataAccessLayer.updateUserScore(name2,score2);
+            }
         }
     }
 }
