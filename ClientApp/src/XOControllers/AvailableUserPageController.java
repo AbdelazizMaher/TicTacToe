@@ -124,7 +124,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
             if (isInvitationAccepted) {
                 setPlayersNames(opponent, userName);
                 sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
-                isStarting = true;
+                //isStarting = true;
                 Scene scene = new Scene(new OnlinePageController(stage));
                 stage.setScene(scene);
             } else {

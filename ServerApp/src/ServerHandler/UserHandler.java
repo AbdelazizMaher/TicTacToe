@@ -185,21 +185,21 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
     void sendListToAll(Vector<String> online) {
         for (UserHandler client : userVector) {
-                Vector<String> list = new Vector<>(online);
-                list.remove(client.user.getUsername() + "*" + client.user.getScore() + "*");
+            Vector<String> list = new Vector<>(online);
+            list.remove(client.user.getUsername() + "*" + client.user.getScore() + "*");
             try {
                 client.talker.writeUTF("sendAvailablePlayers#@$" + list);
             } catch (IOException ex) {
                 Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }
 
     @Override
     public void sendInvitation() {
         String opponentName = requestMsgTokens.nextToken();
-        System.out.println("opp"+opponentName);
+        System.out.println("opp" + opponentName);
         UserHandler opponent = getOpponentHandler(opponentName);
         if (opponent != null) {
             try {
@@ -220,7 +220,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void getInvitationResponse() {
         String response = requestMsgTokens.nextToken();
         opponentName = requestMsgTokens.nextToken();
-        
+
         if (response.equals("accept")) {
             isPlaying = true;
 
@@ -240,6 +240,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             } catch (IOException ex) {
                 Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
+            sendAvailablePlayers();
         }
     }
 
@@ -258,6 +259,9 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void gameWinnerMove() {
         String row = requestMsgTokens.nextToken();
         String col = requestMsgTokens.nextToken();
+
+        isPlaying = false;
+        getOpponentHandler(opponentName).isPlaying = false;
         try {
             getOpponentOutputStream(opponentName).writeUTF("losingMove" + "#@$" + row + "#@$" + col + "#@$");
         } catch (IOException ex) {
@@ -270,6 +274,9 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void gameDrawMove() {
         String row = requestMsgTokens.nextToken();
         String col = requestMsgTokens.nextToken();
+        
+        isPlaying = false;
+        getOpponentHandler(opponentName).isPlaying = false;
         try {
             getOpponentOutputStream(opponentName).writeUTF("draw" + "#@$" + row + "#@$" + col + "#@$");
         } catch (IOException ex) {
@@ -279,8 +286,8 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
     @Override
     public void withdraw() {
-        isPlaying=false;
-        getOpponentHandler(opponentName).isPlaying=false;
+        isPlaying = false;
+        getOpponentHandler(opponentName).isPlaying = false;
         try {
             getOpponentOutputStream(opponentName).writeUTF("withdraw");
         } catch (IOException ex) {
