@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 public class ServerApp extends Application {
 
     GUIController root;
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         root = new GUIController(stage);
@@ -27,7 +27,6 @@ public class ServerApp extends Application {
         Scene scene = new Scene(root);
 
         scene.getStylesheets().add(getClass().getResource("/styles/Stylesheet.css").toString());
-
 
         stage.setScene(scene);
         stage.show();

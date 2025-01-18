@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class TicTacToe {
 
-    private String[][] board;
+    public String[][] board;
     private String currentPlayer;
     private final int SIZE = 3;
     private int[] winningLine;
@@ -52,7 +52,7 @@ public class TicTacToe {
                 if (board[row][col] == null) {
                     return false;
                 }
-            }          
+            }
         }
         return true;
     }

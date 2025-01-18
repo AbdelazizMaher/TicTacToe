@@ -27,9 +27,11 @@ public class VsCompPageController extends VsCompPage {
     private TicTacToe xoGame;
     private Line winningLine;
     int count;
+    int difficultyLevel;
 
-    public VsCompPageController(Stage stage) {
+    public VsCompPageController(Stage stage, int difficultyLevel) {
         xoGame = new TicTacToe();
+        this.difficultyLevel = difficultyLevel;
         backButton.setOnMouseClicked(e -> {
             Scene scene2 = new Scene(new DifficultyLevelController(stage));
             stage.setScene(scene2);
@@ -74,7 +76,13 @@ public class VsCompPageController extends VsCompPage {
 
                     }
                     if (xoGame.getCurrentPlayer().equals("O")) {
-                        computerMove();
+
+                        if (difficultyLevel == 0) {
+                            computerEasyMove();
+                        } else {
+                            computerHardMove();
+                        }
+
                     }
                 });
             }
@@ -153,7 +161,7 @@ public class VsCompPageController extends VsCompPage {
         borderPane.getChildren().add(winningLine);
     }
 
-    void computerMove() {
+    void computerEasyMove() {
         Random rand = new Random();
         int rowComp = rand.nextInt(3);
         int colComp = rand.nextInt(3);
@@ -169,6 +177,82 @@ public class VsCompPageController extends VsCompPage {
             count++;
         }
         if (xoGame.isWinningMove(rowComp, rowComp) && winningLine == null) {
+            drawWinningLine();
+            updateScore();
+        } else if (xoGame.isDraw()) {
+            if (isRecording) {
+                RecordController.closeRecordConection();
+            }
+        } else if (winningLine != null) {
+            resetGame();
+        } else {
+            xoGame.switchPlayer();
+            setOnlineLabelToPlayerTurn();
+        }
+    }
+
+    private int minimax(int depth, boolean isMaximizing, int r, int c) {
+        if (xoGame.isWinningMove(r, c)) {
+            return isMaximizing ? -10 : 10;
+        } else if (xoGame.isDraw()) {
+            return 0;
+        }
+
+        int best = isMaximizing ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                if (xoGame.board[row][col] == null) {
+
+                    xoGame.board[row][col] = isMaximizing ? "O" : "X";
+
+                    int currentScore = minimax(depth + 1, !isMaximizing, row, col);
+
+                    xoGame.board[row][col] = null;
+
+                    if (isMaximizing) {
+                        best = Math.max(best, currentScore);
+                    } else {
+                        best = Math.min(best, currentScore);
+                    }
+                }
+            }
+        }
+
+        return best;
+    }
+
+    private void computerHardMove() {
+        int bestVal = Integer.MIN_VALUE;
+        int bestRow = -1;
+        int bestCol = -1;
+
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                if (xoGame.board[row][col] == null) {
+
+                    xoGame.board[row][col] = "O";
+
+                    int moveVal = minimax(0, false, row, col);
+
+                    xoGame.board[row][col] = null;
+                    if (moveVal > bestVal) {
+                        bestRow = row;
+                        bestCol = col;
+                        bestVal = moveVal;
+                    }
+                }
+            }
+        }
+
+        xoGame.board[bestRow][bestCol] = "O";
+        buttons[bestRow][bestCol].setText("O");
+
+        if (isRecording) {
+            RecordController.saveMove(bestRow, bestCol, "O");
+        }
+
+        if (xoGame.isWinningMove(bestRow, bestCol) && winningLine == null) {
             drawWinningLine();
             updateScore();
         } else if (xoGame.isDraw()) {

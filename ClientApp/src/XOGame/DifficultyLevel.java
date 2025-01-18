@@ -50,7 +50,7 @@ public class DifficultyLevel extends AnchorPane {
         mainAnchorPane.getStyleClass().add("sidebar");
         mainAnchorPane.getStylesheets().add("/styles/Stylesheet.css");
         mainAnchorPane.setPadding(new Insets(9, 1, 0, 0));
-        
+
         backButton.setLayoutX(8.0);
         backButton.setLayoutY(1.0);
         backButton.setMnemonicParsing(false);

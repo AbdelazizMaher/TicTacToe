@@ -41,15 +41,15 @@ public class ClientHandler {
         }
         return connected;
     }
-    
-     public static void sendRequest(String text) {
+
+    public static void sendRequest(String text) {
         try {
             mouth.writeUTF(text);
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   
+
     public static String getResponse() {
         try {
             receivedText = ear.readUTF();
@@ -59,24 +59,23 @@ public class ClientHandler {
         return receivedText;
     }
 
-    
     public static void closeConnection() {
-    if (server != null && !server.isClosed()) {
-        try {
+        if (server != null && !server.isClosed()) {
+            try {
                 server.close();
                 mouth.close();
                 ear.close();
                 connected = false;
             } catch (IOException ex) {
                 Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }        
+            }
+        }
     }
-    }
-    
+
     public static boolean isConnected() {
         return connected;
     }
-    
+
     public static void setConnected(boolean connected) {
         ClientHandler.connected = connected;
     }
