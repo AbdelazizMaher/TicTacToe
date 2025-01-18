@@ -6,6 +6,7 @@
 package XOControllers;
 
 import ClientHandler.ClientHandler;
+import static XOControllers.AvailableUserPageController.inGame;
 import XOGame.HomePage;
 import XOGame.SignupPage;
 import java.util.Vector;
@@ -35,6 +36,7 @@ public class SignupPageController extends SignupPage {
                                 if (message.equals("Signed Up")) {
                                     HomePage.userName = name;
                                     Platform.runLater(() -> {
+                                        inGame=false;
                                         Scene scene = new Scene(new AvailableUserPageController(stage));
                                         stage.setScene(scene);
                                     });
