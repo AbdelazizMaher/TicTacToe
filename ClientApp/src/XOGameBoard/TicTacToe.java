@@ -52,7 +52,7 @@ public class TicTacToe {
                 if (board[row][col] == null) {
                     return false;
                 }
-            }          
+            }
         }
         return true;
     }
