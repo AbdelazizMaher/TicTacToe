@@ -228,7 +228,15 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             UserHandler opponent = getOpponentHandler(opponentName);
             opponent.isPlaying = true;
 
+            user.setScore(DataAccessLayer.getUserScore(user.getUsername()));
+            opponent.user.setScore(DataAccessLayer.getUserScore(opponent.user.getUsername()));
+
+            Integer userScore = user.getScore();
+            Integer opponentScore = opponent.user.getScore();
+
             try {
+                talker.writeUTF("score" + "#@$" + opponentScore.toString() + "#@$" + userScore.toString());
+                opponent.talker.writeUTF("score" + "#@$" + opponentScore.toString() + "#@$" + userScore.toString());
                 getOpponentOutputStream(opponentName).writeUTF("accepted" + "#@$" + user.getUsername());
             } catch (IOException ex) {
                 Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);

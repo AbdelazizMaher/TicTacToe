@@ -3,9 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/AvailableUserPageController.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/OnlinePageController.java</file>
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOGame/OnlinePage.java</file>
+            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOControllers/DifficultyLevelController.java</file>
+            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOControllers/OfflinePageController.java</file>
+            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOControllers/VsCompPageController.java</file>
+            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOGameBoard/TicTacToe.java</file>
+            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOControllers/OnlinePageController.java</file>
+            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOControllers/AvailableUserPageController.java</file>
+            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOGame/OnlinePage.java</file>
+            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOGame/OfflinePage.java</file>
         </group>
     </open-files>
 </project-private>
