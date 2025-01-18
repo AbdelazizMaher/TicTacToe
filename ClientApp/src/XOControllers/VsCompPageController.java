@@ -27,9 +27,11 @@ public class VsCompPageController extends VsCompPage {
     private TicTacToe xoGame;
     private Line winningLine;
     int count;
+    int difficultyLevel;
 
-    public VsCompPageController(Stage stage) {
+    public VsCompPageController(Stage stage, int difficultyLevel) {
         xoGame = new TicTacToe();
+       this.difficultyLevel=difficultyLevel;
         backButton.setOnMouseClicked(e -> {
             Scene scene2 = new Scene(new DifficultyLevelController(stage));
             stage.setScene(scene2);
@@ -74,7 +76,13 @@ public class VsCompPageController extends VsCompPage {
 
                     }
                     if (xoGame.getCurrentPlayer().equals("O")) {
+                        
+                        if(difficultyLevel==0){
+                        computerEasyMove();
+                        }else{
                         computerHardMove();
+                        }
+                        
                     }
                 });
             }
@@ -153,7 +161,7 @@ public class VsCompPageController extends VsCompPage {
         borderPane.getChildren().add(winningLine);
     }
 
-    void computerMove() {
+    void computerEasyMove() {
         Random rand = new Random();
         int rowComp = rand.nextInt(3);
         int colComp = rand.nextInt(3);
@@ -243,7 +251,6 @@ public class VsCompPageController extends VsCompPage {
         if (isRecording) {
             RecordController.saveMove(bestRow, bestCol, "O");
         }
-
 
         if (xoGame.isWinningMove(bestRow, bestCol) && winningLine == null) {
             drawWinningLine();
