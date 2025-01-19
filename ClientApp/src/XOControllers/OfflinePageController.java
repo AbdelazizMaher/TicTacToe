@@ -94,9 +94,9 @@ public class OfflinePageController extends OfflinePage {
                 stopRecording();
                 updateScore();
                 if(xoGame.getCurrentPlayer().equals("X")){
-                    showAlert(stage,"Congratulations!", user1 +" has won the game");
+                    showAlert(stage,"Congratulations", user1 +" has won the game");
                 }else{
-                    showAlert(stage,"Congratulations!", user2 +" has won the game");
+                    showAlert(stage,"Congratulations", user2 +" has won the game");
                 }
             } else if (xoGame.isDraw()) {
                 showAlert(stage,"Draw ","Game Draw");
@@ -180,7 +180,7 @@ public class OfflinePageController extends OfflinePage {
         }
     }
     
-     private void showAlert(Stage stage,String title, String contentText) {
+    private void showAlert(Stage stage,String title, String contentText) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initOwner(stage);
         alert.setHeaderText(title);
