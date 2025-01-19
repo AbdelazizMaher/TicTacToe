@@ -1,36 +1,64 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package XOControllers;
 
 import XOGame.WinVideoPage;
-import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
  *
  * @author Adham
  */
-public class WinVideoPageController extends WinVideoPage {    
-    private File file;
-    private Media media;
-    
-    public WinVideoPageController(Stage stage) {
-        // Set up the video
-        Media media = new Media(getClass().getResource("/media/SMILE!.mp4").toExternalForm());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaView.setMediaPlayer(mediaPlayer);
+public class WinVideoPageController extends WinVideoPage {
+
+    private final Stage mainStage;
+    private final Stage videoStage;
+    private final Media media;
+    private final MediaPlayer mediaPlayer;
+
+    public WinVideoPageController(Stage mainStage) {
+        this.mainStage = mainStage;
+
+        media = new Media(getClass().getResource("/media/SMILE!.mp4").toExternalForm());
+        mediaPlayer = new MediaPlayer(media);
+
+        videoStage = new Stage(StageStyle.DECORATED);
+        MediaView mediaView = new MediaView(mediaPlayer);
+
+        StackPane videoRoot = new StackPane(mediaView);
+        Scene videoScene = new Scene(videoRoot, 800, 600);
+        videoStage.setScene(videoScene);
+
         mediaPlayer.setAutoPlay(true);
-    }    
-    
+        mediaPlayer.setOnEndOfMedia(this::returnToMainStage);
+
+        videoStage.setOnCloseRequest(event -> {
+            mediaPlayer.stop();
+            returnToMainStage();
+        });
+    }
+
+    public void playVideo() {
+        Platform.runLater(() -> {
+            System.out.println("Playing video. Hiding the main stage.");
+            mainStage.hide();
+            videoStage.show();
+        });
+    }
+
+    private void returnToMainStage() {
+        Platform.runLater(() -> {
+            System.out.println("Returning to the main stage.");
+            mediaPlayer.stop();
+            videoStage.close();
+            mainStage.show();
+            mainStage.toFront();
+        });
+    }
 }

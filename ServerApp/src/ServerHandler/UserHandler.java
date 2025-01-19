@@ -10,6 +10,7 @@ import DataModels.UserDataModel;
 import Database.DataAccessLayer;
 import GraphHandler.GraphHandler;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
@@ -28,7 +29,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
     Socket socket;
     DataInputStream reader;
-    PrintStream talker;
+    DataOutputStream talker;
     boolean isPlaying;
     String opponentName;
     static Vector<UserHandler> userVector = new Vector<UserHandler>();
@@ -42,7 +43,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
         try {
             reader = new DataInputStream(socket.getInputStream());
-            talker = new PrintStream(socket.getOutputStream());
+            talker = new DataOutputStream(socket.getOutputStream());
 
             addUser(this);
             start();
@@ -55,7 +56,7 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void run() {
         while (true) {
             try {
-                String requestMsg = reader.readLine();
+                String requestMsg = reader.readUTF();
                 requestMsgTokens = new StringTokenizer(requestMsg, "#@$");
 
                 String clientRequest = requestMsgTokens.nextToken();
@@ -83,6 +84,29 @@ public class UserHandler extends Thread implements ServerRequestInterface {
                     case "logout":
                         logout();
                         break;
+
+                    case "winningMove":
+                        gameWinnerMove();
+                        break;
+
+                    case "drawMove":
+                        gameDrawMove();
+                        break;
+
+                    case "normalMove":
+                        sendNormalMove();
+                        break;
+
+                    case "withdraw":
+                        withdraw();
+                        break;
+
+                    case "playagain":
+                        playAgain();
+                        break;
+                    case "exit":
+                        exitGame();
+                        break;
                 }
             } catch (IOException ex) {
                 System.out.println(ex.getLocalizedMessage());
@@ -97,9 +121,17 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         user.setPassword(requestMsgTokens.nextToken());
         boolean isSignedUp = DataAccessLayer.addUser(user);
         if (isSignedUp) {
-            talker.println("Signed Up");
+            try {
+                talker.writeUTF("Signed Up");
+            } catch (IOException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
-            talker.println("The username exists");
+            try {
+                talker.writeUTF("The username exists");
+            } catch (IOException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
             closeConnection();
         }
     }
@@ -113,16 +145,32 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
         if (user != null && password.equals(user.getPassword())) {
             if (isUserAlreadySignedIn()) {
-                talker.println("Username Currently Signedin, try another one!");
-                closeConnection();
+                try {
+                    talker.writeUTF("Username Currently Signedin, try another one!");
+                    closeConnection();
+                } catch (IOException ex) {
+                    Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
-                talker.println("Signed In");
+                try {
+                    talker.writeUTF("Signed In");
+                } catch (IOException ex) {
+                    Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         } else if (user != null && !password.equals(user.getPassword())) {
-            talker.println("Invalid password!");
+            try {
+                talker.writeUTF("Invalid password!");
+            } catch (IOException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
             closeConnection();
         } else {
-            talker.println("Invalid username!");
+            try {
+                talker.writeUTF("Invalid username!");
+            } catch (IOException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
             closeConnection();
         }
     }
@@ -142,7 +190,12 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         for (UserHandler client : userVector) {
             Vector<String> list = new Vector<>(online);
             list.remove(client.user.getUsername() + "*" + client.user.getScore() + "*");
-            client.talker.println("sendAvailablePlayers#@$" + list);
+            try {
+                client.talker.writeUTF("sendAvailablePlayers#@$" + list);
+            } catch (IOException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }
 
@@ -151,17 +204,25 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         String opponentName = requestMsgTokens.nextToken();
         UserHandler opponent = getOpponentHandler(opponentName);
         if (opponent != null) {
-            opponent.talker.println("invitation" + "#@$" + user.getUsername());
+            try {
+                opponent.talker.writeUTF("invitation" + "#@$" + user.getUsername());
+            } catch (IOException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
-            talker.println("Error" + "#@$" + "failed");
+            try {
+                talker.writeUTF("Error" + "#@$" + "failed");
+            } catch (IOException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     @Override
     public void getInvitationResponse() {
         String response = requestMsgTokens.nextToken();
-
         opponentName = requestMsgTokens.nextToken();
+
         if (response.equals("accept")) {
             isPlaying = true;
 
@@ -169,29 +230,91 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             UserHandler opponent = getOpponentHandler(opponentName);
             opponent.isPlaying = true;
 
-            getOpponentOutputStream(opponentName).println("accepted" + "#@$" + user.getUsername());
+            user.setScore(DataAccessLayer.getUserScore(user.getUsername()));
+            opponent.user.setScore(DataAccessLayer.getUserScore(opponent.user.getUsername()));
+
+
+            try {
+
+                getOpponentOutputStream(opponentName).writeUTF("accepted" + "#@$" + user.getUsername());
+            } catch (IOException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
             sendAvailablePlayers();
         } else {
-            getOpponentOutputStream(opponentName).println("declined" + "#@$" + user.getUsername());
+            try {
+                getOpponentOutputStream(opponentName).writeUTF("declined" + "#@$" + user.getUsername());
+            } catch (IOException ex) {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            sendAvailablePlayers();
         }
     }
 
     @Override
-    public void sendMove() {
+    public void sendNormalMove() {
+        String row = requestMsgTokens.nextToken();
+        String col = requestMsgTokens.nextToken();
+        try {
+            getOpponentOutputStream(opponentName).writeUTF("normalMove" + "#@$" + row + "#@$" + col + "#@$");
+        } catch (IOException ex) {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
-    public void gameWinner() {
+    public void gameWinnerMove() {
+        String row = requestMsgTokens.nextToken();
+        String col = requestMsgTokens.nextToken();
+
+        isPlaying = false;
+        getOpponentHandler(opponentName).isPlaying = false;
+        try {
+            getOpponentOutputStream(opponentName).writeUTF("losingMove" + "#@$" + row + "#@$" + col + "#@$");
+        } catch (IOException ex) {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
-    public void gameDraw() {
+    public void gameDrawMove() {
+        String row = requestMsgTokens.nextToken();
+        String col = requestMsgTokens.nextToken();
+
+        isPlaying = false;
+        getOpponentHandler(opponentName).isPlaying = false;
+        try {
+            getOpponentOutputStream(opponentName).writeUTF("draw" + "#@$" + row + "#@$" + col + "#@$");
+        } catch (IOException ex) {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void withdraw() {
+        isPlaying = false;
+        getOpponentHandler(opponentName).isPlaying = false;
+        try {
+            getOpponentOutputStream(opponentName).writeUTF("withdraw");
+        } catch (IOException ex) {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
+    @Override
+    public void playAgain() {
+        try {
+            getOpponentOutputStream(opponentName).writeUTF("invitation" + "#@$" + user.getUsername());
+        } catch (IOException ex) {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void exitGame() {
+        isPlaying = false;
+        getOpponentHandler(opponentName).isPlaying = false;
+    }
+    
     @Override
     public void logout() {
         closeConnection();
@@ -239,8 +362,8 @@ public class UserHandler extends Thread implements ServerRequestInterface {
         }
     }
 
-    private PrintStream getOpponentOutputStream(String username) {
-        PrintStream ps = null;
+    private DataOutputStream getOpponentOutputStream(String username) {
+        DataOutputStream ps = null;
         for (UserHandler userHandler : userVector) {
             if (userHandler.user.getUsername().equals(username)) {
                 ps = userHandler.talker;

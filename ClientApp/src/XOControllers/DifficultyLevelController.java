@@ -32,21 +32,21 @@ public class DifficultyLevelController extends DifficultyLevel {
         easyLevelButton.setOnAction(e -> {
             difficultyLevel = EASY_LEVEL;
 
-            Scene scene = new Scene(new VsCompPageController(stage));
+            Scene scene = new Scene(new VsCompPageController(stage, difficultyLevel));
             stage.setScene(scene);
         });
 
         mediumLevelButton.setOnAction(e -> {
             difficultyLevel = MEDIUM_LEVEL;
 
-            Scene scene = new Scene(new VsCompPageController(stage));
+            Scene scene = new Scene(new VsCompPageController(stage, difficultyLevel));
             stage.setScene(scene);
         });
 
         hardLevelButton.setOnAction(e -> {
             difficultyLevel = HARD_LEVEL;
 
-            Scene scene = new Scene(new VsCompPageController(stage));
+            Scene scene = new Scene(new VsCompPageController(stage, difficultyLevel));
             stage.setScene(scene);
         });
     }

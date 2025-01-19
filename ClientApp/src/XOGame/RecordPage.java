@@ -11,29 +11,32 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public abstract class RecordPage extends AnchorPane {
-    private Button[][] buttons = new Button[3][3];
+
+    protected Button[][] buttons = new Button[3][3];
     private String playerX = "Player X";
     private String playerO = "Player O";
+    protected Label playerXLabel;
+    protected Label playerOLabel;
     protected final Button backButton;
+    protected final Button rewatchButton;
+    protected final Button stopButton;
+    protected BorderPane borderPane;
 
     public RecordPage(Stage stage) {
-        // Create the AnchorPane
+
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefHeight(200);
         anchorPane.setPrefWidth(320);
 
-        // Create and configure the ImageView for background image
         ImageView imageView = new ImageView(new Image("/media/xo.jpg"));
         imageView.setFitHeight(580);
         imageView.setFitWidth(780);
         imageView.setPreserveRatio(false);
 
-        // Create and configure the BorderPane
-        BorderPane borderPane = new BorderPane();
+        borderPane = new BorderPane();
         borderPane.setPrefHeight(580);
         borderPane.setPrefWidth(780);
 
-        // Top Section
         BorderPane topSection = new BorderPane();
         HBox topHBox = new HBox();
         topHBox.setMaxWidth(Double.MAX_VALUE);
@@ -41,7 +44,7 @@ public abstract class RecordPage extends AnchorPane {
         topHBox.setPrefHeight(46);
         topHBox.setPrefWidth(780);
         topHBox.setStyle("-fx-background-color: black;");
-        
+
         backButton = new Button();
         backButton.setPrefSize(60, 41);
         Image backImage = new Image(getClass().getResourceAsStream("/media/back2.png"));
@@ -50,13 +53,13 @@ public abstract class RecordPage extends AnchorPane {
         backImageView.setFitWidth(40);
         backButton.setGraphic(backImageView);
         backButton.setStyle("-fx-background-color: transparent;");
-        
+
         VBox playerOneVBox = new VBox();
         playerOneVBox.setAlignment(javafx.geometry.Pos.CENTER);
         playerOneVBox.setPrefHeight(48);
         playerOneVBox.setPrefWidth(589);
         playerOneVBox.setSpacing(5);
-        
+
         Label playerOneLabel = new Label("Record");
         playerOneLabel.setPrefHeight(35);
         playerOneLabel.setPrefWidth(150);
@@ -68,14 +71,12 @@ public abstract class RecordPage extends AnchorPane {
 
         topHBox.getChildren().addAll(backButton, playerOneVBox);
         topSection.setTop(topHBox);
-        
-        
-        // Bottom Section
+
         HBox bottomHBox = new HBox();
         bottomHBox.setAlignment(javafx.geometry.Pos.CENTER);
         bottomHBox.setSpacing(10);
-        
-        Button stopButton = new Button();
+
+        stopButton = new Button();
         stopButton.setMaxWidth(Double.MAX_VALUE);
         stopButton.setMinWidth(Double.MIN_VALUE);
         stopButton.setPrefHeight(38);
@@ -86,8 +87,8 @@ public abstract class RecordPage extends AnchorPane {
         stopImageView.setFitHeight(40);
         stopImageView.setFitWidth(40);
         stopButton.setGraphic(stopImageView);
-        
-        Button rewatchButton = new Button();
+
+        rewatchButton = new Button();
         rewatchButton.setMaxWidth(Double.MAX_VALUE);
         rewatchButton.setMinWidth(Double.MIN_VALUE);
         rewatchButton.setPrefHeight(38);
@@ -102,31 +103,28 @@ public abstract class RecordPage extends AnchorPane {
 
         bottomHBox.getChildren().addAll(stopButton, rewatchButton);
 
-        // Center VBox for Player Labels and Grid
         VBox centerVBox = new VBox();
         centerVBox.setAlignment(javafx.geometry.Pos.CENTER);
         centerVBox.setSpacing(10);
-        
+
         AnchorPane playerXAnchorPane = new AnchorPane();
         playerXAnchorPane.setPrefHeight(50);
         playerXAnchorPane.setPrefWidth(780);
 
-        // Player X Label
-        Label playerXLabel = new Label(playerX + " - X");
+        playerXLabel = new Label(playerX + " - X");
         playerXLabel.setTextFill(javafx.scene.paint.Color.BLACK);
         playerXLabel.setFont(new Font("Arial BOLD", 22));
         AnchorPane.setLeftAnchor(playerXLabel, 10.0); // Fixed position from the left
         AnchorPane.setTopAnchor(playerXLabel, 10.0);
-        // Player O Label
-        Label playerOLabel = new Label(playerO + " - O");
+
+        playerOLabel = new Label(playerO + " - O");
         playerOLabel.setFont(new Font("Arial BOLD", 22));
         playerOLabel.setTextFill(javafx.scene.paint.Color.BLACK);
         AnchorPane.setRightAnchor(playerOLabel, 10.0); // Fixed position from the right
         AnchorPane.setTopAnchor(playerOLabel, 10.0);
-        // Add labels to AnchorPane
+
         playerXAnchorPane.getChildren().addAll(playerXLabel, playerOLabel);
-        
-        // GridPane
+
         GridPane gridPane = new GridPane();
         gridPane.setMaxHeight(Double.MAX_VALUE);
         gridPane.setMaxWidth(Double.MAX_VALUE);
@@ -148,12 +146,10 @@ public abstract class RecordPage extends AnchorPane {
         }
         centerVBox.getChildren().addAll(playerXAnchorPane, gridPane);
 
-        // Set sections to BorderPane
         borderPane.setTop(topSection);
         borderPane.setCenter(centerVBox);
         borderPane.setBottom(bottomHBox);
 
-        // Set everything to AnchorPane
         anchorPane.getChildren().addAll(imageView, borderPane);
 
         anchorPane.setPrefSize(780, 580);
