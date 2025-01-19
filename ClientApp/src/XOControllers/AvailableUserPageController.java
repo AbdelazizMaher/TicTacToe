@@ -39,8 +39,8 @@ public class AvailableUserPageController extends AvailableUsersPage {
     private static Thread thread;
     protected static boolean inGame;
     public static boolean isStarting;
-    int uScore;
-    int oscore;
+    static int userScore;
+    static int opponentscore;
 
     public AvailableUserPageController(Stage stage) {
         sendRequest("sendAvailablePlayers" + "#@$");
@@ -63,16 +63,16 @@ public class AvailableUserPageController extends AvailableUsersPage {
                         case "invitation":
                             OnlinePageController.opponentName = responseMsgTokens.nextToken();
                             handleInvitationRequest(OnlinePageController.opponentName, stage);
-                            OnlinePageController.score1 = Integer.parseInt(responseMsgTokens.nextToken());
-                            OnlinePageController.score2 = Integer.parseInt(responseMsgTokens.nextToken());
+                            OnlinePageController.score1 = opponentscore = Integer.parseInt(responseMsgTokens.nextToken());
+                            OnlinePageController.score2 = userScore = Integer.parseInt(responseMsgTokens.nextToken());
                             break;
                         case "accepted":
                             Platform.runLater(() -> {
 
                                 showInformationAlert(stage, "your inivitation has been accepted");
                                 OnlinePageController.opponentName = responseMsgTokens.nextToken();
-                                OnlinePageController.score1 = Integer.parseInt(responseMsgTokens.nextToken());
-                                OnlinePageController.score2 = Integer.parseInt(responseMsgTokens.nextToken());
+                                OnlinePageController.score1 = userScore = Integer.parseInt(responseMsgTokens.nextToken());
+                                OnlinePageController.score2 = opponentscore = Integer.parseInt(responseMsgTokens.nextToken());
                                 setPlayersNames(userName, OnlinePageController.opponentName);
                                 inGame = true;
                                 isStarting = true;
@@ -128,7 +128,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
             boolean isInvitationAccepted = showRequestAlert("Game Invitation", "Player " + opponent + " has invited you to a game. Do you accept?", stage);
             inGame = isInvitationAccepted;
             if (isInvitationAccepted) {
-                 setPlayersNames(opponent, userName);
+                setPlayersNames(opponent, userName);
                 sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
                 //isStarting = true;
                 Scene scene = new Scene(new OnlinePageController(stage));
@@ -216,10 +216,6 @@ public class AvailableUserPageController extends AvailableUsersPage {
     private void setPlayersNames(String player1, String player2) {
         playerX = player1;
         playerO = player2;
-        if (playerO.equals(HomePageController.userName)){
-            OnlinePageController.isPlayerO=true;
-            System.out.println("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-        }
     }
 
     private void showErrorAlert(Stage stage, String contentText) {

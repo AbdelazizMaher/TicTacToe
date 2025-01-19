@@ -49,8 +49,6 @@ public class OnlinePageController extends OnlinePage {
     Thread thread;
     boolean exit;
 
-    static boolean isPlayerO;
-
     public OnlinePageController(Stage stage) {
         this.stage = stage;
         initializeGameButtonsHandlers();
@@ -80,8 +78,9 @@ public class OnlinePageController extends OnlinePage {
                             enableMove();
                             row = Integer.parseInt(responseMsgTokens.nextToken());
                             col = Integer.parseInt(responseMsgTokens.nextToken());
-                            updateScore();
                             drawMove(row, col);
+                            AvailableUserPageController.opponentscore += 5;
+                            updateScore();
                             xoGame.isWinningMove(row, col);
                             drawWinningLine();
                             disableMove();
@@ -130,11 +129,7 @@ public class OnlinePageController extends OnlinePage {
                             startMoveTimer();
                             enableMove();
                             showAlert("Accepted", "your inivitation has been accepted");
-                            if (isPlayerO) {
-                                updatePlayerLabels(HomePageController.userName, "X", score2, OnlinePageController.opponentName, "O", score1);
-                            } else {
-                                updatePlayerLabels(HomePageController.userName, "X", score1, OnlinePageController.opponentName, "O", score2);
-                            }
+                            updatePlayerLabels(HomePageController.userName, "X", AvailableUserPageController.userScore, OnlinePageController.opponentName, "O", AvailableUserPageController.opponentscore);
                             again = true;
                             gameEnd = false;
                             initializeGameButtonsHandlers();
@@ -238,7 +233,16 @@ public class OnlinePageController extends OnlinePage {
                 ClientHandler.sendRequest("winningMove" + "#@$" + row + "#@$" + col + "#@$");
                 drawWinningLine();
                 stopRecording();
+
+                AvailableUserPageController.userScore += 5;
                 updateScore();
+
+                if (xoGame.getCurrentPlayer().equals("X")) {
+                    OnlinePage.scoreLabelX.setText("Scores " + AvailableUserPageController.userScore + ":" + AvailableUserPageController.opponentscore);
+                } else {
+                    OnlinePage.scoreLabelX.setText("Scores " + AvailableUserPageController.opponentscore + ":" + AvailableUserPageController.userScore);
+                }
+
                 disableMove();
 
                 showWinningVideo();
@@ -264,14 +268,13 @@ public class OnlinePageController extends OnlinePage {
 
     private void updateScore() {
         if (xoGame.getCurrentPlayer().equals("X")) {
-            scoreLabelX.getText();
-            score1 += 5;
+            OnlinePage.scoreLabelX.setText("Scores " + AvailableUserPageController.userScore + ":" + AvailableUserPageController.opponentscore);
         } else {
-            score2 += 5;
+            OnlinePage.scoreLabelX.setText("Scores " + AvailableUserPageController.opponentscore + ":" + AvailableUserPageController.userScore);
         }
-       OnlinePage.scoreLabelX.setText("Scores " + score1 + ":" + score2);
+
     }
-    
+
     private void drawWinningLine() {
         int[] winningLineIndices = xoGame.getWinningLine();
 
@@ -314,14 +317,9 @@ public class OnlinePageController extends OnlinePage {
             boolean isInvitationAccepted = showRequestAlert("Game Invitation", "Player " + opponent + " has invited you to a game. Do you accept?", stage);
             if (isInvitationAccepted) {
                 sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
-                if (isPlayerO) {
-                    updatePlayerLabels(OnlinePageController.opponentName, "X", score1, HomePageController.userName, "O", score2);
-                } else {
-                    updatePlayerLabels(OnlinePageController.opponentName, "X", score2, HomePageController.userName, "O", score1);
-                }
+                updatePlayerLabels(OnlinePageController.opponentName, "X", AvailableUserPageController.opponentscore, HomePageController.userName, "O", AvailableUserPageController.userScore);
                 clearBoard();
                 disableMove();
-
                 again = true;
                 gameEnd = false;
             } else {
