@@ -8,7 +8,7 @@
    <children>
       <ImageView fitHeight="580.0" fitWidth="780.0" pickOnBounds="true">
          <image>
-            <Image url="@../media/xoSplash.jpg" />
+            <Image url="@../media/SplashScreen.jpg" />
          </image>
       </ImageView>
    </children>
