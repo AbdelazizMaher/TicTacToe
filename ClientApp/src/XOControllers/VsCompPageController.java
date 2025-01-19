@@ -80,7 +80,7 @@ public class VsCompPageController extends VsCompPage {
                         if (difficultyLevel == 0) {
                             computerEasyMove();
                         } else {
-                            computerHardMove();
+                            computerMediumHardMove();
                         }
 
                     }
@@ -221,18 +221,23 @@ public class VsCompPageController extends VsCompPage {
         return best;
     }
 
-    private void computerHardMove() {
+    private void computerMediumHardMove() {
         int bestVal = Integer.MIN_VALUE;
         int bestRow = -1;
         int bestCol = -1;
+        int moveVal;
 
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 if (xoGame.board[row][col] == null) {
 
                     xoGame.board[row][col] = "O";
+                    if(difficultyLevel==1){
+                     moveVal = minimax(0, false, 0, 0);
+                    }else{
 
-                    int moveVal = minimax(0, false, row, col);
+                     moveVal = minimax(0, false, row, col);
+                    }
 
                     xoGame.board[row][col] = null;
                     if (moveVal > bestVal) {

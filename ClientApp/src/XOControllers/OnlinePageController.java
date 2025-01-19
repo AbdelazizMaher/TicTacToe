@@ -447,8 +447,7 @@ public class OnlinePageController extends OnlinePage {
                 showTimeoutAlert("Timeout", "You took too long to make a move. You have withdrawn from the game.");
                 ClientHandler.sendRequest("withdraw");
                 gameEnd = true;
-                Scene scene = new Scene(new AvailableUserPageController(stage));
-                stage.setScene(scene);
+                exit();
             });
         }));
         moveTimer.setCycleCount(1);
