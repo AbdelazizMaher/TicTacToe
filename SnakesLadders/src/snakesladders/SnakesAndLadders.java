@@ -40,18 +40,18 @@ public class SnakesAndLadders extends AnchorPane {
 
         // Set up background image for the grid only
         BackgroundImage background = new BackgroundImage(
-                new Image(getClass().getResource("/media/board.png").toExternalForm()),
+                new Image(getClass().getResource("/media/GameBoard.png").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER, new BackgroundSize(1.0, 1.0, true, true, false, false));
         grid.setBackground(new Background(background));
 
         // Set up players
         player1 = new Circle(SQUARE_SIZE / 4);
-        player1.setFill(Color.BLACK);
+        player1.setFill(Color.GREEN);
         grid.add(player1, 0, 9);
 
         player2 = new Circle(SQUARE_SIZE / 4);
-        player2.setFill(Color.BROWN);
+        player2.setFill(Color.BLACK);
         grid.add(player2, 0, 9);
 
         // Set up dice ImageView
@@ -87,7 +87,7 @@ public class SnakesAndLadders extends AnchorPane {
 
         // Set background image for the entire game
         root.setBackground(new Background(new BackgroundImage(
-                new Image(getClass().getResource("/media/background.png").toExternalForm()),  // Background image path
+                new Image(getClass().getResource("/media/SquidLogoBackground.png").toExternalForm()),  // Background image path
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 
