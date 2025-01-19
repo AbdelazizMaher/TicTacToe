@@ -10,6 +10,7 @@ import XOGameBoard.TicTacToe;
 import java.util.Random;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,6 +29,7 @@ public class VsCompPageController extends VsCompPage {
     private Line winningLine;
     int count;
     int difficultyLevel;
+    private Stage stage;
 
     public VsCompPageController(Stage stage, int difficultyLevel) {
         xoGame = new TicTacToe();
@@ -81,6 +83,7 @@ public class VsCompPageController extends VsCompPage {
                             computerEasyMove();
                         } else {
                             computerMediumHardMove();
+                            System.out.println("dfgdffgdrff sefeffref---------  " + difficultyLevel);
                         }
 
                     }
@@ -101,8 +104,10 @@ public class VsCompPageController extends VsCompPage {
                 drawWinningLine();
                 updateScore();
                 stopRecording();
+                showAlert(stage, "Congratulations", "You have won the game");
             } else if (xoGame.isDraw()) {
                 stopRecording();
+                showAlert(stage, "Draw", "Game Draw");
             } else if (winningLine != null) {
                 resetGame();
             } else {
@@ -122,7 +127,7 @@ public class VsCompPageController extends VsCompPage {
     }
 
     private void resetGame() {
-       stopRecording();
+        stopRecording();
         xoGame.resetBoard();
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
@@ -180,8 +185,9 @@ public class VsCompPageController extends VsCompPage {
             drawWinningLine();
             stopRecording();
             updateScore();
+            showAlert(stage, "Hard Luck", "You lost, better luck next time");
         } else if (xoGame.isDraw()) {
-           stopRecording();
+            stopRecording();
         } else if (winningLine != null) {
             resetGame();
         } else {
@@ -191,10 +197,18 @@ public class VsCompPageController extends VsCompPage {
     }
 
     private int minimax(int depth, boolean isMaximizing, int r, int c) {
-        if (xoGame.isWinningMove(r, c)) {
-            return isMaximizing ? -10 : 10;
-        } else if (xoGame.isDraw()) {
-            return 0;
+        if (difficultyLevel == 1) {
+            if (xoGame.isWinningMove(1,2 )) {
+                return isMaximizing ? -10 : 10;
+            } else if (xoGame.isDraw()) {
+                return 0;
+            }
+        } else {
+            if (xoGame.isWinningMove(r, c)) {
+                return isMaximizing ? -10 : 10;
+            } else if (xoGame.isDraw()) {
+                return 0;
+            }
         }
 
         int best = isMaximizing ? Integer.MIN_VALUE : Integer.MAX_VALUE;
@@ -232,12 +246,7 @@ public class VsCompPageController extends VsCompPage {
                 if (xoGame.board[row][col] == null) {
 
                     xoGame.board[row][col] = "O";
-                    if(difficultyLevel==1){
-                     moveVal = minimax(0, false, 0, 0);
-                    }else{
-
-                     moveVal = minimax(0, false, row, col);
-                    }
+                    moveVal = minimax(0, false, row, col);
 
                     xoGame.board[row][col] = null;
                     if (moveVal > bestVal) {
@@ -260,6 +269,7 @@ public class VsCompPageController extends VsCompPage {
             drawWinningLine();
             stopRecording();
             updateScore();
+            showAlert(stage, "Hard Luck", "You lost, better luck next time");
         } else if (xoGame.isDraw()) {
             stopRecording();
         } else if (winningLine != null) {
@@ -289,6 +299,15 @@ public class VsCompPageController extends VsCompPage {
             changeRecordButton();
             RecordController.closeRecordConection();
         }
+    }
+
+    private void showAlert(Stage stage, String title, String contentText) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initOwner(stage);
+        alert.setHeaderText(title);
+        alert.setTitle("");
+        alert.setContentText(contentText);
+        alert.showAndWait();
     }
 
 }

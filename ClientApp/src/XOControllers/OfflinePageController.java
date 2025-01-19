@@ -9,6 +9,7 @@ import XOGame.OfflinePage;
 import XOGameBoard.TicTacToe;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -88,11 +89,17 @@ public class OfflinePageController extends OfflinePage {
             if (isRecording) {
                 RecordController.saveMove(row, col, xoGame.getCurrentPlayer());
             }
-            if (xoGame.isWinningMove(row, col) && winningLine == null) {
+            if (xoGame.isWinningMove(row, col) && winningLine == null) {  
                 drawWinningLine();
                 stopRecording();
                 updateScore();
+                if(xoGame.getCurrentPlayer().equals("X")){
+                    showAlert(stage,"Congratulations", user1 +" has won the game");
+                }else{
+                    showAlert(stage,"Congratulations", user2 +" has won the game");
+                }
             } else if (xoGame.isDraw()) {
+                showAlert(stage,"Draw ","Game Draw");
                 stopRecording();
             } else if (winningLine != null) {
                 resetGame();
@@ -171,6 +178,15 @@ public class OfflinePageController extends OfflinePage {
             changeRecordButton();
             RecordController.closeRecordConection();
         }
+    }
+    
+    private void showAlert(Stage stage,String title, String contentText) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initOwner(stage);
+        alert.setHeaderText(title);
+        alert.setTitle("");
+        alert.setContentText(contentText);
+        alert.showAndWait();
     }
 
 }
