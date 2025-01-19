@@ -21,7 +21,7 @@ public class GameApp extends Application{
     @Override
     public void start(Stage primaryStage) {
         Parent root = new SnakesAndLaddersController();
-        Scene scene = new Scene(root, 800, 750);
+        Scene scene = new Scene(root, 600, 680);
         primaryStage.setTitle("Snakes and Ladders");
         primaryStage.setScene(scene);
         primaryStage.show();
