@@ -203,9 +203,14 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void sendInvitation() {
         String opponentName = requestMsgTokens.nextToken();
         UserHandler opponent = getOpponentHandler(opponentName);
+
+        user.setScore(DataAccessLayer.getUserScore(user.getUsername()));
+        opponent.user.setScore(DataAccessLayer.getUserScore(opponent.user.getUsername()));
+        Integer userScore = user.getScore();
+        Integer opponentScore = opponent.user.getScore();
         if (opponent != null) {
             try {
-                opponent.talker.writeUTF("invitation" + "#@$" + user.getUsername());
+                opponent.talker.writeUTF("invitation" + "#@$" + user.getUsername() + "#@$" + userScore.toString() + "#@$" + opponentScore.toString());
             } catch (IOException ex) {
                 Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -232,11 +237,13 @@ public class UserHandler extends Thread implements ServerRequestInterface {
 
             user.setScore(DataAccessLayer.getUserScore(user.getUsername()));
             opponent.user.setScore(DataAccessLayer.getUserScore(opponent.user.getUsername()));
-
+            Integer userScore = user.getScore();
+            Integer opponentScore = opponent.user.getScore();
 
             try {
 
-                getOpponentOutputStream(opponentName).writeUTF("accepted" + "#@$" + user.getUsername());
+                getOpponentOutputStream(opponentName).writeUTF("accepted" + "#@$" + user.getUsername() + "#@$" + opponentScore.toString() + "#@$" + userScore.toString());
+
             } catch (IOException ex) {
                 Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -266,7 +273,8 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void gameWinnerMove() {
         String row = requestMsgTokens.nextToken();
         String col = requestMsgTokens.nextToken();
-
+        DataAccessLayer.updateUserScore(user.getUsername());
+        
         isPlaying = false;
         getOpponentHandler(opponentName).isPlaying = false;
         try {
@@ -309,12 +317,12 @@ public class UserHandler extends Thread implements ServerRequestInterface {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void exitGame() {
         isPlaying = false;
         getOpponentHandler(opponentName).isPlaying = false;
     }
-    
+
     @Override
     public void logout() {
         closeConnection();
