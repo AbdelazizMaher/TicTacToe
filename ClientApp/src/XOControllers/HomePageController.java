@@ -5,6 +5,7 @@
  */
 package XOControllers;
 
+import static XOControllers.AvailableUserPageController.inGame;
 import XOGame.HomePage;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -38,6 +39,10 @@ public class HomePageController extends HomePage {
             });
         } else {
             logoutButton.setOnAction(e -> {
+                if (AvailableUserPageController.thread != null && AvailableUserPageController.thread.isAlive()) {
+                    inGame = true;
+                    AvailableUserPageController.thread.interrupt();
+                }
                 PopUpLogOutController popup = new PopUpLogOutController(stage);
                 popup.show();
             });

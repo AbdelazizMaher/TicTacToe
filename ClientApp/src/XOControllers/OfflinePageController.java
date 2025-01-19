@@ -49,7 +49,6 @@ public class OfflinePageController extends OfflinePage {
         });
 
         replayButton.setOnMouseClicked(e -> {
-            stopRecording();
             resetGame();
         });
 
@@ -114,6 +113,7 @@ public class OfflinePageController extends OfflinePage {
     }
 
     private void resetGame() {
+        stopRecording();
         xoGame.resetBoard();
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
