@@ -40,7 +40,7 @@ public class SnakesAndLadders extends AnchorPane {
 
         // Set up background image for the grid only
         BackgroundImage background = new BackgroundImage(
-                new Image(getClass().getResource("/media/pngegg.png").toExternalForm()),
+                new Image(getClass().getResource("/media/board.png").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER, new BackgroundSize(1.0, 1.0, true, true, false, false));
         grid.setBackground(new Background(background));
@@ -68,8 +68,8 @@ public class SnakesAndLadders extends AnchorPane {
         avatar2ImageView.setFitWidth(60);
         avatar2ImageView.setFitHeight(60);
 
-        HBox controlPanel = new HBox(20, avatar1ImageView, diceImageView, avatar2ImageView);
-        controlPanel.setStyle("-fx-padding: 20;");
+        HBox controlPanel = new HBox(10, avatar1ImageView, diceImageView, avatar2ImageView);
+        controlPanel.setStyle("-fx-padding: 10;");
         controlPanel.setAlignment(Pos.CENTER);
 
         // Add canvas for snakes and ladders

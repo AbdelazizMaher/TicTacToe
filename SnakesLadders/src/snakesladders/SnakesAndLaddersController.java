@@ -113,20 +113,20 @@ public class SnakesAndLaddersController extends SnakesAndLadders {
 
     private void initializeSnakesAndLadders() {
         // Define the snake and ladder mappings
-        ladders.put(2, 23); // User-defined ladders
-        ladders.put(6, 45);
-        ladders.put(20, 59);
-        ladders.put(54, 72);
-        ladders.put(59, 96);
-        ladders.put(71, 92);
+        ladders.put(4, 25); // User-defined ladders
+        ladders.put(21, 39);
+        ladders.put(29, 74);
+        ladders.put(43, 76);
+        ladders.put(63, 80);
+        ladders.put(71, 89);
 
-        snakes.put(98, 41); // User-defined snakes
-        snakes.put(84, 58);
-        snakes.put(87, 49);
-        snakes.put(73, 15);
-        snakes.put(56, 8);
-        snakes.put(43, 17);
-        snakes.put(50, 5);
+        snakes.put(98, 55); // User-defined snakes
+        snakes.put(92, 75);
+        snakes.put(82, 42);
+        snakes.put(73, 51);
+        snakes.put(56, 19);
+        snakes.put(47, 15);
+        snakes.put(30, 7);
     }
 
     private void drawBoard(GraphicsContext gc) {
