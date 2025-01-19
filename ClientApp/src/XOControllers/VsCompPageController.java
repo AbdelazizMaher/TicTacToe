@@ -197,25 +197,18 @@ public class VsCompPageController extends VsCompPage {
     }
 
     private int minimax(int depth, boolean isMaximizing, int r, int c) {
-
-//        if (difficultyLevel == 1) {
-//            if (xoGame.isWinningMove(1, 2)) {
-//                return isMaximizing ? -10 : 10;
-//            } else if (xoGame.isDraw()) {
-//                return 0;
-//            }
-//        } else {
-//            if (xoGame.isWinningMove(r, c)) {
-//                return isMaximizing ? -10 : 10;
-//            } else if (xoGame.isDraw()) {
-//                return 0;
-//            }
-//        }
-
-        if (xoGame.isWinningMove(r, c)) {
-            return isMaximizing ? -10 : 10;
-        } else if (xoGame.isDraw()) {
-            return 0;
+        if (difficultyLevel == 1) {
+            if (xoGame.isWinningMove(1,2 )) {
+                return isMaximizing ? -10 : 10;
+            } else if (xoGame.isDraw()) {
+                return 0;
+            }
+        } else {
+            if (xoGame.isWinningMove(r, c)) {
+                return isMaximizing ? -10 : 10;
+            } else if (xoGame.isDraw()) {
+                return 0;
+            }
         }
 
         int best = isMaximizing ? Integer.MIN_VALUE : Integer.MAX_VALUE;
@@ -253,15 +246,7 @@ public class VsCompPageController extends VsCompPage {
                 if (xoGame.board[row][col] == null) {
 
                     xoGame.board[row][col] = "O";
-                    if (difficultyLevel == 1) {
-                        moveVal = minimax(0, false,1 , 2);
-                        System.out.println("mediummmmmmmmmmmmmmmmmmmmmmmm"+difficultyLevel);
-                    } else {
-                        moveVal = minimax(0, false, row, col);
-                        System.out.println("hardddddddddddddddddddddddd"+difficultyLevel);
-                    }
-
-                   // moveVal = minimax(0, false, row, col);
+                    moveVal = minimax(0, false, row, col);
 
                     xoGame.board[row][col] = null;
                     if (moveVal > bestVal) {
