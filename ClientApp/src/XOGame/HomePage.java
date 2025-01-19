@@ -162,38 +162,44 @@ public abstract class HomePage extends AnchorPane {
         getChildren().add(welcometoourtictactoeLabel);
 
         if (userName.isEmpty()) {
+            historyButton.getStyleClass().clear();
             historyButton.setLayoutX(577.0);
             historyButton.setLayoutY(15.0);
             historyButton.setMnemonicParsing(false);
             historyButton.setPrefHeight(29.0);
             historyButton.setPrefWidth(50.0);
-            historyButton.setStyle("-fx-background-color: #e61409;");
+            historyButton.setStyle("-fx-background-color: #A52A2A;");
             historyButton.setText("History");
             historyButton.setTextFill(javafx.scene.paint.Color.WHITE);
             historyButton.setFont(new Font("Arial Bold", 12.0));
+            historyButton.setAlignment(javafx.geometry.Pos.CENTER);
             getChildren().add(historyButton);
 
+            signupButton.getStyleClass().clear();
             signupButton.setLayoutX(633.0);
             signupButton.setLayoutY(15.0);
             signupButton.setMnemonicParsing(false);
             signupButton.setPrefHeight(29.0);
             signupButton.setPrefWidth(50.0);
-            signupButton.setStyle("-fx-background-color: #e61409;");
+            signupButton.setStyle("-fx-background-color: #A52A2A;");
             signupButton.setText("Sign Up");
             signupButton.setTextFill(javafx.scene.paint.Color.WHITE);
             signupButton.setFont(new Font("Arial Bold", 12.0));
+            signupButton.setAlignment(javafx.geometry.Pos.CENTER);
             getChildren().add(signupButton);
 
             AnchorPane.setLeftAnchor(loginButton, 691.0);
+            loginButton.getStyleClass().clear();
             loginButton.setLayoutX(691.0);
             loginButton.setLayoutY(15.0);
             loginButton.setMnemonicParsing(false);
             loginButton.setPrefHeight(29.0);
             loginButton.setPrefWidth(50.0);
-            loginButton.setStyle("-fx-background-color: #e61409;");
+            loginButton.setStyle("-fx-background-color: #A52A2A;");
             loginButton.setText("Login");
             loginButton.setTextFill(javafx.scene.paint.Color.WHITE);
             loginButton.setFont(new Font("Arial Bold", 12.0));
+            loginButton.setAlignment(javafx.geometry.Pos.CENTER);
             getChildren().add(loginButton);
 
             imageView2.setFitHeight(75.0);
@@ -216,6 +222,7 @@ public abstract class HomePage extends AnchorPane {
             hbox.setLayoutY(6.0);
             getChildren().add(hbox);
 
+            historyButton.getStyleClass().clear();
             historyButton.setLayoutX(633.0);
             historyButton.setLayoutY(15.0);
             historyButton.setMnemonicParsing(false);
@@ -225,8 +232,10 @@ public abstract class HomePage extends AnchorPane {
             historyButton.setText("History");
             historyButton.setTextFill(javafx.scene.paint.Color.WHITE);
             historyButton.setFont(new Font("Arial Bold", 12.0));
+            historyButton.setAlignment(javafx.geometry.Pos.CENTER);
             getChildren().add(historyButton);
 
+            logoutButton.getStyleClass().clear();
             logoutButton.setLayoutX(691.0);
             logoutButton.setLayoutY(15.0);
             logoutButton.setMnemonicParsing(false);
@@ -236,6 +245,7 @@ public abstract class HomePage extends AnchorPane {
             logoutButton.setText("Logout");
             logoutButton.setTextFill(javafx.scene.paint.Color.WHITE);
             logoutButton.setFont(new Font("Arial Bold", 12.0));
+            logoutButton.setAlignment(javafx.geometry.Pos.CENTER);
             getChildren().add(logoutButton);
 
             imageView2.setFitHeight(50.0);
@@ -247,53 +257,38 @@ public abstract class HomePage extends AnchorPane {
             imageView2.setImage(new Image(getClass().getResource("/media/userAvatar.jpg").toExternalForm()));
             getChildren().add(imageView2);
         }
+        playvscomputerButton.getStyleClass().clear();
         playvscomputerButton.setLayoutX(265.0);
         playvscomputerButton.setLayoutY(219.0);
         playvscomputerButton.setMnemonicParsing(false);
         playvscomputerButton.setPrefHeight(100.0);
         playvscomputerButton.setPrefWidth(235.0);
-        playvscomputerButton.setStyle("-fx-background-color: #131218;");
-        playvscomputerButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-        playvscomputerButton.setTextFill(javafx.scene.paint.Color.WHITE);
-        playvscomputerButton.setFont(new Font("Arial Bold", 14.0));
+        playvscomputerButton.setStyle("-fx-background-color:#6B3317; -fx-text-fill: white;");
+        playvscomputerButton.setText("PLAYER VS COMPUTER");
+        playvscomputerButton.setAlignment(javafx.geometry.Pos.CENTER);
+        playvscomputerButton.setFont(new Font("Arial Bold", 20.0));
 
-        imageView3.setFitHeight(100.0);
-        imageView3.setFitWidth(200.0);
-        imageView3.setPickOnBounds(true);
-        imageView3.setImage(new Image(getClass().getResource("/media/playvscomputer.jpg").toExternalForm()));
-        playvscomputerButton.setGraphic(imageView3);
-
+        playofflineButton.getStyleClass().clear();
         playofflineButton.setLayoutX(265.0);
         playofflineButton.setLayoutY(338.0);
         playofflineButton.setMnemonicParsing(false);
         playofflineButton.setPrefHeight(100.0);
         playofflineButton.setPrefWidth(235.0);
-        playofflineButton.setStyle("-fx-background-color: #131218;");
-        playofflineButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-        playofflineButton.setTextFill(javafx.scene.paint.Color.WHITE);
-        playofflineButton.setFont(new Font("Arial Bold", 14.0));
+        playofflineButton.setStyle("-fx-background-color: #A52A2A; -fx-text-fill: white;"); 
+        playofflineButton.setText("PLAYER VS PLAYER");
+        playofflineButton.setAlignment(javafx.geometry.Pos.CENTER);
+        playofflineButton.setFont(new Font("Arial Bold", 20.0));
 
-        imageView4.setFitHeight(100.0);
-        imageView4.setFitWidth(215.0);
-        imageView4.setPickOnBounds(true);
-        imageView4.setImage(new Image(getClass().getResource("/media/playoffline.jpg").toExternalForm()));
-        playofflineButton.setGraphic(imageView4);
-
+        playonlineButton.getStyleClass().clear();
         playonlineButton.setLayoutX(266.0);
         playonlineButton.setLayoutY(457.0);
         playonlineButton.setMnemonicParsing(false);
         playonlineButton.setPrefHeight(100.0);
         playonlineButton.setPrefWidth(235.0);
-        playonlineButton.setStyle("-fx-background-color: #131218;");
-        playonlineButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-        playonlineButton.setTextFill(javafx.scene.paint.Color.WHITE);
-        playonlineButton.setFont(new Font("Arial Bold", 14.0));
-
-        imageView5.setFitHeight(100.0);
-        imageView5.setFitWidth(185.0);
-        imageView5.setPickOnBounds(true);
-        imageView5.setImage(new Image(getClass().getResource("/media/playonline.jpg").toExternalForm()));
-        playonlineButton.setGraphic(imageView5);
+        playonlineButton.setStyle("-fx-background-color:#6B3317 ; -fx-text-fill: white;;");       
+        playonlineButton.setAlignment(javafx.geometry.Pos.CENTER); 
+        playonlineButton.setText("PLAY ONLINE");
+        playonlineButton.setFont(new Font("Arial Bold", 20.0));
 
         imageView6.setFitHeight(400.0);
         imageView6.setFitWidth(235.0);
@@ -302,37 +297,11 @@ public abstract class HomePage extends AnchorPane {
         imageView6.setPickOnBounds(true);
         imageView6.setImage(new Image(getClass().getResource("/media/o.jpg").toExternalForm()));
 
-        label.setLayoutX(270.0);
-        label.setLayoutY(224.0);
-        label.setText("PLAY VS COMPUTER");
-        label.setTextFill(javafx.scene.paint.Color.WHITE);
-        label.setFont(new Font("Arial Bold", 15.0));
-
-        label.setEffect(dropShadow);
-
-        label0.setLayoutX(270.0);
-        label0.setLayoutY(344.0);
-        label0.setText("PLAY OFFLINE");
-        label0.setTextFill(javafx.scene.paint.Color.WHITE);
-        label0.setFont(new Font("Arial Bold", 15.0));
-
-        label0.setEffect(dropShadow0);
-
-        label1.setLayoutX(271.0);
-        label1.setLayoutY(462.0);
-        label1.setText("PLAY ONLINE");
-        label1.setTextFill(javafx.scene.paint.Color.WHITE);
-        label1.setFont(new Font("Arial Bold", 15.0));
-
-        label1.setEffect(dropShadow1);
 
         getChildren().add(playvscomputerButton);
         getChildren().add(playofflineButton);
         getChildren().add(playonlineButton);
-        getChildren().add(imageView6);
-        getChildren().add(label);
-        getChildren().add(label0);
-        getChildren().add(label1);
+//        getChildren().add(imageView6);
 
     }
 }

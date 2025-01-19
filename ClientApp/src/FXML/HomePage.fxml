@@ -47,17 +47,17 @@
             <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
-      <Button fx:id="historyButton" layoutX="577.0" layoutY="15.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color: #e61409;" text="History" textFill="WHITE">
+      <Button fx:id="historyButton" layoutX="577.0" layoutY="15.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color:  #A52A2A;" text="History" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="signupButton" layoutX="633.0" layoutY="15.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color: #e61409;" text="Sign Up" textFill="WHITE">
+      <Button fx:id="signupButton" layoutX="633.0" layoutY="15.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color:  #A52A2A;" text="Sign Up" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="loginButton" layoutX="691.0" layoutY="15.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color: #e61409;" text="Login" textFill="WHITE" AnchorPane.leftAnchor="691.0">
+      <Button fx:id="loginButton" layoutX="691.0" layoutY="15.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color:  #A52A2A;" text="Login" textFill="WHITE" AnchorPane.leftAnchor="691.0">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>

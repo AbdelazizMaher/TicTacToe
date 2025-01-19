@@ -80,13 +80,6 @@ public class DifficultyLevel extends AnchorPane {
         imageView.setPickOnBounds(true);
         imageView.setImage(new Image(getClass().getResource("/media/xo.jpg").toExternalForm()));
 
-        barImageView.setFitHeight(174.0);
-        barImageView.setFitWidth(817.0);
-        barImageView.setLayoutX(-28.0);
-        barImageView.setLayoutY(416.0);
-        barImageView.setPickOnBounds(true);
-        barImageView.setImage(new Image(getClass().getResource("/media/squids.png").toExternalForm()));
-
         hBox.setLayoutY(46.0);
         hBox.setPrefHeight(341.0);
         hBox.setPrefWidth(789.0);
@@ -96,57 +89,39 @@ public class DifficultyLevel extends AnchorPane {
         easyLevelButton.setMnemonicParsing(false);
         easyLevelButton.setPrefHeight(138.0);
         easyLevelButton.setPrefWidth(235.0);
-        easyLevelButton.setStyle("-fx-background-color: #131218;");
+        easyLevelButton.setStyle("-fx-background-color: #BC8F8F;");
         easyLevelButton.getStyleClass().add("button-edge");
-        easyLevelButton.getStylesheets().add("/styles/Stylesheet.css");
+        easyLevelButton.setAlignment(javafx.geometry.Pos.CENTER);
+        easyLevelButton.setText("EASY");
         easyLevelButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-        easyLevelButton.setTextFill(javafx.scene.paint.Color.WHITE);
-        easyLevelButton.setFont(new Font("Arial Bold", 14.0));
-
-        easyLevelImageView.setFitHeight(100.0);
-        easyLevelImageView.setFitWidth(185.0);
-        easyLevelImageView.setPickOnBounds(true);
-        easyLevelImageView.setImage(new Image(getClass().getResource("/media/level1.png").toExternalForm()));
-        easyLevelButton.setGraphic(easyLevelImageView);
+        easyLevelButton.setTextFill(javafx.scene.paint.Color.web("#B3475B"));
+        easyLevelButton.setFont(new Font("Arial Bold", 45.0));
 
         mediumLevelButton.setMnemonicParsing(false);
         mediumLevelButton.setPrefHeight(138.0);
         mediumLevelButton.setPrefWidth(235.0);
-        mediumLevelButton.setStyle("-fx-background-color: #131218;");
+        mediumLevelButton.setStyle("-fx-background-color: #BC8F8F;");
         mediumLevelButton.getStyleClass().add("button-edge");
-        mediumLevelButton.getStylesheets().add("/styles/Stylesheet.css");
+        mediumLevelButton.setText("MEDIUM");
         mediumLevelButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-        mediumLevelButton.setTextFill(javafx.scene.paint.Color.WHITE);
-        mediumLevelButton.setFont(new Font("Arial Bold", 14.0));
-
-        mediumLevelImageView.setFitHeight(100.0);
-        mediumLevelImageView.setFitWidth(185.0);
-        mediumLevelImageView.setPickOnBounds(true);
-        mediumLevelImageView.setImage(new Image(getClass().getResource("/media/level2.png").toExternalForm()));
-        mediumLevelButton.setGraphic(mediumLevelImageView);
+        mediumLevelButton.setTextFill(javafx.scene.paint.Color.web("#FFF"));
+        mediumLevelButton.setFont(new Font("Arial Bold", 40.0));
 
         hardLevelButton.setMnemonicParsing(false);
         hardLevelButton.setPrefHeight(138.0);
         hardLevelButton.setPrefWidth(235.0);
-        hardLevelButton.setStyle("-fx-background-color: #131218;");
+        hardLevelButton.setStyle("-fx-background-color: #BC8F8F;");
         hardLevelButton.getStyleClass().add("button-edge");
-        hardLevelButton.getStylesheets().add("/styles/Stylesheet.css");
+        hardLevelButton.setText("HARD");
         hardLevelButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-        hardLevelButton.setTextFill(javafx.scene.paint.Color.WHITE);
-        hardLevelButton.setFont(new Font("Arial Bold", 14.0));
-
-        hardLevelImageView.setFitHeight(100.0);
-        hardLevelImageView.setFitWidth(185.0);
-        hardLevelImageView.setPickOnBounds(true);
-        hardLevelImageView.setImage(new Image(getClass().getResource("/media/level3.png").toExternalForm()));
-        hardLevelButton.setGraphic(hardLevelImageView);
+        hardLevelButton.setTextFill(javafx.scene.paint.Color.web("#94404D"));
+        hardLevelButton.setFont(new Font("Arial Bold", 45.0));
 
         mainAnchorPane.getChildren().add(backButton);
         mainAnchorPane.getChildren().add(label);
         mainAnchorPane.getChildren().add(iconImageView);
         getChildren().add(mainAnchorPane);
         getChildren().add(imageView);
-        getChildren().add(barImageView);
         hBox.getChildren().add(easyLevelButton);
         hBox.getChildren().add(mediumLevelButton);
         hBox.getChildren().add(hardLevelButton);

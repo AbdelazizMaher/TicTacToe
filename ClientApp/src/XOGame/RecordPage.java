@@ -43,7 +43,7 @@ public abstract class RecordPage extends AnchorPane {
         topHBox.setMinWidth(Double.MIN_VALUE);
         topHBox.setPrefHeight(46);
         topHBox.setPrefWidth(780);
-        topHBox.setStyle("-fx-background-color: black;");
+        topHBox.setStyle("-fx-background-color: #BC8F8F;");
 
         backButton = new Button();
         backButton.setPrefSize(60, 41);

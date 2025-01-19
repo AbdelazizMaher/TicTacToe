@@ -68,7 +68,7 @@ public abstract class LoginPage extends AnchorPane {
         anchorPane.setLayoutY(191.0);
         anchorPane.setPrefHeight(375.0);
         anchorPane.setPrefWidth(306.0);
-        anchorPane.setStyle("-fx-background-color: #131218;");
+        anchorPane.setStyle("-fx-background-color: #BC8F8F;");
 
         usernameTextField.setLayoutX(43.0);
         usernameTextField.setLayoutY(97.0);
@@ -91,7 +91,7 @@ public abstract class LoginPage extends AnchorPane {
         loginButton.setMnemonicParsing(false);
         loginButton.setPrefHeight(30.0);
         loginButton.setPrefWidth(90.0);
-        loginButton.setStyle("-fx-background-color: #e61409;");
+        loginButton.setStyle("-fx-background-color:  #A52A2A;");
         loginButton.setText("Login");
         loginButton.setTextFill(javafx.scene.paint.Color.WHITE);
         loginButton.setFont(new Font("Arial Bold", 16.0));
@@ -110,7 +110,7 @@ public abstract class LoginPage extends AnchorPane {
         registerLabel.setPrefHeight(42.0);
         registerLabel.setPrefWidth(64.0);
         registerLabel.setText("Register");
-        registerLabel.setTextFill(javafx.scene.paint.Color.WHITE);
+        registerLabel.setTextFill(javafx.scene.paint.Color.web("#A52A2A"));
         registerLabel.setFont(new Font("System Bold Italic", 14.0));
 
         line.setEndX(150.0);

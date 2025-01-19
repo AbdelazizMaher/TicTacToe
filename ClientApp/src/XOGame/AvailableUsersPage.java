@@ -85,14 +85,6 @@ public class AvailableUsersPage extends AnchorPane {
         // Add ListView to ScrollPane
         scrollPane.setContent(listView);
 
-        // ImageView setup
-        imageView.setFitHeight(404.0);
-        imageView.setFitWidth(395.0);
-        imageView.setLayoutX(373.0);
-        imageView.setLayoutY(179.0);
-        imageView.setPickOnBounds(true);
-        imageView.setImage(new Image(getClass().getResource("/media/squidgame.jpg").toExternalForm()));
-
         // Set layout constraints for ScrollPane in VBox
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
 
@@ -100,6 +92,6 @@ public class AvailableUsersPage extends AnchorPane {
         vBox.getChildren().addAll(anchorPane, scrollPane);
 
         // Add to root
-        getChildren().addAll(vBox, imageView);
+        getChildren().addAll(vBox);
     }
 }

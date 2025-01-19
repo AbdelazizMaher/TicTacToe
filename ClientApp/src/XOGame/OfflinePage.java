@@ -53,7 +53,7 @@ public abstract class OfflinePage extends AnchorPane {
         HBox topHBox = new HBox();
         topHBox.setPrefHeight(32);
         topHBox.setPrefWidth(780);
-        topHBox.setStyle("-fx-background-color: black;");
+        topHBox.setStyle("-fx-background-color: #BC8F8F;");
 
         backButton = new Button();
         backButton.setPrefSize(60, 41);

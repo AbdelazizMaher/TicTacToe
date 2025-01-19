@@ -1,5 +1,5 @@
 .sidebar{
-    -fx-background-color: #131218;
+    -fx-background-color: #BC8F8F;
 }
 .sidebar-icon{
     -fx-fill: #4E4F56;
@@ -9,7 +9,8 @@
 }
 .bodybg{
      -fx-background-image: url('/media/xo.jpg');    
-     -fx-background-size: cover;
+     -fx-background-size: 100% 100%;
+    -fx-background-position: center;
 }
 
 .button {

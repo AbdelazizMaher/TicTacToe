@@ -3,16 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOGameBoard/TicTacToe.java</file>
-            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOControllers/HomePageController.java</file>
-            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/ClientHandler/ClientHandler.java</file>
-            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOControllers/OnlinePageController.java</file>
-            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOControllers/AvailableUserPageController.java</file>
-            <file>file:/D:/java%20file/java/ticTacToe/TicTacToe/ClientApp/src/XOGame/OnlinePage.java</file>
-=======
-            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOControllers/AvailableUserPageController.java</file>
->>>>>>> 595e6301f0eb1f6cbc1db281c4d1220b48b41f35
+            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/media/xoSplash.jpg</file>
+            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/media/xomini.jpg</file>
+            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/media/userAvatar.jpg</file>
+            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/media/stop.png</file>
+            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/XOGame/HomePage.java</file>
+            <file>file:/D:/ITI/javaProject/TicTacToe/ClientApp/src/media/squids.png</file>
         </group>
     </open-files>
 </project-private>

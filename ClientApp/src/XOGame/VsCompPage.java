@@ -16,7 +16,7 @@ public abstract class VsCompPage extends AnchorPane {
     protected int score1;
     protected int score2;
     protected Button[][] buttons = new Button[3][3];
-    protected String playerX = "Player1";
+    protected String playerX = "Player";
     protected String playerO = "Computer";
     protected Button backButton;
     protected Button replayButton;
@@ -51,7 +51,7 @@ public abstract class VsCompPage extends AnchorPane {
         HBox topHBox = new HBox();
         topHBox.setPrefHeight(32);
         topHBox.setPrefWidth(780);
-        topHBox.setStyle("-fx-background-color: black;");
+        topHBox.setStyle("-fx-background-color: #BC8F8F;");
 
         backButton = new Button();
         backButton.setPrefSize(60, 41);
@@ -118,12 +118,12 @@ public abstract class VsCompPage extends AnchorPane {
         Label playerXLabel = new Label(playerX + " - X");
         playerXLabel.setTextFill(javafx.scene.paint.Color.BLACK);
         playerXLabel.setFont(new Font("Arial BOLD", 22));
-        AnchorPane.setLeftAnchor(playerXLabel, 10.0); // Fixed position from the left
+        AnchorPane.setLeftAnchor(playerXLabel, 10.0);
 
         Label playerOLabel = new Label(playerO + " - O");
         playerOLabel.setFont(new Font("Arial BOLD", 22));
         playerOLabel.setTextFill(javafx.scene.paint.Color.BLACK);
-        AnchorPane.setRightAnchor(playerOLabel, 10.0); // Fixed position from the right
+        AnchorPane.setRightAnchor(playerOLabel, 10.0);
 
         playerXAnchorPane.getChildren().addAll(playerXLabel, playerOLabel);
 
