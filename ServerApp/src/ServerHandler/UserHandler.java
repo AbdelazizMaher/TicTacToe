@@ -273,7 +273,8 @@ public class UserHandler extends Thread implements ServerRequestInterface {
     public void gameWinnerMove() {
         String row = requestMsgTokens.nextToken();
         String col = requestMsgTokens.nextToken();
-
+        DataAccessLayer.updateUserScore(user.getUsername());
+        
         isPlaying = false;
         getOpponentHandler(opponentName).isPlaying = false;
         try {

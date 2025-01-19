@@ -216,6 +216,10 @@ public class AvailableUserPageController extends AvailableUsersPage {
     private void setPlayersNames(String player1, String player2) {
         playerX = player1;
         playerO = player2;
+        if (playerO.equals(HomePageController.userName)){
+            OnlinePageController.isPlayerO=true;
+            System.out.println("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+        }
     }
 
     private void showErrorAlert(Stage stage, String contentText) {

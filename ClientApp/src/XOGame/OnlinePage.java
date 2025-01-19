@@ -173,7 +173,7 @@ public abstract class OnlinePage extends AnchorPane {
 
     
     public static void updatePlayerLabels(String player1 , String player1Shape,int scoreX,String  player2, String player2Shape,int scoreO) {
-        scoreLabelX.setText("Scores " + scoreX + ":" + scoreO);
+       scoreLabelX.setText("Scores " + scoreX + ":" + scoreO);
         playerXLabel.setText(player1 + " -" + player1Shape);
         playerOLabel.setText(player2 + " -" + player2Shape);
     }
