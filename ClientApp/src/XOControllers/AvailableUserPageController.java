@@ -42,10 +42,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
     private Button sendButton;
 
     public AvailableUserPageController(Stage stage) {
-        if (ClientHandler.isConnectionAlive()) {
-            System.out.println("The connection is lost");
-        }
-
+        
         sendRequest("sendAvailablePlayers" + "#@$");
         backButtonEvent(stage);
         if (thread == null || !thread.isAlive()) {
