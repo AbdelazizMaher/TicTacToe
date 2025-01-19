@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,6 +52,9 @@ public class SnakesAndLaddersController extends SnakesAndLadders {
             }
             player1Pos = checkForSnakesOrLadders(player1Pos);
             movePlayer(player1, player1Pos);
+            if (player1Pos == 100) {
+                showEndGameDialog("Player 1");
+            }
         } else {
             player2Pos += diceRoll;
             if (player2Pos > 100) {
@@ -57,6 +62,9 @@ public class SnakesAndLaddersController extends SnakesAndLadders {
             }
             player2Pos = checkForSnakesOrLadders(player2Pos);
             movePlayer(player2, player2Pos);
+            if (player2Pos == 100) {
+                showEndGameDialog("Player 2");
+            }
         }
         player1Turn = !player1Turn;
         updateAvatarHighlight();
@@ -111,7 +119,7 @@ public class SnakesAndLaddersController extends SnakesAndLadders {
         ladders.put(54, 72);
         ladders.put(59, 96);
         ladders.put(71, 92);
-        
+
         snakes.put(98, 41); // User-defined snakes
         snakes.put(84, 58);
         snakes.put(87, 49);
@@ -123,5 +131,36 @@ public class SnakesAndLaddersController extends SnakesAndLadders {
 
     private void drawBoard(GraphicsContext gc) {
         // You can use this method to draw any additional visual elements if needed
+    }
+
+    private void showEndGameDialog(String winner) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Game Over");
+            alert.setHeaderText(winner + " wins!");
+            alert.setContentText("Would you like to play again or quit?");
+
+            ButtonType playAgainButton = new ButtonType("Play Again");
+            ButtonType quitButton = new ButtonType("Quit");
+
+            alert.getButtonTypes().setAll(playAgainButton, quitButton);
+
+            alert.showAndWait().ifPresent(type -> {
+                if (type == playAgainButton) {
+                    resetGame();
+                } else {
+                    Platform.exit();
+                }
+            });
+        });
+    }
+
+    private void resetGame() {
+        player1Pos = 1;
+        player2Pos = 1;
+        player1Turn = true;
+        movePlayer(player1, player1Pos);
+        movePlayer(player2, player2Pos);
+        updateAvatarHighlight();
     }
 }
