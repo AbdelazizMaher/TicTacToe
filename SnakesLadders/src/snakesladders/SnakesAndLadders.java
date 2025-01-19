@@ -47,7 +47,7 @@ public class SnakesAndLadders extends AnchorPane {
 
         // Set up players
         player1 = new Circle(SQUARE_SIZE / 4);
-        player1.setFill(Color.GREEN);
+        player1.setFill(Color.LIGHTGREEN);
         grid.add(player1, 0, 9);
 
         player2 = new Circle(SQUARE_SIZE / 4);
