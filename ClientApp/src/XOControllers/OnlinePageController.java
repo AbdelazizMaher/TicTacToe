@@ -47,7 +47,10 @@ public class OnlinePageController extends OnlinePage {
     static boolean again = false;
     boolean gameEnd;
     Thread thread;
-    boolean exit;
+
+
+
+    static boolean exit;
 
     public OnlinePageController(Stage stage) {
         this.stage = stage;
@@ -108,14 +111,10 @@ public class OnlinePageController extends OnlinePage {
                         break;
                     case "withdraw":
                         Platform.runLater(() -> {
-                            exit = true;
-                            AvailableUserPageController.inGame = false;
-                            ClientHandler.sendRequest("exit");
-                            gameEnd = true;
+
                             showAlert("Withdraw", "Unfortunantly you opponent has left the game");
-                            stopMoveTimer();
-                            Scene scene = new Scene(new AvailableUserPageController(stage));
-                            stage.setScene(scene);
+                            exit();
+                            
                         });
                         break;
                     case "invitation":
@@ -132,15 +131,14 @@ public class OnlinePageController extends OnlinePage {
                             updatePlayerLabels(HomePageController.userName, "X", AvailableUserPageController.userScore, OnlinePageController.opponentName, "O", AvailableUserPageController.opponentscore);
                             again = true;
                             gameEnd = false;
+                            isRecording = false;
                             initializeGameButtonsHandlers();
                         });
                         break;
                     case "declined":
-                        Platform.runLater(() -> {
-                            gameEnd = true;
+                        Platform.runLater(() -> {                           
                             showErrorAlert(stage, "your inivitation has been declined");
-                            Scene scene1 = new Scene(new AvailableUserPageController(stage));
-                            stage.setScene(scene1);
+                            exit();
                         });
                         break;
                     default:
@@ -154,22 +152,12 @@ public class OnlinePageController extends OnlinePage {
         thread.start();
 
         backButton.setOnMouseClicked(e -> {
-            exit = true;
             if (!gameEnd) {
                 ClientHandler.sendRequest("withdraw");
-            }
-            AvailableUserPageController.inGame = false;
-            ClientHandler.sendRequest("exit");
-            gameEnd = true;
-            stopMoveTimer();
-            Scene scene = new Scene(new AvailableUserPageController(stage));
-            stage.setScene(scene);
-            try {
-                thread.stop();
-                thread.join();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(AvailableUserPageController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
+            }    
+            exit();
+
         });
 
         recordButton.setOnMouseClicked(e -> {
@@ -322,11 +310,13 @@ public class OnlinePageController extends OnlinePage {
                 disableMove();
                 again = true;
                 gameEnd = false;
-            } else {
+                isRecording = false;
+            } else {                
                 sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
-                sendRequest("updateScore#@$" + userName + "#@$" + score1 + "#@$" + opponent + "#@$" + score2);
-                Scene scene1 = new Scene(new AvailableUserPageController(stage));
-                stage.setScene(scene1);
+
+                
+                exit();
+
             }
         });
     }
@@ -471,6 +461,24 @@ public class OnlinePageController extends OnlinePage {
     private void stopMoveTimer() {
         if (moveTimer != null) {
             moveTimer.stop();
+        }
+    }
+    private void exit(){
+        sendRequest("sendAvailablePlayers" + "#@$");
+        isRecording = false;
+        exit = true;
+        again = false;
+        AvailableUserPageController.inGame =false;
+        ClientHandler.sendRequest("exit");            
+        gameEnd = true;
+        stopMoveTimer();
+        Scene scene = new Scene(new AvailableUserPageController(stage));
+        stage.setScene(scene);
+        try {
+            thread.stop();
+            thread.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AvailableUserPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

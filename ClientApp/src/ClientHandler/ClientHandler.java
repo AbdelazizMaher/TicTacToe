@@ -75,7 +75,21 @@ public class ClientHandler {
     public static boolean isConnected() {
         return connected;
     }
+    
+    public static boolean isConnectionAlive() {
+        if (server == null || server.isClosed()) {
+            return false;
+        }
+            sendRequest("ping");
+            String response = getResponse();
+            return "pong".equals(response);
+    }
 
+    public static boolean reconnectToServer(String info) {
+        closeConnection();
+        return startConnection(info);
+    }
+    
     public static void setConnected(boolean connected) {
         ClientHandler.connected = connected;
     }

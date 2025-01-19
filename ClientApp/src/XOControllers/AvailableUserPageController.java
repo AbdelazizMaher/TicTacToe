@@ -36,16 +36,20 @@ public class AvailableUserPageController extends AvailableUsersPage {
 
     static String onlineList = "";
 
-    private static Thread thread;
+    protected static Thread thread;
     protected static boolean inGame;
     public static boolean isStarting;
+
     static int userScore;
     static int opponentscore;
 
+    private Button sendButton;
+
+
     public AvailableUserPageController(Stage stage) {
+        
         sendRequest("sendAvailablePlayers" + "#@$");
         backButtonEvent(stage);
-
         if (thread == null || !thread.isAlive()) {
             thread = new Thread(() -> {
                 while (!inGame) {
@@ -61,14 +65,19 @@ public class AvailableUserPageController extends AvailableUsersPage {
                             }
                             break;
                         case "invitation":
+                            inGame = false;
+                            isStarting = false;
+                            playerX = null;
+                            playerO = null;
                             OnlinePageController.opponentName = responseMsgTokens.nextToken();
                             handleInvitationRequest(OnlinePageController.opponentName, stage);
                             OnlinePageController.score1 = opponentscore = Integer.parseInt(responseMsgTokens.nextToken());
                             OnlinePageController.score2 = userScore = Integer.parseInt(responseMsgTokens.nextToken());
                             break;
                         case "accepted":
-                            Platform.runLater(() -> {
-
+                            Platform.runLater(() -> {    
+                                OnlinePageController.exit = false;
+                                OnlinePageController.again=false;
                                 showInformationAlert(stage, "your inivitation has been accepted");
                                 OnlinePageController.opponentName = responseMsgTokens.nextToken();
                                 OnlinePageController.score1 = userScore = Integer.parseInt(responseMsgTokens.nextToken());
@@ -78,6 +87,7 @@ public class AvailableUserPageController extends AvailableUsersPage {
                                 isStarting = true;
                                 Scene scene = new Scene(new OnlinePageController(stage));
                                 stage.setScene(scene);
+                                sendButton.setDisable(false);
                             });
                             thread.stop();
                              {
@@ -91,6 +101,11 @@ public class AvailableUserPageController extends AvailableUsersPage {
                         case "declined":
                             Platform.runLater(() -> {
                                 showErrorAlert(stage, "your inivitation has been declined");
+                                inGame = false;
+                                isStarting = false;
+                                playerX = null;
+                                playerO = null;
+                                sendButton.setDisable(false);
                             });
                             break;
                         case "Error":
@@ -107,8 +122,15 @@ public class AvailableUserPageController extends AvailableUsersPage {
     }
 
     private void handleClickedButtonInvitation(Button button, String player) {
+        sendButton = button;
         button.setOnAction(e -> {
+            inGame = false;
+            isStarting = false;
+            playerX = null;
+            playerO = null;
+            //updateBoardState(false);
             ClientHandler.sendRequest("sendInvitaion" + "#@$" + player + "#@$");
+            button.setDisable(true);
         });
     }
 
@@ -131,9 +153,15 @@ public class AvailableUserPageController extends AvailableUsersPage {
                 setPlayersNames(opponent, userName);
                 sendRequest("invitationResponse" + "#@$" + "accept" + "#@$" + opponent);
                 //isStarting = true;
+                OnlinePageController.exit = false;
+                OnlinePageController.again=false;
                 Scene scene = new Scene(new OnlinePageController(stage));
                 stage.setScene(scene);
             } else {
+                inGame = false;
+                isStarting = false;
+                playerX = null;
+                playerO = null;
                 sendRequest("invitationResponse" + "#@$" + "decline" + "#@$" + opponent);
             }
         });
