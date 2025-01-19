@@ -122,7 +122,7 @@ public class VsCompPageController extends VsCompPage {
     }
 
     private void resetGame() {
-        isRecording = false;
+       stopRecording();
         xoGame.resetBoard();
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
@@ -178,11 +178,10 @@ public class VsCompPageController extends VsCompPage {
         }
         if (xoGame.isWinningMove(rowComp, rowComp) && winningLine == null) {
             drawWinningLine();
+            stopRecording();
             updateScore();
         } else if (xoGame.isDraw()) {
-            if (isRecording) {
-                RecordController.closeRecordConection();
-            }
+           stopRecording();
         } else if (winningLine != null) {
             resetGame();
         } else {
@@ -254,11 +253,10 @@ public class VsCompPageController extends VsCompPage {
 
         if (xoGame.isWinningMove(bestRow, bestCol) && winningLine == null) {
             drawWinningLine();
+            stopRecording();
             updateScore();
         } else if (xoGame.isDraw()) {
-            if (isRecording) {
-                RecordController.closeRecordConection();
-            }
+            stopRecording();
         } else if (winningLine != null) {
             resetGame();
         } else {
