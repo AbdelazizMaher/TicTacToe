@@ -21,10 +21,10 @@ public abstract class OnlinePage extends AnchorPane {
     protected Button replayButton;
     protected Button recordButton;
     protected BorderPane borderPane;
-    static Label playerXLabel;
-    static Label playerOLabel;
+    static public Label playerXLabel;
+    static public Label playerOLabel;
 
-    protected Label scoreLabelX;
+    static public Label scoreLabelX;
 
     public OnlinePage() {
 
@@ -172,9 +172,10 @@ public abstract class OnlinePage extends AnchorPane {
     }
 
     
-    public static void updatePlayerLabels(String player1 , String player1Shape, String player2, String player2Shape) {
-        playerXLabel.setText(player1 + " -" + player1Shape);
-        playerOLabel.setText(player2 + " -" + player2Shape);
+    public static void updatePlayerLabels(String player1 , String player1Shape,int scoreX,String  player2, String player2Shape,int scoreO) {
+       scoreLabelX.setText("Scores " + scoreX + ":" + scoreO);
+        playerXLabel.setText(player1 + " - " + player1Shape);
+        playerOLabel.setText(player2 + " - " + player2Shape);
     }
 }
 

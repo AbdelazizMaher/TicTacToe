@@ -92,7 +92,7 @@ public class DataAccessLayer {
         return -1;
     }
 
-    public static boolean updateUserScore(String username,int score) {
+    public static boolean updateUserScore(String username) {
         PreparedStatement statment;
         try {
             statment = connection.prepareStatement("UPDATE USERS SET SCORE = SCORE+5 WHERE USERNAME = ?");

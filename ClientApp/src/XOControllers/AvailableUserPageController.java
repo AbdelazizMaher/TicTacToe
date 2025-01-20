@@ -39,7 +39,12 @@ public class AvailableUserPageController extends AvailableUsersPage {
     protected static Thread thread;
     protected static boolean inGame;
     public static boolean isStarting;
+
+    static int userScore;
+    static int opponentscore;
+
     private Button sendButton;
+
 
     public AvailableUserPageController(Stage stage) {
         
@@ -66,6 +71,8 @@ public class AvailableUserPageController extends AvailableUsersPage {
                             playerO = null;
                             OnlinePageController.opponentName = responseMsgTokens.nextToken();
                             handleInvitationRequest(OnlinePageController.opponentName, stage);
+                            OnlinePageController.score1 = opponentscore = Integer.parseInt(responseMsgTokens.nextToken());
+                            OnlinePageController.score2 = userScore = Integer.parseInt(responseMsgTokens.nextToken());
                             break;
                         case "accepted":
                             Platform.runLater(() -> {    
@@ -73,6 +80,8 @@ public class AvailableUserPageController extends AvailableUsersPage {
                                 OnlinePageController.again=false;
                                 showInformationAlert(stage, "your inivitation has been accepted");
                                 OnlinePageController.opponentName = responseMsgTokens.nextToken();
+                                OnlinePageController.score1 = userScore = Integer.parseInt(responseMsgTokens.nextToken());
+                                OnlinePageController.score2 = opponentscore = Integer.parseInt(responseMsgTokens.nextToken());
                                 setPlayersNames(userName, OnlinePageController.opponentName);
                                 inGame = true;
                                 isStarting = true;
@@ -103,10 +112,6 @@ public class AvailableUserPageController extends AvailableUsersPage {
                             Platform.runLater(() -> {
                                 showErrorAlert(stage, "Failed to connect to client");
                             });
-                            break;
-                        case "score":
-                            OnlinePageController.score1 = Integer.parseInt(responseMsgTokens.nextToken());
-                            OnlinePageController.score2 = Integer.parseInt(responseMsgTokens.nextToken());
                             break;
                     }
                 }

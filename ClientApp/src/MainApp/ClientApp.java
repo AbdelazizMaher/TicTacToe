@@ -21,7 +21,7 @@ import javafx.util.Duration;
  */
 public class ClientApp extends Application {
 
-    HomePageController root;
+    MainPageController root;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -46,7 +46,7 @@ public class ClientApp extends Application {
             fadeOut.setOnFinished(fadeOutEvent -> {
 
                 try {
-                    root = new HomePageController(stage);
+                    root = new MainPageController(stage);
                     Scene mainScene = new Scene(root);
                     stage.setScene(mainScene);
                 } catch (Exception e) {
