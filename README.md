@@ -4,10 +4,10 @@
 The **`Tic-Tac-Toe`** game is a network-based application that allows players to enjoy the classic game in various modes. It supports `single-player mode` against computer, `local multiplayer` on the same machine, and `online multiplayer` against other players. The game also features an elegant user interface, game recording for replay, videos for winners and losers. The server application manages connections and data exchange among users.
 
 ## Contributors
-- Abdelaziz Maher
-- Adham Mohamed
-- Eman Mahmoud
-- Nermeen Mohamed
+- [Abdelaziz Maher]([www.linkedin.com/in/abdelaziz-maher-9985b2229](https://www.linkedin.com/in/abdelaziz-maher-9985b2229))
+- [Adham Mohamed]([www.linkedin.com/in/adham-mohamed-073449332](https://www.linkedin.com/in/adham-mohamed-073449332/))
+- [Eman Mahmoud](https://wuzzuf.net/me/Mahmoud-Elemam-f7c8fb60e0)
+- [Nermeen Mohamed](https://4sightglobal.com/dt_team/nermeen-mohamed/)
 
 ## Features
 - **`Single-player mode`**: Play against a computer opponent.
@@ -25,6 +25,7 @@ The **`Tic-Tac-Toe`** game is a network-based application that allows players to
 ## Requirements
 - Java Development Kit (JDK)
 - JavaFX library
+- Java DB library for Derby database
 - Network connectivity for online multiplayer
 
 ## Installation
@@ -40,16 +41,53 @@ The **`Tic-Tac-Toe`** game is a network-based application that allows players to
 ## Setup
 1. Install Java Development Kit (JDK) from [Oracle JDK](https://www.oracle.com/java/technologies/javase-downloads.html)
 2. Install JavaFX library from [Gluon JavaFX](https://gluonhq.com/products/javafx/)
+3. Download and install the Java DB library (Derby) from [Oracle Java DB](https://www.oracle.com/java/technologies/javadb-downloads.html)
+4. In NetBeans, open your project and add the Java DB library:
+    - Right-click on the "Libraries" folder in your project.
+    - Select "Add JAR/Folder".
+    - Navigate to the `lib` folder inside the Java DB installation directory and select the `derby.jar` file.
+5. Make sure the Java DB library is included in the project's build path.
 
 ## Usage
-1. To run the server, execute:
+
+### Running the Server
+
+1. Open NetBeans and load your project.
+2. Build your project to generate the `ServerApp.jar` file:
+    - Right-click on the project in the Projects pane.
+    - Select "Clean and Build".
+    - The ``ServerApp.jar` file will be created in the `dist` folder inside your project directory.
+
+3. Navigate to the `dist` folder in your terminal:
     ```bash
-    java -jar TicTacToeServer.jar
+    cd path/to/your/project/dist
     ```
-2. To run the client, execute:
+
+4. To run the server, execute:
     ```bash
-    java -jar TicTacToeClient.jar
+    java -jar ServerApp.jar
     ```
+
+### Running the Client
+
+1. Open NetBeans and load your project.
+2. Build your project to generate the `ClientApp.jar` file:
+    - Right-click on the project in the Projects pane.
+    - Select "Clean and Build".
+    - The `ClientApp.jar` file will be created in the `dist` folder inside your project directory.
+
+3. Navigate to the `dist` folder in your terminal:
+    ```bash
+    cd path/to/your/project/dist
+    ```
+
+4. To run the client, execute:
+    ```bash
+    java -jar ClientApp.jar
+    ```
+
+These commands will run the executable JAR files for both the server and client applications. Let me know if you need further clarification or any additional details!
+
 3. Register or login using the provided interface.
 4. Choose to play in single-player, local multiplayer, or online multiplayer mode.
 5. Follow on-screen instructions to play and record games.
@@ -58,6 +96,16 @@ The **`Tic-Tac-Toe`** game is a network-based application that allows players to
 
 ### Overview
 The **`ServerApp`** is responsible for managing connections, streams, and data exchange among users. It provides a `simple graphical user interface (GUI)` with start/stop buttons to control the service and graphs that show the number of active users, both online and offline.
+
+#### Database Schema
+Here's a table representation of the **`USERS`** table in the database:
+
+| Column Name | Data Type | Description                 |
+|-------------|-----------|-----------------------------|
+| USERNAME    | VARCHAR   | The username of the player  |
+| PASSWORD    | VARCHAR   | The password of the player  |
+| SCORE       | INTEGER   | The score of the player     |
+
 
 ### Packages and Files
 
