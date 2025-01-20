@@ -4,8 +4,8 @@
 The **`Tic-Tac-Toe`** game is a network-based application that allows players to enjoy the classic game in various modes. It supports `single-player mode` against computer, `local multiplayer` on the same machine, and `online multiplayer` against other players. The game also features an elegant user interface, game recording for replay, videos for winners and losers. The server application manages connections and data exchange among users.
 
 ## Contributors
-- [Abdelaziz Maher]([www.linkedin.com/in/abdelaziz-maher-9985b2229](https://www.linkedin.com/in/abdelaziz-maher-9985b2229))
-- [Adham Mohamed]([www.linkedin.com/in/adham-mohamed-073449332](https://www.linkedin.com/in/adham-mohamed-073449332/))
+- [Abdelaziz Maher](https://www.linkedin.com/in/abdelaziz-maher-9985b2229)
+- [Adham Mohamed](https://www.linkedin.com/in/adham-mohamed-073449332/)
 - [Eman Mahmoud](https://wuzzuf.net/me/Mahmoud-Elemam-f7c8fb60e0)
 - [Nermeen Mohamed](https://4sightglobal.com/dt_team/nermeen-mohamed/)
 
