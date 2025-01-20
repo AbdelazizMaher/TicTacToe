@@ -1,0 +1,57 @@
+.sidebar{
+    -fx-background-color: #131218;
+}
+.sidebar-icon{
+    -fx-fill: #4E4F56;
+}
+.sidebar-icon:hover{
+    -fx-fill: #FD0E55;
+}
+.bodybg{
+     -fx-background-image: url('/media/xo.jpg');    
+     -fx-background-size: cover;
+}
+
+.button {
+    -fx-background-image: url('../media/back2.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-size: contain; 
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.button-edge {
+    -fx-background-image: none; 
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-size: contain; 
+    -fx-padding: 0; 
+    -fx-background-color: transparent; 
+    -fx-border-color: transparent; 
+    -fx-background-radius: 30; 
+    -fx-border-radius: 30;
+}
+
+
+.list-view {
+    -fx-background-image: url("../media/xo.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: center center; 
+    -fx-text-fill: black;
+}
+.list-view .list-cell:even {
+    -fx-background-color: transparent;
+    -fx-pref-height: 50px;
+    -fx-font-size: 18px;
+    -fx-text-fill: #cc0000;
+    -fx-background-radius :  30 0 0 30;
+}
+.list-view .list-cell:odd {
+    -fx-background-color : linear-gradient(to right, rgb(0, 0, 0, 0.5), white);
+    -fx-pref-height: 50px;
+    -fx-font-size: 18px;    
+    -fx-text-fill: #cc0000;
+    -fx-background-radius :  30 0 0 30;
+}
