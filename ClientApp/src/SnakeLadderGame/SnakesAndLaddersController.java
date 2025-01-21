@@ -27,8 +27,8 @@ public class SnakesAndLaddersController extends SnakesAndLadders {
             drawBoard(gc);
         });
 
-        updateDiceImage(1);  // Initial dice image
-        updateAvatarHighlight();  // Initial highlight for the player turn
+        updateDiceImage(1);  
+        updateAvatarHighlight();  
     }
 
     private void rollDice() {
@@ -97,24 +97,24 @@ public class SnakesAndLaddersController extends SnakesAndLadders {
 
     private void movePlayer(Circle player, int position) {
         if (position > 100) {
-            position = 100; // Ensure player does not move beyond the last square
+            position = 100; 
         }
 
-        int row = (position - 1) / 10; // Determine the row (0-based index)
-        int col = (position - 1) % 10; // Determine the column (0-based index)
+        int row = (position - 1) / 10; 
+        int col = (position - 1) % 10; 
 
-        // Adjust column for zigzag movement (reverse column direction for odd rows)
-        if (row % 2 == 1) { // If the row is odd (1-based), reverse the column direction
+       
+        if (row % 2 == 1) { 
             col = 9 - col;
         }
 
-        int reversedRow = 9 - row; // Convert to top-down grid system
+        int reversedRow = 9 - row; 
         GridPane.setConstraints(player, col, reversedRow);
     }
 
     private void initializeSnakesAndLadders() {
-        // Define the snake and ladder mappings
-        ladders.put(2, 23); // User-defined ladders
+    
+        ladders.put(2, 23); 
         ladders.put(4, 68);
         ladders.put(6, 45);
         ladders.put(20, 59);
@@ -123,7 +123,7 @@ public class SnakesAndLaddersController extends SnakesAndLadders {
         ladders.put(57, 96);
         ladders.put(71, 92);
 
-        snakes.put(98, 40); // User-defined snakes
+        snakes.put(98, 40); 
         snakes.put(87, 49);
         snakes.put(84, 58);
         snakes.put(73, 15);
@@ -133,7 +133,7 @@ public class SnakesAndLaddersController extends SnakesAndLadders {
     }
 
     private void drawBoard(GraphicsContext gc) {
-        // You can use this method to draw any additional visual elements if needed
+        
     }
 
     private void showEndGameDialog(String winner) {
