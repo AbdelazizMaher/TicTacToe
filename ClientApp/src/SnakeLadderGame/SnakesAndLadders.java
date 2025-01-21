@@ -25,7 +25,7 @@ public class SnakesAndLadders extends AnchorPane {
     protected GraphicsContext gc;
 
     public SnakesAndLadders() {
-        // Set up the grid and layout
+        
         GridPane grid = new GridPane();
         grid.setVgap(0);
         grid.setHgap(0);
@@ -38,14 +38,14 @@ public class SnakesAndLadders extends AnchorPane {
             }
         }
 
-        // Set up background image for the grid only
+        
         BackgroundImage background = new BackgroundImage(
                 new Image(getClass().getResource("/SnakeLadderGame/media/GameBoard.png").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER, new BackgroundSize(1.0, 1.0, true, true, false, false));
         grid.setBackground(new Background(background));
 
-        // Set up players
+       
         player1 = new Circle(SQUARE_SIZE / 4);
         player1.setFill(Color.LIGHTGREEN);
         grid.add(player1, 0, 9);
@@ -54,12 +54,12 @@ public class SnakesAndLadders extends AnchorPane {
         player2.setFill(Color.BLACK);
         grid.add(player2, 0, 9);
 
-        // Set up dice ImageView
+        
         diceImageView = new ImageView();
         diceImageView.setFitWidth(50);
         diceImageView.setFitHeight(50);
 
-        // Set up avatars ImageView
+        
         avatar1ImageView = new ImageView(new Image(getClass().getResource("/SnakeLadderGame/media/avatar1.png").toExternalForm()));
         avatar1ImageView.setFitWidth(60);
         avatar1ImageView.setFitHeight(60);
@@ -72,26 +72,22 @@ public class SnakesAndLadders extends AnchorPane {
         controlPanel.setStyle("-fx-padding: 10;");
         controlPanel.setAlignment(Pos.CENTER);
 
-        // Add canvas for snakes and ladders
         Canvas canvas = new Canvas(BOARD_SIZE * SQUARE_SIZE, BOARD_SIZE * SQUARE_SIZE);
         gc = canvas.getGraphicsContext2D();
 
         StackPane gamePane = new StackPane();
         gamePane.getChildren().addAll(grid, canvas);
-        gamePane.setAlignment(Pos.CENTER);  // Center the game
+        gamePane.setAlignment(Pos.CENTER);  
 
-        // Use BorderPane to separate areas clearly
         BorderPane root = new BorderPane();
         root.setCenter(gamePane);
         root.setBottom(controlPanel);
 
-        // Set background image for the entire game
         root.setBackground(new Background(new BackgroundImage(
-                new Image(getClass().getResource("/SnakeLadderGame/media/SquidLogoBackground.png").toExternalForm()),  // Background image path
+                new Image(getClass().getResource("/SnakeLadderGame/media/SquidLogoBackground.png").toExternalForm()),  
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 
-        // Add root to this AnchorPane
         getChildren().add(root);
     }
 }
