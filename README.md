@@ -6,8 +6,8 @@ The **`Tic-Tac-Toe`** game is a network-based application that allows players to
 ## Contributors
 - [Abdelaziz Maher](https://www.linkedin.com/in/abdelaziz-maher-9985b2229)
 - [Adham Mohamed](https://www.linkedin.com/in/adham-mohamed-073449332/)
-- [Eman Mahmoud](https://wuzzuf.net/me/Mahmoud-Elemam-f7c8fb60e0)
-- [Nermeen Mohamed](https://4sightglobal.com/dt_team/nermeen-mohamed/)
+- [Eman Mahmoud](https://www.linkedin.com/in/iman-mahmoud-94172533a/)
+- [Nermeen Mohamed](https://www.linkedin.com/in/nermeenmohamed412/)
 
 ## Features
 - **`Single-player mode`**: Play against a computer opponent.
