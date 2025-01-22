@@ -22,6 +22,14 @@ The **`Tic-Tac-Toe`** game is a network-based application that allows players to
 - **`User registration and login`**: Allow users to register and log in to the server.
 - **`Server with simple GUI`**: A server application with start/stop service and user activity graphs.
 
+## Demo Videos
+### Offline Gameplay Demo
+https://github.com/user-attachments/assets/8315d659-4aa4-4292-b134-17bc92e8a043
+
+### Online Gameplay Demo
+[![Online Gameplay](https://img.youtube.com/vi/your-video-id/hqdefault.jpg)](https://www.youtube.com/watch?v=your-video-id)
+
+
 ## Requirements
 - Java Development Kit (JDK)
 - JavaFX library
