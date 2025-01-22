@@ -27,8 +27,7 @@ The **`Tic-Tac-Toe`** game is a network-based application that allows players to
 https://github.com/user-attachments/assets/8315d659-4aa4-4292-b134-17bc92e8a043
 
 ### Online Gameplay Demo
-[![Online Gameplay](https://img.youtube.com/vi/your-video-id/hqdefault.jpg)](https://www.youtube.com/watch?v=your-video-id)
-
+https://github.com/user-attachments/assets/4090f3a6-4394-4fe4-a224-34fe24011239
 
 ### Snakes&Ladders Demo
 https://github.com/user-attachments/assets/d592fa4a-90eb-4202-90ff-312484656a0b
