@@ -30,6 +30,9 @@ https://github.com/user-attachments/assets/8315d659-4aa4-4292-b134-17bc92e8a043
 [![Online Gameplay](https://img.youtube.com/vi/your-video-id/hqdefault.jpg)](https://www.youtube.com/watch?v=your-video-id)
 
 
+### Snakes&Ladders Demo
+https://github.com/user-attachments/assets/d592fa4a-90eb-4202-90ff-312484656a0b
+
 ## Requirements
 - Java Development Kit (JDK)
 - JavaFX library
